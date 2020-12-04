@@ -1,0 +1,38 @@
+enum PAGE {
+  /** 首页 */
+  INDEX = '/pages/index/index',
+  /** 档案 */
+  ARCHIVES = '/pages/archives/index',
+  /** 消息中心 */
+  MESSAGE_CENTER = '/pages/message/index',
+  /** 我的 */
+  ME = '/pages/me/index',
+  /** 个人资料 */
+  PROFILE = '/pages/settings/profile/index',
+  /** 搜索页 */
+  SEARCH = '/pages/search/index',
+  /** 授权页面 */
+  AUTHORIZE = '/pages/authorize/index',
+  /** 支付中心 */
+  CASHIER = '/pages/cashier/index',
+  /** 支付结果页 */
+  CASHIER_RESULT = '/pages/cashier/result/index',
+  /** 我的医生 */
+  MY_DOCTOR = '/pages/doctor/my-doctor/index',
+  /** 医生关注列表 */
+  DOCTOR_FOLLOW_LIST = '/pages/doctor/follow/index',
+  /** 文章收藏列表 */
+  ARTICLE_BOOKMARK_LIST = '/pages/article/bookmark/index',
+  /** 帮助中心 */
+  HELP_CENTER = '/pages/settings/help/index',
+  /** 帮助详情 */
+  HELP_DETAILS = '/pages/settings/help/details/index',
+  /** 关于我们 */
+  ABOUT = '/pages/settings/about/index',
+  /** WEBVIEW */
+  WEBVIEW = '/pages/webview/index',
+  /** 我的处方列表 **/
+  PRESCRIBE_LIST = '/pages/prescribe/order/index',
+}
+
+export default PAGE;

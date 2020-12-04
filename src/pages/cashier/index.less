@@ -1,0 +1,125 @@
+@import '@/components/style/index.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 12px 14px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 131px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.amount {
+  height: 30px;
+  font-weight: 500;
+  line-height: 30px;
+  .unit {
+    font-size: 20px;
+  }
+  .value {
+    font-size: 34px;
+    font-family: DIN;
+  }
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 171px;
+  height: 25px;
+  margin-top: 14px;
+  padding: 0 12px;
+  color: @primary-color;
+  font-weight: 500;
+  font-size: 12px;
+  background: #ebf6ff;
+  border-radius: 13px;
+
+  --count-down-text-color: @primary-color;
+  --count-down-line-height: normal;
+}
+
+.time {
+  margin-left: 8px;
+}
+
+.channels {
+  margin-top: 12px;
+  padding: 3px 0;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  padding: 17px 14px 17px 16px;
+
+  --checkbox-checked-icon-color: rgb(4, 192, 255);
+  --checkbox-border-color: #a9d2ff;
+
+  :global {
+    .van-checkbox__icon:not(.van-checkbox__icon--checked) {
+      background-color: #e4f3ff;
+    }
+  }
+  .icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 18px;
+    background: center no-repeat;
+    background-size: cover;
+  }
+  .name {
+    flex: 1;
+    font-weight: 500;
+  }
+}
+
+.submit {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 16px 34px;
+}
+
+.laoder {
+  .amount {
+    width: 100px;
+    color: transparent;
+    background-color: @skeleton-color;
+    border-radius: 4px;
+  }
+
+  .countdown {
+    color: transparent;
+    background-color: @skeleton-color;
+
+    --count-down-text-color: transparent;
+  }
+
+  .channel {
+    .icon {
+      background-color: @skeleton-color;
+      border-radius: 4px;
+    }
+
+    .name {
+      height: 20px;
+      background-color: @skeleton-color;
+      border-radius: 4px;
+    }
+  }
+}

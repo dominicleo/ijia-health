@@ -1,0 +1,150 @@
+@import '~@/components/style/index.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 12px 14px;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 0;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.title {
+  margin-top: 14px;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.message {
+  margin-top: 12px;
+  color: #a7a7a7;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+.fields {
+  margin-top: 12px;
+  padding: 14px 0;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 12px 16px 16px;
+  font-weight: 500;
+}
+
+.label {
+  margin-right: 24px;
+}
+
+.action {
+  margin-top: 32px;
+  padding: 0 35px;
+  :global {
+    .van-button {
+      margin-top: 16px;
+    }
+  }
+}
+
+@ripples-color: @primary-color;
+@success-ripples-color: @success-color;
+@fail-ripples-color: @error-color;
+@ripples-opacity: 0.13;
+
+.statusWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 106px;
+  height: 106px;
+  margin: 0 auto;
+}
+
+.status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  background: radial-gradient(lighten(@ripples-color, 10%), @ripples-color);
+  border-radius: 58px;
+  animation: ripples 0.7s linear infinite;
+  &::before {
+    position: relative;
+    z-index: 10;
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url('./images/icon-time.svg') center no-repeat;
+    background-size: contain;
+    border-radius: 100%;
+    content: '';
+  }
+  &.success {
+    background: radial-gradient(lighten(@success-ripples-color, 10%), @success-ripples-color);
+    animation-name: success-ripples;
+    &::before {
+      background-image: url('./images/icon-success.svg');
+    }
+  }
+  &.fail {
+    background: radial-gradient(lighten(@fail-ripples-color, 10%), @fail-ripples-color);
+    animation-name: fail-ripples;
+    &::before {
+      background-image: url('./images/icon-fail.svg');
+    }
+  }
+}
+
+@keyframes ripples {
+  0% {
+    box-shadow: 0 0 0 0 rgba(@ripples-color, @ripples-opacity),
+      0 0 0 12px rgba(@ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@ripples-color, @ripples-opacity);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(@ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@ripples-color, @ripples-opacity), 0 0 0 36px rgba(@ripples-color, 0);
+  }
+}
+
+@keyframes success-ripples {
+  0% {
+    box-shadow: 0 0 0 0 rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 12px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@success-ripples-color, @ripples-opacity);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 36px rgba(@success-ripples-color, 0);
+  }
+}
+
+@keyframes fail-ripples {
+  0% {
+    box-shadow: 0 0 0 0 rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 12px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@fail-ripples-color, @ripples-opacity);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 32px rgba(@fail-ripples-color, 0);
+  }
+}

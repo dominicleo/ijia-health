@@ -1,0 +1,44 @@
+@import '@/components/style/index.less';
+
+page {
+  color: #242424;
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
+    sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  background-color: #fff;
+  user-select: none;
+  touch-action: manipulation;
+  text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+
+  --button-primary-border-color: @primary-color;
+  --button-primary-background-color: @primary-color;
+  --button-normal-font-size: 16px;
+  --button-default-color: @primary-color;
+  --button-small-font-size: 13px;
+  --button-default-border-color: #fff;
+}
+
+.clickable {
+  background-color: #f9f9f9 !important;
+  transition: background-color 0.2s ease-out 0s;
+}
+
+.clickable-opacity {
+  opacity: 0.7;
+  transition: opacity 0.2s ease-out 0s;
+}
+
+.van-button {
+  font-weight: 500;
+  .van-button__icon + .van-button__text:not(:empty),
+  .van-button__loading-text {
+    margin-left: 8px;
+  }
+  &--loading,
+  &--disabled,
+  &--unclickable {
+    pointer-events: none;
+  }
+}

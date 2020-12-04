@@ -1,0 +1,88 @@
+{
+  "miniprogramRoot": "dist/",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": true,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": false,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "enableEngineNative": false,
+    "bundle": false,
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "appid": "wx6f960ea8534fcd97",
+  "projectname": "%E7%88%B1%E5%8A%A0%E5%81%A5%E5%BA%B7",
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "打赏",
+          "pathName": "pages/reward/index",
+          "query": "doctorId=zgm0mk07",
+          "scene": null
+        },
+        {
+          "name": "授权登录",
+          "pathName": "pages/authorize/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "支付收银台",
+          "pathName": "pages/cashier/index",
+          "query": "orderId=20201204140844LSTAJ99156480",
+          "scene": null
+        },
+        {
+          "name": "支付结果",
+          "pathName": "pages/cashier/result/index",
+          "query": "id=2020120414225793453312&redirect=1",
+          "scene": null
+        },
+        {
+          "name": "档案",
+          "pathName": "pages/archives/index",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}
