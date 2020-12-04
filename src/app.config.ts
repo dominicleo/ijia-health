@@ -17,11 +17,11 @@ const config: AppConfig = {
     'pages/authorize/index',
   ],
   subpackages: [
-    // {
-    //   name: 'reward',
-    //   root: 'pages/reward',
-    //   pages: ['index'],
-    // },
+    {
+      name: 'reward',
+      root: 'pages/reward',
+      pages: ['index'],
+    },
     {
       name: 'cashier',
       root: 'pages/cashier',
