@@ -3,7 +3,12 @@ import currency from 'currency.js';
 import * as React from 'react';
 import { usePageEvent } from 'remax/runtime';
 import {
-    login, requestPayment, requestSubscribeMessage, showModal, Text, View
+  login,
+  requestPayment,
+  requestSubscribeMessage,
+  showModal,
+  Text,
+  View,
 } from 'remax/wechat';
 
 import SafeArea from '@/components/safe-area';
