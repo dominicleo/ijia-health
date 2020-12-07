@@ -1,13 +1,6 @@
 import qs from 'qs';
 import {
-  getStorage,
-  hideLoading,
-  navigateBack,
-  navigateTo,
-  redirectTo,
-  reLaunch,
-  showLoading,
-  switchTab,
+    getStorage, hideLoading, navigateBack, navigateTo, redirectTo, reLaunch, showLoading, switchTab
 } from 'remax/wechat';
 
 import Toast from '@/components/toast';
@@ -37,7 +30,7 @@ async function checkAuthorize(redirect?: string) {
     .finally(() => hideLoading());
 }
 
-function createURL<T extends object>(url: string, query?: T) {
+export function createURL<T extends object>(url: string, query?: T) {
   const [originalURL, originalQuery] = String(url).split('?');
   const querystring = qs.stringify({ ...qs.parse(originalQuery), ...query });
   return [originalURL, querystring].filter(Boolean).join('?');

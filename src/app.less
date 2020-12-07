@@ -1,7 +1,7 @@
 @import '@/components/style/index.less';
 
 page {
-  color: #242424;
+  color: @text-color;
   font-size: 14px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans,
     sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -12,12 +12,16 @@ page {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
+  --tab-text-color: #666;
+  --tab-active-text-color: @text-color;
+  --tabs-bottom-bar-color: @primary-color;
   --button-primary-border-color: @primary-color;
   --button-primary-background-color: @primary-color;
   --button-normal-font-size: 16px;
   --button-default-color: @primary-color;
   --button-small-font-size: 13px;
   --button-default-border-color: #fff;
+  --skeleton-row-background-color: @skeleton-color;
 }
 
 .clickable {

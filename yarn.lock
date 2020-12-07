@@ -269,7 +269,7 @@
   resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.12.5.tgz#b4af32ddd473c0bfa643bd7ff0728b8e71b81ea0"
   integrity sha1-tK8y3dRzwL+mQ71/8HKLjnG4HqA=
 
-"@babel/parser@^7.12.5", "@babel/parser@^7.12.7":
+"@babel/parser@^7.11.4", "@babel/parser@^7.12.5", "@babel/parser@^7.12.7":
   version "7.12.7"
   resolved "https://registry.npm.taobao.org/@babel/parser/download/@babel/parser-7.12.7.tgz#fee7b39fe809d0e73e5b25eecaf5780ef3d73056"
   integrity sha1-/uezn+gJ0Oc+WyXuyvV4DvPXMFY=
@@ -917,7 +917,7 @@
     pirates "^4.0.0"
     source-map-support "^0.5.16"
 
-"@babel/runtime@^7.1.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.1", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.11.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.7", "@babel/runtime@^7.8.4":
   version "7.12.5"
   resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.12.5.tgz#410e7e487441e1b360c29be715d870d9b985882e"
   integrity sha1-QQ5+SHRB4bNgwpvnFdhw2bmFiC4=
@@ -948,7 +948,7 @@
     globals "^11.1.0"
     lodash "^4.17.19"
 
-"@babel/traverse@^7.10.4", "@babel/traverse@^7.12.1", "@babel/traverse@^7.12.5", "@babel/traverse@^7.12.9":
+"@babel/traverse@^7.10.4", "@babel/traverse@^7.11.0", "@babel/traverse@^7.12.1", "@babel/traverse@^7.12.5", "@babel/traverse@^7.12.9":
   version "7.12.9"
   resolved "https://registry.npm.taobao.org/@babel/traverse/download/@babel/traverse-7.12.9.tgz?cache=0&sync_timestamp=1606250317157&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40babel%2Ftraverse%2Fdownload%2F%40babel%2Ftraverse-7.12.9.tgz#fad26c972eabbc11350e0b695978de6cc8e8596f"
   integrity sha1-+tJsly6rvBE1DgtpWXjebMjoWW8=
@@ -1181,18 +1181,26 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
-"@remax/ali@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/ali/download/@remax/ali-2.8.0.tgz#5e64b7944b0dd2613b6455df8d4334667c9abf88"
-  integrity sha1-XmS3lEsN0mE7ZFXfjUM0Znyav4g=
+"@remax/ali@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/ali/download/@remax/ali-2.10.1.tgz#72423672f1c0a6c59f758501417faaf7f4d5c549"
+  integrity sha1-ckI2cvHApsWfdYUBQX+q9/TVxUk=
   dependencies:
-    "@remax/shared" "2.8.0"
+    "@remax/shared" "2.10.1"
     mini-types "^0.1.1"
 
-"@remax/cli@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/cli/download/@remax/cli-2.8.0.tgz#d38f61aaadcddc2d160cded22c8df7e281b97bb0"
-  integrity sha1-049hqq3N3C0WDN7SLI334oG5e7A=
+"@remax/build-store@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/build-store/download/@remax/build-store-2.10.1.tgz#bc9cae158d8248ab4a46abb58e2e6021f36ac1e3"
+  integrity sha1-vJyuFY2CSKtKRqu1ji5gIfNqweM=
+  dependencies:
+    "@remax/shared" "2.10.1"
+    "@remax/types" "2.10.1"
+
+"@remax/cli@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/cli/download/@remax/cli-2.10.1.tgz#7d1616ac2ea6086115a9c79615b26e4bc64a0030"
+  integrity sha1-fRYWrC6mCGEVqceWFbJuS8ZKADA=
   dependencies:
     "@babel/core" "^7.7.4"
     "@babel/helper-module-imports" "^7.7.4"
@@ -1200,16 +1208,22 @@
     "@babel/preset-typescript" "^7.7.4"
     "@babel/register" "^7.7.0"
     "@babel/types" "^7.7.4"
-    "@remax/macro" "2.8.0"
-    "@remax/plugin-devtools" "2.8.0"
+    "@remax/build-store" "2.10.1"
+    "@remax/macro" "2.10.1"
+    "@remax/plugin-devtools" "2.10.1"
+    "@remax/plugin-error-screen" "2.10.1"
     "@remax/postcss-px2units" "^0.2.0"
-    "@remax/postcss-tag" "2.8.0"
-    "@remax/shared" "2.8.0"
-    "@remax/types" "2.8.0"
-    "@types/webpackbar" "^4.0.0"
+    "@remax/postcss-tag" "2.10.1"
+    "@remax/shared" "2.10.1"
+    "@remax/types" "2.10.1"
     address "^1.1.2"
     babel-loader "^8.1.0"
-    babel-preset-remax "2.8.0"
+    babel-plugin-module-resolver "^4.0.0"
+    babel-plugin-remax-host-component "2.10.1"
+    babel-plugin-remax-lifecycle "2.10.1"
+    babel-plugin-remax-regenerator-runtime "2.10.1"
+    babel-plugin-remax-turbo-render "2.10.1"
+    babel-preset-remax "2.10.1"
     chokidar "^3.4.0"
     clean-webpack-plugin "^3.0.0"
     copy-webpack-plugin "^5.1.1"
@@ -1218,18 +1232,16 @@
     dotenv "^8.2.0"
     dotenv-expand "^5.1.0"
     ejs "^3.0.1"
-    enhanced-resolve "^4.1.1"
     express "^4.17.1"
     file-loader "^6.0.0"
     html-webpack-plugin "^4.0.4"
     htmlparser2 "^4.0.0"
     loader-utils "^2.0.0"
     lodash "^4.17.11"
-    magic-string "^0.25.7"
-    micromatch "^4.0.2"
     mini-css-extract-plugin "^0.11.1"
     node-notifier "^8.0.0"
     postcss-loader "^3.0.0"
+    postcss-noop "^1.0.1"
     postcss-preset-env "^6.7.0"
     regenerator-runtime "^0.13.3"
     remax-stats "^0.1.1"
@@ -1241,42 +1253,60 @@
     webpack-chain "^6.4.0"
     webpack-dev-server "^3.10.3"
     webpack-sources "^1.4.3"
-    webpack-virtual-modules "^0.2.1"
+    webpack-virtual-modules "^0.3.1"
     webpackbar "^4.0.0"
     yargs "^16.0.3"
 
-"@remax/macro@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/macro/download/@remax/macro-2.8.0.tgz#64c2135ebe408251b0d45b31cf5e52c63fc5c8ee"
-  integrity sha1-ZMITXr5AglGw1Fsxz15Sxj/FyO4=
+"@remax/framework-shared@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/framework-shared/download/@remax/framework-shared-2.10.1.tgz#49e0f0b825270eeb54f5fc49536322f090a5de5e"
+  integrity sha1-SeDwuCUnDutU9fxJU2Mi8JCl3l4=
   dependencies:
-    "@remax/shared" "2.8.0"
-    "@remax/types" "2.8.0"
+    "@remax/types" "2.10.1"
+    react-is "^16.13.1"
+
+"@remax/macro@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/macro/download/@remax/macro-2.10.1.tgz#f3a27048896ca4f8c8908b0076eee808e98572d6"
+  integrity sha1-86JwSIlspPjIkIsAdu7oCOmFctY=
+  dependencies:
+    "@remax/shared" "2.10.1"
+    "@remax/types" "2.10.1"
     "@types/babel__traverse" "^7.0.8"
 
-"@remax/one@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/one/download/@remax/one-2.8.0.tgz#abd6efc19606f994e8e7eda5a65b0b17a73d7d00"
-  integrity sha1-q9bvwZYG+ZTo5+2lplsLF6c9fQA=
+"@remax/one@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/one/download/@remax/one-2.10.1.tgz#27bdd3c5ceced023093cbc89730f9910000771f7"
+  integrity sha1-J73Txc7O0CMJPLyJcw+ZEAAHcfc=
   dependencies:
-    "@remax/ali" "2.8.0"
-    "@remax/router" "2.8.0"
-    "@remax/runtime" "2.8.0"
-    "@remax/toutiao" "2.8.0"
-    "@remax/wechat" "2.8.0"
+    "@remax/ali" "2.10.1"
+    "@remax/framework-shared" "2.10.1"
+    "@remax/runtime" "2.10.1"
+    "@remax/toutiao" "2.10.1"
+    "@remax/web" "2.10.1"
+    "@remax/wechat" "2.10.1"
     clsx "^1.1.0"
     memoize-one "^5.1.1"
     react-autosize-textarea "^7.0.0"
     rmc-feedback "^2.0.0"
 
-"@remax/plugin-devtools@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/plugin-devtools/download/@remax/plugin-devtools-2.8.0.tgz#08535ccd9ea2dcdeddee38401fa97a7ad68c2595"
-  integrity sha1-CFNczZ6i3N7d7jhAH6l6etaMJZU=
+"@remax/plugin-devtools@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/plugin-devtools/download/@remax/plugin-devtools-2.10.1.tgz#68c6a9abec5069414d212e9e34227210f0f8391a"
+  integrity sha1-aMapq+xQaUFNIS6eNCJyEPD4ORo=
   dependencies:
     "@remax/react-devtools-core" "^4.7.1"
-    "@remax/shared" "2.8.0"
+    "@remax/shared" "2.10.1"
     webpack-inject-plugin "^1.5.4"
+
+"@remax/plugin-error-screen@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/plugin-error-screen/download/@remax/plugin-error-screen-2.10.1.tgz#6b36fee50d23c6c948b5d33d956633474aa35da6"
+  integrity sha1-azb+5Q0jxslItdM9lWYzR0qjXaY=
+  dependencies:
+    "@remax/redbox-react" "^1.0.0"
+    "@remax/shared" "2.10.1"
+    webpack-virtual-modules "^0.3.1"
 
 "@remax/plugin-less@^1.0.0":
   version "1.0.0"
@@ -1293,10 +1323,10 @@
     object-assign "^4.1.1"
     postcss "^6.0.19"
 
-"@remax/postcss-tag@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/postcss-tag/download/@remax/postcss-tag-2.8.0.tgz#233c42786b037d3d0d55c459f8dfa10c24a922cb"
-  integrity sha1-IzxCeGsDfT0NVcRZ+N+hDCSpIss=
+"@remax/postcss-tag@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/postcss-tag/download/@remax/postcss-tag-2.10.1.tgz#0a90aef5bb326a791cd7fb21159756d9a50fb007"
+  integrity sha1-CpCu9bsyankc1/shFZdW2aUPsAc=
 
 "@remax/react-devtools-core@^4.7.1":
   version "4.7.1"
@@ -1311,66 +1341,75 @@
   resolved "https://registry.npm.taobao.org/@remax/react-router-cache-route/download/@remax/react-router-cache-route-1.8.4.tgz#cf9ddad48b9ee5ef8439c705f2c865bd2c673543"
   integrity sha1-z53a1Iue5e+EOccF8shlvSxnNUM=
 
-"@remax/router@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/router/download/@remax/router-2.8.0.tgz#8f4b71e3758d691fb5c2527bf20bd66a91db52d0"
-  integrity sha1-j0tx43WNaR+1wlJ78gvWapHbUtA=
+"@remax/redbox-react@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npm.taobao.org/@remax/redbox-react/download/@remax/redbox-react-1.0.0.tgz#d5d4bd43b5b106e2d7aaae81920cade662b64dab"
+  integrity sha1-1dS9Q7WxBuLXqq6Bkgyt5mK2Tas=
   dependencies:
-    "@remax/react-router-cache-route" "^1.8.4"
-    history "^4.10.1"
-    react-router-dom "^5.1.2"
+    error-stack-parser "^1.3.6"
+    object-assign "^4.0.1"
+    prop-types "^15.5.4"
+    sourcemapped-stacktrace "^1.1.6"
 
-"@remax/runtime@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/runtime/download/@remax/runtime-2.8.0.tgz#53bc7b1d441a88bfb8aafc96cdfdfa0f06baba01"
-  integrity sha1-U7x7HUQaiL+4qvyWzf36Dwa6ugE=
+"@remax/runtime@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/runtime/download/@remax/runtime-2.10.1.tgz#b210a52a86dd356f7154eea8f96546960f468e22"
+  integrity sha1-shClKobdNW9xVO6o+WVGlg9GjiI=
   dependencies:
-    "@remax/shared" "2.8.0"
-    "@remax/types" "2.8.0"
-    "@remax/web" "2.8.0"
+    "@remax/framework-shared" "2.10.1"
+    "@remax/shared" "2.10.1"
+    "@remax/types" "2.10.1"
+    "@remax/web" "2.10.1"
     qs "^6.9.3"
+    react-is "^17.0.1"
     react-reconciler "0.25.1"
     scheduler "0.19.1"
 
-"@remax/shared@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/shared/download/@remax/shared-2.8.0.tgz#c6ca9b2e7d8a250f7538166de47ae22949551812"
-  integrity sha1-xsqbLn2KJQ91OBZt5HriKUlVGBI=
-
-"@remax/toutiao@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/toutiao/download/@remax/toutiao-2.8.0.tgz#4d66e15c1d140094863b4fd58246a1f9ccd78356"
-  integrity sha1-TWbhXB0UAJSGO0/Vgkah+czXg1Y=
+"@remax/shared@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/shared/download/@remax/shared-2.10.1.tgz#28838b4cd1093508edc6b3d0bdf400249eb47d84"
+  integrity sha1-KIOLTNEJNQjtxrPQvfQAJJ60fYQ=
   dependencies:
-    "@remax/shared" "2.8.0"
+    "@babel/parser" "^7.11.4"
+    "@babel/traverse" "^7.11.0"
+    "@types/react" "^16.9.35"
+    htmlparser2 "^4.1.0"
 
-"@remax/types@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/types/download/@remax/types-2.8.0.tgz#b487b03dcead4bc78e4b3ab94b2ab92311561b07"
-  integrity sha1-tIewPc6tS8eOSzq5Syq5IxFWGwc=
+"@remax/toutiao@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/toutiao/download/@remax/toutiao-2.10.1.tgz#3ce6176bcc14bcf249f2cb7542b4ff659223004b"
+  integrity sha1-POYXa8wUvPJJ8st1QrT/ZZIjAEs=
+  dependencies:
+    "@remax/shared" "2.10.1"
+
+"@remax/types@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/types/download/@remax/types-2.10.1.tgz#8726727cfcc63dc96653e460b50aa4423c6551b7"
+  integrity sha1-hyZyfPzGPclmU+RgtQqkQjxlUbc=
   dependencies:
     "@babel/types" "^7.8.0"
+    "@types/react" "^16.9.56"
     "@types/webpack" "^4.41.10"
     "@types/yargs" "^15.0.0"
     webpack-chain "^6.4.0"
 
-"@remax/web@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/web/download/@remax/web-2.8.0.tgz#167d25224317f437b2ba2f3e29d21f1457473ff0"
-  integrity sha1-Fn0lIkMX9Deyui8+KdIfFFdHP/A=
+"@remax/web@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/web/download/@remax/web-2.10.1.tgz#7e1f50cdd72a611aeab292878a5900225547580e"
+  integrity sha1-fh9QzdcqYRrqspKHilkAIlVHWA4=
   dependencies:
     "@loadable/component" "^5.12.0"
-    "@remax/router" "2.8.0"
+    "@remax/react-router-cache-route" "^1.8.4"
     rmc-pull-to-refresh "^1.0.12"
     umi-hd "^5.0.1"
 
-"@remax/wechat@2.8.0":
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/@remax/wechat/download/@remax/wechat-2.8.0.tgz#125ab01678a900af5972f4f7e6346af9039433c7"
-  integrity sha1-ElqwFnipAK9ZcvT35jRq+QOUM8c=
+"@remax/wechat@2.10.1":
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/@remax/wechat/download/@remax/wechat-2.10.1.tgz#53f4de304ef7db5354167da2256cc64382b7b292"
+  integrity sha1-U/TeME7321NUFn2iJWzGQ4K3spI=
   dependencies:
-    "@remax/shared" "2.8.0"
-    miniprogram-api-typings "^2.10.4"
+    "@remax/shared" "2.10.1"
+    miniprogram-api-typings "^3.1.3"
 
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
@@ -1559,6 +1598,14 @@
   resolved "https://registry.npm.taobao.org/@types/qs/download/@types/qs-6.9.5.tgz?cache=0&sync_timestamp=1605055213283&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fqs%2Fdownload%2F%40types%2Fqs-6.9.5.tgz#434711bdd49eb5ee69d90c1d67c354a9a8ecb18b"
   integrity sha1-Q0cRvdSete5p2QwdZ8NUqajssYs=
 
+"@types/react@^16.9.35", "@types/react@^16.9.56":
+  version "16.14.2"
+  resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-16.14.2.tgz?cache=0&sync_timestamp=1606158558386&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-16.14.2.tgz#85dcc0947d0645349923c04ccef6018a1ab7538c"
+  integrity sha1-hdzAlH0GRTSZI8BMzvYBihq3U4w=
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
 "@types/react@^17.0.0":
   version "17.0.0"
   resolved "https://registry.npm.taobao.org/@types/react/download/@types/react-17.0.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Freact%2Fdownload%2F%40types%2Freact-17.0.0.tgz#5af3eb7fad2807092f0046a1302b7823e27919b8"
@@ -1646,7 +1693,7 @@
     "@types/source-list-map" "*"
     source-map "^0.7.3"
 
-"@types/webpack@*", "@types/webpack@^4.4.31", "@types/webpack@^4.41.10", "@types/webpack@^4.41.8":
+"@types/webpack@^4.4.31", "@types/webpack@^4.41.10", "@types/webpack@^4.41.8":
   version "4.41.25"
   resolved "https://registry.npm.taobao.org/@types/webpack/download/@types/webpack-4.41.25.tgz#4d3b5aecc4e44117b376280fbfd2dc36697968c4"
   integrity sha1-TTta7MTkQRezdigPv9LcNml5aMQ=
@@ -1657,14 +1704,6 @@
     "@types/uglify-js" "*"
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
-
-"@types/webpackbar@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.npm.taobao.org/@types/webpackbar/download/@types/webpackbar-4.0.0.tgz#6e18147d03c9d51e1bbfbfa2c36374e12c430f0d"
-  integrity sha1-bhgUfQPJ1R4bv7+iw2N04SxDDw0=
-  dependencies:
-    "@types/node" "*"
-    "@types/webpack" "*"
 
 "@types/yargs-parser@*", "@types/yargs-parser@15.0.0":
   version "15.0.0"
@@ -2337,10 +2376,60 @@ babel-plugin-macros@^2.8.0:
     cosmiconfig "^6.0.0"
     resolve "^1.12.0"
 
-babel-preset-remax@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/babel-preset-remax/download/babel-preset-remax-2.8.0.tgz#c3b3fb80c31d8fac1c747db6793540385bdebfd3"
-  integrity sha1-w7P7gMMdj6wcdH22eTVAOFvev9M=
+babel-plugin-module-resolver@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/babel-plugin-module-resolver/download/babel-plugin-module-resolver-4.0.0.tgz#8f3a3d9d48287dc1d3b0d5595113adabd36a847f"
+  integrity sha1-jzo9nUgofcHTsNVZUROtq9NqhH8=
+  dependencies:
+    find-babel-config "^1.2.0"
+    glob "^7.1.6"
+    pkg-up "^3.1.0"
+    reselect "^4.0.0"
+    resolve "^1.13.1"
+
+babel-plugin-remax-host-component@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/babel-plugin-remax-host-component/download/babel-plugin-remax-host-component-2.10.1.tgz#a997cbfa540f8eb18d61faa8faeeecb284640036"
+  integrity sha1-qZfL+lQPjrGNYfqo+u7ssoRkADY=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/traverse" "^7.11.0"
+    "@babel/types" "^7.11.0"
+    "@remax/macro" "2.10.1"
+    "@remax/shared" "2.10.1"
+
+babel-plugin-remax-lifecycle@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/babel-plugin-remax-lifecycle/download/babel-plugin-remax-lifecycle-2.10.1.tgz#9c28c0bfbb06c78dd8428519f865984b10340eef"
+  integrity sha1-nCjAv7sGx43YQoUZ+GWYSxA0Du8=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/traverse" "^7.11.0"
+    "@babel/types" "^7.11.0"
+    "@remax/shared" "2.10.1"
+
+babel-plugin-remax-regenerator-runtime@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/babel-plugin-remax-regenerator-runtime/download/babel-plugin-remax-regenerator-runtime-2.10.1.tgz#61835038c779773ca9fc7131bd8bb375071579e0"
+  integrity sha1-YYNQOMd5dzyp/HExvYuzdQcVeeA=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/traverse" "^7.11.0"
+    "@babel/types" "^7.11.0"
+
+babel-plugin-remax-turbo-render@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/babel-plugin-remax-turbo-render/download/babel-plugin-remax-turbo-render-2.10.1.tgz#e877f1a8e4fbed92ac316498fb4110dde20f023c"
+  integrity sha1-6HfxqOT77ZKsMWSY+0EQ3eIPAjw=
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.10.4"
+    "@babel/traverse" "^7.11.0"
+    "@babel/types" "^7.11.0"
+
+babel-preset-remax@2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/babel-preset-remax/download/babel-preset-remax-2.10.1.tgz#964ae64c362568b2f7c9258c2190b8ebabf36b5a"
+  integrity sha1-lkrmTDYlaLL3ySWMIZC466vza1o=
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-proposal-class-properties" "^7.7.4"
@@ -3962,7 +4051,7 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0:
   dependencies:
     once "^1.4.0"
 
-enhanced-resolve@^4.1.1, enhanced-resolve@^4.3.0:
+enhanced-resolve@^4.3.0:
   version "4.3.0"
   resolved "https://registry.npm.taobao.org/enhanced-resolve/download/enhanced-resolve-4.3.0.tgz?cache=0&sync_timestamp=1606945731206&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fenhanced-resolve%2Fdownload%2Fenhanced-resolve-4.3.0.tgz#3b806f3bfafc1ec7de69551ef93cca46c1704126"
   integrity sha1-O4BvO/r8HsfeaVUe+TzKRsFwQSY=
@@ -4001,6 +4090,13 @@ error-ex@^1.3.1:
   integrity sha1-tKxAZIEH/c3PriQvQovqihTU8b8=
   dependencies:
     is-arrayish "^0.2.1"
+
+error-stack-parser@^1.3.6:
+  version "1.3.6"
+  resolved "https://registry.npm.taobao.org/error-stack-parser/download/error-stack-parser-1.3.6.tgz#e0e73b93e417138d1cd7c0b746b1a4a14854c292"
+  integrity sha1-4Oc7k+QXE40c18C3RrGkoUhUwpI=
+  dependencies:
+    stackframe "^0.3.1"
 
 es-abstract@^1.17.0-next.1:
   version "1.17.7"
@@ -4552,6 +4648,14 @@ finalhandler@~1.1.2:
     statuses "~1.5.0"
     unpipe "~1.0.0"
 
+find-babel-config@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/find-babel-config/download/find-babel-config-1.2.0.tgz#a9b7b317eb5b9860cda9d54740a8c8337a2283a2"
+  integrity sha1-qbezF+tbmGDNqdVHQKjIM3oig6I=
+  dependencies:
+    json5 "^0.5.1"
+    path-exists "^3.0.0"
+
 find-cache-dir@^2.0.0, find-cache-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npm.taobao.org/find-cache-dir/download/find-cache-dir-2.1.0.tgz#8d0f94cd13fe43c6c7c261a0d86115ca918c05f7"
@@ -5071,18 +5175,6 @@ he@^1.2.0:
   resolved "https://registry.npm.taobao.org/he/download/he-1.2.0.tgz#84ae65fa7eafb165fddb61566ae14baf05664f0f"
   integrity sha1-hK5l+n6vsWX922FWauFLrwVmTw8=
 
-history@^4.10.1, history@^4.9.0:
-  version "4.10.1"
-  resolved "https://registry.npm.taobao.org/history/download/history-4.10.1.tgz#33371a65e3a83b267434e2b3f3b1b4c58aad4cf3"
-  integrity sha1-MzcaZeOoOyZ0NOKz87G0xYqtTPM=
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    loose-envify "^1.2.0"
-    resolve-pathname "^3.0.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
-    value-equal "^1.0.1"
-
 hmac-drbg@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/hmac-drbg/download/hmac-drbg-1.0.1.tgz#d2745701025a6c775a6c545793ed502fc0c649a1"
@@ -5092,7 +5184,7 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-hoist-non-react-statics@^3.1.0, hoist-non-react-statics@^3.3.1:
+hoist-non-react-statics@^3.3.1:
   version "3.3.2"
   resolved "https://registry.npm.taobao.org/hoist-non-react-statics/download/hoist-non-react-statics-3.3.2.tgz#ece0acaf71d62c2969c2ec59feff42a4b1a85b45"
   integrity sha1-7OCsr3HWLClpwuxZ/v9CpLGoW0U=
@@ -5181,7 +5273,7 @@ htmlparser2@^3.10.0, htmlparser2@^3.3.0, htmlparser2@^3.9.1:
     inherits "^2.0.1"
     readable-stream "^3.1.1"
 
-htmlparser2@^4.0.0:
+htmlparser2@^4.0.0, htmlparser2@^4.1.0:
   version "4.1.0"
   resolved "https://registry.npm.taobao.org/htmlparser2/download/htmlparser2-4.1.0.tgz#9a4ef161f2e4625ebf7dfbe6c0a2f52d18a59e78"
   integrity sha1-mk7xYfLkYl6/ffvmwKL1LRilnng=
@@ -5809,11 +5901,6 @@ is-wsl@^2.1.1, is-wsl@^2.2.0:
   dependencies:
     is-docker "^2.0.0"
 
-isarray@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.npm.taobao.org/isarray/download/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
-  integrity sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
-
 isarray@1.0.0, isarray@^1.0.0, isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/isarray/download/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -5903,6 +5990,11 @@ json3@^3.3.2:
   version "3.3.3"
   resolved "https://registry.npm.taobao.org/json3/download/json3-3.3.3.tgz#7fc10e375fc5ae42c4705a5cc0aa6f62be305b81"
   integrity sha1-f8EON1/FrkLEcFpcwKpvYr4wW4E=
+
+json5@^0.5.1:
+  version "0.5.1"
+  resolved "https://registry.npm.taobao.org/json5/download/json5-0.5.1.tgz#1eade7acc012034ad84e2396767ead9fa5495821"
+  integrity sha1-Hq3nrMASA0rYTiOWdn6tn6VJWCE=
 
 json5@^1.0.1:
   version "1.0.1"
@@ -6252,7 +6344,7 @@ longest-streak@^2.0.0, longest-streak@^2.0.1:
   resolved "https://registry.npm.taobao.org/longest-streak/download/longest-streak-2.0.4.tgz#b8599957da5b5dab64dee3fe316fa774597d90e4"
   integrity sha1-uFmZV9pbXatk3uP+MW+ndFl9kOQ=
 
-loose-envify@^1.1.0, loose-envify@^1.2.0, loose-envify@^1.3.1, loose-envify@^1.4.0:
+loose-envify@^1.1.0, loose-envify@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npm.taobao.org/loose-envify/download/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
   integrity sha1-ce5R+nvkyuwaY4OffmgtgTLTDK8=
@@ -6305,13 +6397,6 @@ lru-cache@^6.0.0:
   integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
   dependencies:
     yallist "^4.0.0"
-
-magic-string@^0.25.7:
-  version "0.25.7"
-  resolved "https://registry.npm.taobao.org/magic-string/download/magic-string-0.25.7.tgz#3f497d6fd34c669c6798dcb821f2ef31f5445051"
-  integrity sha1-P0l9b9NMZpxnmNy4IfLvMfVEUFE=
-  dependencies:
-    sourcemap-codec "^1.4.4"
 
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
@@ -6594,14 +6679,6 @@ min-indent@^1.0.0:
   resolved "https://registry.npm.taobao.org/min-indent/download/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha1-pj9oFnOzBXH76LwlaGrnRu76mGk=
 
-mini-create-react-context@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.npm.taobao.org/mini-create-react-context/download/mini-create-react-context-0.4.1.tgz?cache=0&sync_timestamp=1603392178687&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmini-create-react-context%2Fdownload%2Fmini-create-react-context-0.4.1.tgz#072171561bfdc922da08a60c2197a497cc2d1d5e"
-  integrity sha1-ByFxVhv9ySLaCKYMIZekl8wtHV4=
-  dependencies:
-    "@babel/runtime" "^7.12.1"
-    tiny-warning "^1.0.3"
-
 mini-css-extract-plugin@^0.11.1:
   version "0.11.3"
   resolved "https://registry.npm.taobao.org/mini-css-extract-plugin/download/mini-css-extract-plugin-0.11.3.tgz?cache=0&sync_timestamp=1607082312534&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmini-css-extract-plugin%2Fdownload%2Fmini-css-extract-plugin-0.11.3.tgz#15b0910a7f32e62ffde4a7430cfefbd700724ea6"
@@ -6656,10 +6733,10 @@ minimist@^1.2.0, minimist@^1.2.5:
   resolved "https://registry.npm.taobao.org/minimist/download/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
   integrity sha1-Z9ZgFLZqaoqqDAg8X9WN9OTpdgI=
 
-miniprogram-api-typings@^2.10.4:
-  version "2.12.0"
-  resolved "https://registry.npm.taobao.org/miniprogram-api-typings/download/miniprogram-api-typings-2.12.0.tgz?cache=0&sync_timestamp=1605275496073&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fminiprogram-api-typings%2Fdownload%2Fminiprogram-api-typings-2.12.0.tgz#7a29c90f3e5efa36588422d1f01e22d3394aaaa1"
-  integrity sha1-einJDz5e+jZYhCLR8B4i0zlKqqE=
+miniprogram-api-typings@^3.1.3:
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/miniprogram-api-typings/download/miniprogram-api-typings-3.2.0.tgz?cache=0&sync_timestamp=1605276527615&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fminiprogram-api-typings%2Fdownload%2Fminiprogram-api-typings-3.2.0.tgz#5ba1225393167e242039e4131c343b5a688aea80"
+  integrity sha1-W6EiU5MWfiQgOeQTHDQ7WmiK6oA=
 
 mississippi@^3.0.0:
   version "3.0.0"
@@ -7371,13 +7448,6 @@ path-to-regexp@0.1.7:
   resolved "https://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-0.1.7.tgz?cache=0&sync_timestamp=1601400328354&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpath-to-regexp%2Fdownload%2Fpath-to-regexp-0.1.7.tgz#df604178005f522f15eb4490e7247a1bfaa67f8c"
   integrity sha1-32BBeABfUi8V60SQ5yR6G/qmf4w=
 
-path-to-regexp@^1.7.0:
-  version "1.8.0"
-  resolved "https://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-1.8.0.tgz?cache=0&sync_timestamp=1601400328354&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpath-to-regexp%2Fdownload%2Fpath-to-regexp-1.8.0.tgz#887b3ba9d84393e87a0a0b9f4cb756198b53548a"
-  integrity sha1-iHs7qdhDk+h6CgufTLdWGYtTVIo=
-  dependencies:
-    isarray "0.0.1"
-
 path-type@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npm.taobao.org/path-type/download/path-type-3.0.0.tgz#cef31dc8e0a1a3bb0d105c0cd97cf3bf47f4e36f"
@@ -7462,7 +7532,7 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-pkg-up@3.1.0:
+pkg-up@3.1.0, pkg-up@^3.1.0:
   version "3.1.0"
   resolved "https://registry.npm.taobao.org/pkg-up/download/pkg-up-3.1.0.tgz#100ec235cc150e4fd42519412596a28512a0def5"
   integrity sha1-EA7CNcwVDk/UJRlBJZaihRKg3vU=
@@ -7755,6 +7825,13 @@ postcss-nesting@^7.0.0:
   integrity sha1-tQrXt/AXPlteOIDDUBNEcD4EwFI=
   dependencies:
     postcss "^7.0.2"
+
+postcss-noop@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npm.taobao.org/postcss-noop/download/postcss-noop-1.0.1.tgz#a64b11b168cd3dee7e46660f41188327467018db"
+  integrity sha1-pksRsWjNPe5+RmYPQRiDJ0ZwGNs=
+  dependencies:
+    postcss "^7.0.14"
 
 postcss-overflow-shorthand@^2.0.0:
   version "2.0.0"
@@ -8054,7 +8131,7 @@ promise-inflight@^1.0.1:
   resolved "https://registry.npm.taobao.org/promise-inflight/download/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
-prop-types@^15.5.6, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -8225,10 +8302,15 @@ react-autosize-textarea@^7.0.0:
     line-height "^0.3.1"
     prop-types "^15.5.6"
 
-react-is@^16.12.0, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.1:
+react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
   resolved "https://registry.npm.taobao.org/react-is/download/react-is-16.13.1.tgz?cache=0&sync_timestamp=1603369407179&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Freact-is%2Fdownload%2Freact-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha1-eJcppNw23imZ3BVt1sHZwYzqVqQ=
+
+react-is@^17.0.1:
+  version "17.0.1"
+  resolved "https://registry.npm.taobao.org/react-is/download/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
+  integrity sha1-WzUxvXamRaTJ+25pPtNkGeMwEzk=
 
 react-reconciler@0.25.1:
   version "0.25.1"
@@ -8239,35 +8321,6 @@ react-reconciler@0.25.1:
     object-assign "^4.1.1"
     prop-types "^15.6.2"
     scheduler "^0.19.1"
-
-react-router-dom@^5.1.2:
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/react-router-dom/download/react-router-dom-5.2.0.tgz#9e65a4d0c45e13289e66c7b17c7e175d0ea15662"
-  integrity sha1-nmWk0MReEyieZsexfH4XXQ6hVmI=
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    history "^4.9.0"
-    loose-envify "^1.3.1"
-    prop-types "^15.6.2"
-    react-router "5.2.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
-
-react-router@5.2.0:
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/react-router/download/react-router-5.2.0.tgz#424e75641ca8747fbf76e5ecca69781aa37ea293"
-  integrity sha1-Qk51ZByodH+/duXsyml4GqN+opM=
-  dependencies:
-    "@babel/runtime" "^7.1.2"
-    history "^4.9.0"
-    hoist-non-react-statics "^3.1.0"
-    loose-envify "^1.3.1"
-    mini-create-react-context "^0.4.0"
-    path-to-regexp "^1.7.0"
-    prop-types "^15.6.2"
-    react-is "^16.6.0"
-    tiny-invariant "^1.0.2"
-    tiny-warning "^1.0.0"
 
 react@^17.0.1:
   version "17.0.1"
@@ -8542,21 +8595,21 @@ remax-stats@^0.1.1:
     git-url-parse "^11.1.2"
     is-git-repository "^1.1.1"
 
-remax@2.8.0:
-  version "2.8.0"
-  resolved "https://registry.npm.taobao.org/remax/download/remax-2.8.0.tgz?cache=0&sync_timestamp=1607073567222&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fremax%2Fdownload%2Fremax-2.8.0.tgz#f4424147c239f3d5cc2867a005b2eac34fbb7831"
-  integrity sha1-9EJBR8I589XMKGegBbLqw0+7eDE=
+remax@^2.10.1:
+  version "2.10.1"
+  resolved "https://registry.npm.taobao.org/remax/download/remax-2.10.1.tgz#7b137a292724f3d81cf334e10dc820245ded8efd"
+  integrity sha1-exN6KSck89gc8zThDcggJF3tjv0=
   dependencies:
-    "@remax/ali" "2.8.0"
-    "@remax/cli" "2.8.0"
-    "@remax/macro" "2.8.0"
-    "@remax/one" "2.8.0"
-    "@remax/runtime" "2.8.0"
-    "@remax/toutiao" "2.8.0"
-    "@remax/web" "2.8.0"
-    "@remax/wechat" "2.8.0"
+    "@remax/ali" "2.10.1"
+    "@remax/cli" "2.10.1"
+    "@remax/macro" "2.10.1"
+    "@remax/one" "2.10.1"
+    "@remax/runtime" "2.10.1"
+    "@remax/toutiao" "2.10.1"
+    "@remax/web" "2.10.1"
+    "@remax/wechat" "2.10.1"
     mini-types "^0.1.1"
-    miniprogram-api-typings "^2.10.4"
+    miniprogram-api-typings "^3.1.3"
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"
@@ -8604,6 +8657,11 @@ requires-port@^1.0.0:
   resolved "https://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha1-kl0mAdOaxIXgkc8NpcbmlNw9yv8=
 
+reselect@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/reselect/download/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
+  integrity sha1-8lKYMOXT0OAhQIskaiBu9OpEN/c=
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/resolve-cwd/download/resolve-cwd-2.0.0.tgz?cache=0&sync_timestamp=1577797763257&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fresolve-cwd%2Fdownload%2Fresolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
@@ -8633,11 +8691,6 @@ resolve-global@1.0.0, resolve-global@^1.0.0:
   dependencies:
     global-dirs "^0.1.1"
 
-resolve-pathname@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.npm.taobao.org/resolve-pathname/download/resolve-pathname-3.0.0.tgz#99d02224d3cf263689becbb393bc560313025dcd"
-  integrity sha1-mdAiJNPPJjaJvsuzk7xWAxMCXc0=
-
 resolve-url@^0.2.1:
   version "0.2.1"
   resolved "https://registry.npm.taobao.org/resolve-url/download/resolve-url-0.2.1.tgz#2c637fe77c893afd2a663fe21aa9080068e2052a"
@@ -8650,7 +8703,7 @@ resolve@1.17.0:
   dependencies:
     path-parse "^1.0.6"
 
-resolve@^1.1.7, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.17.0, resolve@^1.18.1, resolve@^1.3.2:
+resolve@^1.1.7, resolve@^1.10.0, resolve@^1.12.0, resolve@^1.13.1, resolve@^1.17.0, resolve@^1.18.1, resolve@^1.3.2:
   version "1.19.0"
   resolved "https://registry.npm.taobao.org/resolve/download/resolve-1.19.0.tgz#1af5bf630409734a067cae29318aac7fa29a267c"
   integrity sha1-GvW/YwQJc0oGfK4pMYqsf6KaJnw=
@@ -9137,6 +9190,11 @@ source-map-url@^0.4.0:
   resolved "https://registry.npm.taobao.org/source-map-url/download/source-map-url-0.4.0.tgz#3e935d7ddd73631b97659956d55128e87b5084a3"
   integrity sha1-PpNdfd1zYxuXZZlW1VEo6HtQhKM=
 
+source-map@0.5.6:
+  version "0.5.6"
+  resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
+  integrity sha1-dc449SvwczxafwwRjYEzSiu19BI=
+
 source-map@^0.5.0, source-map@^0.5.6:
   version "0.5.7"
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
@@ -9152,10 +9210,12 @@ source-map@^0.7.3:
   resolved "https://registry.npm.taobao.org/source-map/download/source-map-0.7.3.tgz#5302f8169031735226544092e64981f751750383"
   integrity sha1-UwL4FpAxc1ImVECS5kmB91F1A4M=
 
-sourcemap-codec@^1.4.4:
-  version "1.4.8"
-  resolved "https://registry.npm.taobao.org/sourcemap-codec/download/sourcemap-codec-1.4.8.tgz#ea804bd94857402e6992d05a38ef1ae35a9ab4c4"
-  integrity sha1-6oBL2UhXQC5pktBaOO8a41qatMQ=
+sourcemapped-stacktrace@^1.1.6:
+  version "1.1.11"
+  resolved "https://registry.npm.taobao.org/sourcemapped-stacktrace/download/sourcemapped-stacktrace-1.1.11.tgz#e2dede7fc148599c52a4f883276e527f8452657d"
+  integrity sha1-4t7ef8FIWZxSpPiDJ25Sf4RSZX0=
+  dependencies:
+    source-map "0.5.6"
 
 spdx-correct@^3.0.0:
   version "3.1.1"
@@ -9236,6 +9296,11 @@ ssri@^6.0.1:
   integrity sha1-KjxBso3UW2K2Nnbst0ABJlrp7dg=
   dependencies:
     figgy-pudding "^3.5.1"
+
+stackframe@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.npm.taobao.org/stackframe/download/stackframe-0.3.1.tgz#33aa84f1177a5548c8935533cbfeb3420975f5a4"
+  integrity sha1-M6qE8Rd6VUjIk1Uzy/6zQgl19aQ=
 
 state-toggle@^1.0.0:
   version "1.0.3"
@@ -9736,16 +9801,6 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
-tiny-invariant@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.npm.taobao.org/tiny-invariant/download/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
-  integrity sha1-Y0xfjv3CdxS384bDXmdgmR0jCHU=
-
-tiny-warning@^1.0.0, tiny-warning@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.npm.taobao.org/tiny-warning/download/tiny-warning-1.0.3.tgz#94a30db453df4c643d0fd566060d60a875d84754"
-  integrity sha1-lKMNtFPfTGQ9D9VmBg1gqHXYR1Q=
-
 to-arraybuffer@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/to-arraybuffer/download/to-arraybuffer-1.0.1.tgz#7d229b1fcc637e466ca081180836a7aabff83f43"
@@ -10183,11 +10238,6 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-value-equal@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/value-equal/download/value-equal-1.0.1.tgz#1e0b794c734c5c0cade179c437d356d931a34d6c"
-  integrity sha1-Hgt5THNMXAyt4XnEN9NW2TGjTWw=
-
 vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.npm.taobao.org/vary/download/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
@@ -10364,10 +10414,10 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-virtual-modules@^0.2.1:
-  version "0.2.2"
-  resolved "https://registry.npm.taobao.org/webpack-virtual-modules/download/webpack-virtual-modules-0.2.2.tgz#20863dc3cb6bb2104729fff951fbe14b18bd0299"
-  integrity sha1-IIY9w8trshBHKf/5UfvhSxi9Apk=
+webpack-virtual-modules@^0.3.1:
+  version "0.3.2"
+  resolved "https://registry.npm.taobao.org/webpack-virtual-modules/download/webpack-virtual-modules-0.3.2.tgz#b7baa30971a22d99451f897db053af48ec29ad2c"
+  integrity sha1-t7qjCXGiLZlFH4l9sFOvSOwprSw=
   dependencies:
     debug "^3.0.0"
 

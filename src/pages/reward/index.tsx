@@ -10,8 +10,8 @@ import useSetState from '@/hooks/useSetState';
 import { RewardService } from '@/services';
 import { isArray } from '@/utils';
 import Button from '@vant/weapp/lib/button';
-import Popup from '@vant/weapp/lib/popup';
 import Field from '@vant/weapp/lib/field';
+import Popup from '@vant/weapp/lib/popup';
 import Skeleton from '@vant/weapp/lib/skeleton';
 
 import s from './index.less';
@@ -48,6 +48,8 @@ export default () => {
     { manual: true },
   );
 
+  const { run: submit, loading: submitting } = useRequest(RewardService.submit, { manual: true });
+
   const clear = () => timer.current && clearTimeout(timer.current);
 
   React.useEffect(() => clear, []);
@@ -58,10 +60,14 @@ export default () => {
   });
 
   const onClickGift = (index: number) => {
+    if (submitting) return;
+
     setState({ selectedIndex: index, value: '', customAmount: undefined });
   };
 
   const onClickCustom = () => {
+    if (submitting) return;
+
     setState({
       visible: true,
     });
@@ -85,15 +91,23 @@ export default () => {
 
   const onClose = () => {
     setState({
-      value: '',
+      value: isSelectedCustom ? state.value : '',
       focus: false,
-      customAmount: undefined,
+      customAmount: isSelectedCustom ? state.customAmount : undefined,
       visible: false,
     });
     hideKeyboard();
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    if (submitting) return;
+
+    submit({
+      doctorId,
+      count: isSelectedCustom ? state.customAmount : gifts[state.selectedIndex].count,
+      goodsId: 10,
+    });
+  };
 
   const { banner, doctor, gifts = [], loaded } = data || {};
   const bannerStyle: React.CSSProperties = banner ? { backgroundImage: `url(${banner})` } : {};
@@ -111,23 +125,31 @@ export default () => {
               type='number'
               value={state.value}
               focus={state.focus}
+              placeholder='请输入自定义金额'
               border={false}
               bindchange={(event) => setState({ value: event.detail })}
               bindblur={() => setState({ focus: false })}
             />
           </View>
-          <Button color={LINEAR_GRADIENT_WARNING} bindclick={onConfirm} size='small' round block>
+          <Button
+            customClass={s.confirm}
+            color={LINEAR_GRADIENT_WARNING}
+            bindclick={onConfirm}
+            size='small'
+            round
+            block
+          >
             确认
           </Button>
         </View>
       </Popup>
       <View className={s.banner} style={bannerStyle} />
-      <View className={s.wrapper} onClick={() => setState({loader: !state.loader})}>
+      <View className={s.wrapper}>
         <View className={s.main}>
           <View className={s.doctor}>
             <View className={s.avatar} style={avatarStyle} />
             <View>
-              <Skeleton  loading={state.loader}>
+              <Skeleton title row={1} loading={!loaded}>
                 <View className={s.content}>
                   <Text>{doctor?.name}</Text>
                   <Text>{doctor?.officer}</Text>
@@ -140,22 +162,32 @@ export default () => {
             </View>
           </View>
           <View className={s.gifts}>
-            {isArray(gifts) &&
-              gifts.map(({ text }, index) => (
+            {loaded ? (
+              <>
+                {isArray(gifts) &&
+                  gifts.map(({ text }, index) => (
+                    <View
+                      key={`gift_item_${index}`}
+                      className={classnames(s.gift, {
+                        [s.selected]: index === state.selectedIndex,
+                      })}
+                      onClick={() => onClickGift(index)}
+                    >
+                      {text}
+                    </View>
+                  ))}
                 <View
-                  key={`reward_gift_item_${index}`}
-                  className={classnames(s.gift, { [s.selected]: index === state.selectedIndex })}
-                  onClick={() => onClickGift(index)}
+                  className={classnames(s.gift, s.custom, { [s.selected]: isSelectedCustom })}
+                  onClick={onClickCustom}
                 >
-                  {text}
+                  {isSelectedCustom ? `￥${state.customAmount}` : '自定义'}
                 </View>
-              ))}
-            <View
-              className={classnames(s.gift, s.custom, { [s.selected]: isSelectedCustom })}
-              onClick={onClickCustom}
-            >
-              {isSelectedCustom ? `￥${state.customAmount}` : '自定义'}
-            </View>
+              </>
+            ) : (
+              Array.from(Array(6).keys()).map((_, index) => (
+                <View key={`gift_item_loader_${index}`} className={classnames(s.gift, s.loader)} />
+              ))
+            )}
           </View>
         </View>
         <View className={s.submit}>
@@ -163,8 +195,8 @@ export default () => {
             type='primary'
             color={LINEAR_GRADIENT_WARNING}
             bindclick={onSubmit}
-            loading={loading}
-            disabled={!loaded}
+            loading={submitting}
+            disabled={!loaded || submitting}
             round
             block
           >

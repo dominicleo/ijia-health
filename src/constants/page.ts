@@ -21,6 +21,10 @@ enum PAGE {
   MY_DOCTOR = '/pages/doctor/my-doctor/index',
   /** 医生关注列表 */
   DOCTOR_FOLLOW_LIST = '/pages/doctor/follow/index',
+  /** 文章详情 */
+  ARTICLE = '/pages/article/index',
+  /** 文章列表 */
+  ARTICLE_LIST = '/pages/article/list/index',
   /** 文章收藏列表 */
   ARTICLE_BOOKMARK_LIST = '/pages/article/bookmark/index',
   /** 帮助中心 */

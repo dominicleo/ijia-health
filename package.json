@@ -16,7 +16,9 @@
     "dev": "remax build -t wechat -w --no-devtools",
     "build": "cross-env NODE_ENV=production remax build -t wechat",
     "start": "cross-env REMAX_APP_ENV=development yarn dev",
+    "start:test": "cross-env REMAX_APP_ENV=test yarn dev",
     "release:dev": "cross-env REMAX_APP_ENV=development yarn build",
+    "release:test": "cross-env REMAX_APP_ENV=test yarn build",
     "update:deps": "yarn upgrade-interactive --latest"
   },
   "husky": {
@@ -36,7 +38,7 @@
     "map-factory": "^3.8.3",
     "qs": "^6.9.4",
     "react": "^17.0.1",
-    "remax": "2.8.0"
+    "remax": "^2.10.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",

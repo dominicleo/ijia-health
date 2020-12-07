@@ -81,6 +81,11 @@
           "pathName": "pages/archives/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "文章",
+          "pathName": "pages/article/index",
+          "scene": null
         }
       ]
     }

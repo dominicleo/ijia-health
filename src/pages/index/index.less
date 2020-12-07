@@ -54,4 +54,153 @@
 
 .main {
   flex: 1;
+  overflow: hidden;
+}
+
+.content {
+  padding-bottom: 24px;
+}
+
+.entrances {
+  display: flex;
+  justify-content: space-around;
+}
+
+.entrance {
+  position: relative;
+  flex: 1;
+  padding: 10px 0;
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  + .entrance {
+    &::after {
+      position: absolute;
+      top: 50%;
+      left: -1px;
+      width: 0.5px;
+      height: 40px;
+      background-color: #ebebeb;
+      transform: translate(2px, -50%);
+      content: '';
+    }
+  }
+  &::before {
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    margin-bottom: 2px;
+    background: center no-repeat;
+    background-size: contain;
+    content: '';
+  }
+
+  &.my-doctor::before {
+    background-image: url('./images/icon-doctor.svg');
+  }
+
+  &.archives::before {
+    background-image: url('./images/icon-heart.svg');
+  }
+
+  &.article::before {
+    background-image: url('./images/icon-article.svg');
+  }
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  height: 44px;
+  margin: 14px 12px 22px;
+  padding: 0 14px 0 20px;
+  background: #fcf7f0;
+  border-radius: 22px;
+
+  .label {
+    position: relative;
+    flex-shrink: 0;
+    margin-right: 32px;
+    color: #c19f5d;
+    font-size: 12px;
+    line-height: 15px;
+    white-space: nowrap;
+    &::before {
+      position: absolute;
+      top: 50%;
+      right: -18px;
+      width: 1px;
+      height: 18px;
+      background-color: rgba(#c19f5d, 0.5);
+      transform: translateY(-50%);
+      content: '';
+    }
+  }
+
+  .value {
+    display: flex;
+    align-items: center;
+    color: #c79e58;
+    font-size: 12px;
+    > view {
+      display: flex;
+      align-items: center;
+      &::before {
+        display: block;
+        width: 14px;
+        height: 14px;
+        margin-right: 3px;
+        background: url('./images/icon-doctor-plus.svg') center no-repeat;
+        content: '';
+      }
+      + view {
+        margin-left: 12px;
+        &::before {
+          background-image: url('./images/icon-shield.svg');
+        }
+      }
+    }
+  }
+}
+
+.articles {
+  :global {
+    .van-tab {
+      height: 29px;
+      > view {
+        line-height: normal;
+        transform-origin: center;
+        transition: 0.2s ease-out 0s;
+      }
+      &--active {
+        font-weight: 700;
+        > view {
+          transform: scale(1.4285);
+        }
+      }
+    }
+  }
+}
+
+.more {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  margin: 0 16px;
+  color: #666;
+  font-size: 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-top: 16px;
+  &::after {
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-left: 4px;
+    background: url('./images/icon-more.svg') center no-repeat;
+    content: '';
+  }
 }

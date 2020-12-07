@@ -18,6 +18,16 @@ const config: AppConfig = {
   ],
   subpackages: [
     {
+      name: 'search',
+      root: 'pages/search',
+      pages: ['index'],
+    },
+    {
+      name: 'article',
+      root: 'pages/article',
+      pages: ['index', 'list/index'],
+    },
+    {
       name: 'reward',
       root: 'pages/reward',
       pages: ['index'],
