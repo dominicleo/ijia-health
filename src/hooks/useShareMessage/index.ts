@@ -2,7 +2,7 @@ import { usePageEvent } from 'remax/runtime';
 
 import { APP_NAME } from '@/constants/common';
 import PAGE from '@/constants/page';
-import { isFunction } from '@/utils';
+import { isFunction, isPlainObject } from '@/utils';
 
 type useShareMessageResult = {
   title?: string;
@@ -17,20 +17,25 @@ type useShareMessageCallbackParams = {
   webViewUrl: string;
 };
 
+const DEFAULTS: useShareMessageResult = {
+  title: APP_NAME,
+  path: PAGE.INDEX,
+  imageUrl: 'https://m.ijia120.com/miniprograms/share.png',
+};
+
 const useShareMessage = (
   options?:
     | useShareMessageResult
-    | ((params?: useShareMessageCallbackParams) => useShareMessageResult),
+    | ((params: useShareMessageCallbackParams) => useShareMessageResult),
 ) => {
-  usePageEvent('onShareAppMessage', (params) => {
-    return Object.assign(
-      {
-        title: APP_NAME,
-        path: PAGE.INDEX,
-        imageUrl: 'https://m.ijia120.com/miniprograms/share.png',
-      },
-      isFunction(options) ? options(params) : options,
-    );
+  usePageEvent('onShareAppMessage', async (params) => {
+    const config = isFunction(options) ? await options(params) : options;
+
+    return {
+      title: config?.title || DEFAULTS.title,
+      path: config?.path || DEFAULTS.path,
+      imageUrl: config?.imageUrl || DEFAULTS.imageUrl,
+    };
   });
 };
 

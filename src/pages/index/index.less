@@ -1,3 +1,5 @@
+@import '@/components/style/index.less';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -190,11 +192,11 @@
   justify-content: center;
   height: 40px;
   margin: 0 16px;
+  margin-top: 16px;
   color: #666;
   font-size: 12px;
   background: #f5f5f5;
   border-radius: 4px;
-  margin-top: 16px;
   &::after {
     display: block;
     width: 12px;
@@ -202,5 +204,21 @@
     margin-left: 4px;
     background: url('./images/icon-more.svg') center no-repeat;
     content: '';
+  }
+}
+
+.loader {
+  .tabs {
+    margin-bottom: 18px;
+
+    --skeleton-row-height: 20px;
+    --skeleton-row-margin-top: 0;
+
+    :global {
+      .van-skeleton__content {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
   }
 }

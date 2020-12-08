@@ -1,6 +1,13 @@
 import qs from 'qs';
 import {
-    getStorage, hideLoading, navigateBack, navigateTo, redirectTo, reLaunch, showLoading, switchTab
+  getStorage,
+  hideLoading,
+  navigateBack,
+  navigateTo,
+  redirectTo,
+  reLaunch,
+  showLoading,
+  switchTab,
 } from 'remax/wechat';
 
 import Toast from '@/components/toast';

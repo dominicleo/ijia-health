@@ -1,6 +1,7 @@
 import fetch from '@/utils/fetch';
 
 import ArticleMapper from './index.mapper';
+import { ArticleGetListParams } from './index.types';
 
 export const query = async (doctorId: string) => {
   const response = await fetch.post('/api/api/reward/getRewardInfo', null, {
@@ -27,4 +28,24 @@ export const share = (id: number | string) => {
 };
 export const bookmark = (id: number | string) => {
   return fetch.post(`/api/article/${id}/bookmark`);
+};
+
+const DEFAULT_PARAMS = { page: 1, size: 10 };
+
+export const getList = async (params: ArticleGetListParams) => {
+  const { categoryId, ...rest } = params;
+  const response = await fetch.get(`/api/article/list/${categoryId}`, {
+    params: Object.assign(DEFAULT_PARAMS, rest),
+  });
+
+  return response.data;
+};
+
+export const getSpecialList = async (params: ArticleGetListParams) => {
+  const { categoryId, ...rest } = params;
+  const response = await fetch.get(`/api/article/special`, {
+    params: Object.assign(DEFAULT_PARAMS, rest),
+  });
+
+  return response.data;
 };

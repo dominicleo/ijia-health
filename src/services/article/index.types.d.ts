@@ -55,3 +55,16 @@ export interface HomepageArticleList {
   /** 是否有更多文章 */
   more: boolean;
 }
+
+export interface ArticleGetListParams {
+  /** 文章类别 ID */
+  categoryId?: number | string;
+  /** 文章类型 */
+  type?: ARTICLE_TYPE;
+  /** 搜索关键字 */
+  keyword?: string;
+  /** (default: 1) 页码 */
+  page?: number;
+  /** (default: 10) 每页数量 */
+  size?: number;
+}

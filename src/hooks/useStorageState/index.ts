@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { getStorageSync, removeStorageSync, setStorageSync } from 'remax/wechat';
 
 import useUpdateEffect from '../useUpdateEffect';
-import { isFunction } from '../utils';
 
 export interface IFuncUpdater<T> {
   (previousState?: T): T;
@@ -10,7 +9,15 @@ export interface IFuncUpdater<T> {
 
 export type StorageStateDefaultValue<T> = T | IFuncUpdater<T>;
 
-export type StorageStateResult<T> = [T | undefined, (value: StorageStateDefaultValue<T>) => void];
+export type StorageStateResult<T> = [
+  T | undefined,
+  (value: StorageStateDefaultValue<T>) => void,
+  () => T,
+];
+
+function isFunction<T>(value: any): value is T {
+  return typeof value === 'function';
+}
 
 function useStorageState<T>(
   key: string,
@@ -49,7 +56,7 @@ function useStorageState<T>(
     }
   }
 
-  return [state, updateState];
+  return [state, updateState, getStoredValue];
 }
 
 export default useStorageState;

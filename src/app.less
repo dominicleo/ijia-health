@@ -34,6 +34,10 @@ page {
   transition: opacity 0.2s ease-out 0s;
 }
 
+.input-placeholder {
+  color: #b3b3b3;
+}
+
 .van-button {
   font-weight: 500;
   .van-button__icon + .van-button__text:not(:empty),
@@ -45,4 +49,9 @@ page {
   &--unclickable {
     pointer-events: none;
   }
+}
+
+.van-skeleton__title,
+.van-skeleton__row {
+  border-radius: 4px;
 }

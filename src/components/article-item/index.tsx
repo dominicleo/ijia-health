@@ -2,12 +2,16 @@ import './index.less';
 
 import classnames from 'classnames';
 import * as React from 'react';
+import { usePageEvent } from 'remax/macro';
 import { Button, hideLoading, showLoading, showToast, Text, TouchEvent, View } from 'remax/wechat';
 
-import { useRequest } from '@/hooks';
+import { STORAGE } from '@/constants';
+import { useRequest, useStorageState, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
 import { ArticleService } from '@/services';
-import { isArray, isFunction } from '@/utils';
+import { getCurrentPage, isArray, isFunction } from '@/utils';
+
+import ArticleItemLoader from './loader';
 
 interface ArticleItemProps {
   prefixCls?: string;
@@ -33,7 +37,9 @@ interface ArticleItemProps {
   onClick?: (event: TouchEvent) => void;
 }
 
-const ArticleItem: React.FC<ArticleItemProps> = (props) => {
+const ArticleItem: React.FC<ArticleItemProps> & {
+  Loader: typeof ArticleItemLoader;
+} = (props) => {
   const {
     prefixCls,
     id,
@@ -43,8 +49,8 @@ const ArticleItem: React.FC<ArticleItemProps> = (props) => {
     date,
     description,
     like,
-    likes,
-    shares,
+    likes = 0,
+    shares = 0,
     onClick,
   } = props;
 
@@ -54,26 +60,76 @@ const ArticleItem: React.FC<ArticleItemProps> = (props) => {
     shares,
   });
 
+  const [, updateLikesCache, getLikesCache] = useStorageState<number | undefined>(
+    STORAGE.ARTICLE_LIKE_CACHE_PREFIX + id,
+  );
+  const [, updateSharesCache, getSharesCache] = useStorageState<number | undefined>(
+    STORAGE.ARTICLE_SHARE_CACHE_PREFIX + id,
+  );
+
+  usePageEvent('onShow', () => {
+    const page = getCurrentPage();
+    if (!page.__displayReporter.showReferpagepath) return;
+    const likesCache = getLikesCache();
+    const sharesCache = getSharesCache();
+    if (likesCache) {
+      setState({ like: true, likes: likesCache });
+      updateLikesCache(undefined);
+    }
+    if (sharesCache) {
+      setState({ shares: sharesCache });
+      updateSharesCache(undefined);
+    }
+  });
+
+  useUpdateEffect(() => {
+    updateLikesCache(state.likes);
+  }, [state.likes]);
+
+  useUpdateEffect(() => {
+    updateSharesCache(state.shares);
+  }, [state.shares]);
+
+  // 点赞
   const { run: handleLike, loading: likeLoading } = useRequest(ArticleService.like, {
+    manual: true,
+  });
+
+  // 分享
+  const { run: handleShare, loading: shareLoading } = useRequest(ArticleService.share, {
     manual: true,
   });
 
   const cls = classnames(prefixCls);
 
-  const onLike = (event: TouchEvent) => {
+  const onLike = async (event: TouchEvent) => {
     // @ts-ignore
     event.stopPropagation();
 
     if (likeLoading) return;
+    if (state.like) {
+      showToast({ icon: 'none', title: '已点赞', mask: true });
+      return;
+    }
     showLoading({ title: '', mask: true });
-    handleLike(id).finally(() => {
+    await handleLike(id).finally(() => {
       hideLoading();
+    });
+    setState({
+      like: !state.like,
+      likes: state.like ? state.likes - 1 : state.likes + 1,
     });
   };
 
-  const onShare = (event: TouchEvent) => {
+  const onShare = async (event: TouchEvent) => {
     // @ts-ignore
     event.stopPropagation();
+
+    if (shareLoading) return;
+    await handleShare(id);
+    setState({
+      shares: state.shares + 1,
+    });
   };
 
   return (
@@ -84,7 +140,7 @@ const ArticleItem: React.FC<ArticleItemProps> = (props) => {
       hoverStayTime={0}
     >
       <View className={`${prefixCls}-content`}>
-        <View>
+        <View className={`${prefixCls}-left`}>
           <View className={`${prefixCls}-title`}>{title}</View>
           <View className={`${prefixCls}-brief`}>
             <Text className={`${prefixCls}-label`}>{label}</Text>
@@ -108,19 +164,19 @@ const ArticleItem: React.FC<ArticleItemProps> = (props) => {
         <View className={`${prefixCls}-totals`}>
           <View
             className={classnames(`${prefixCls}-total ${prefixCls}-like`, {
-              [`${prefixCls}-like-active`]: like,
+              [`${prefixCls}-like-active`]: state.like,
             })}
             onClick={onLike}
             hoverStopPropagation
           >
-            {likes}
+            {state.likes}
           </View>
           <View
             className={`${prefixCls}-total ${prefixCls}-share`}
             onClick={onShare}
             hoverStopPropagation
           >
-            {shares}
+            {state.shares}
             <Button openType='share' data-title={title} data-picture={picture} />
           </View>
         </View>
@@ -131,8 +187,8 @@ const ArticleItem: React.FC<ArticleItemProps> = (props) => {
 
 ArticleItem.defaultProps = {
   prefixCls: 'article-item',
-  likes: 0,
-  shares: 0,
 };
+
+ArticleItem.Loader = ArticleItemLoader;
 
 export default ArticleItem;

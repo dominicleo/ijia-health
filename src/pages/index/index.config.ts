@@ -1,3 +1,5 @@
 import { PageConfig } from 'remax/wechat';
 
-export default {} as PageConfig;
+export default {
+  disableScroll: true,
+} as PageConfig;

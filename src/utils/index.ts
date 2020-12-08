@@ -10,7 +10,7 @@ export const isPlainObject = <T>(value: T): value is T =>
 export const isFunction = (value: any): value is Function => typeof value === 'function';
 export const isNumber = (value: any): value is number => /^\d+(\.\d+)?$/.test(value);
 export const isBoolean = (value: any): value is boolean => typeof value === 'boolean';
-export const isDefine = (value: any): boolean => value !== undefined && value !== null;
+export const isDefine = (value: any): boolean => value === undefined || value === null;
 export const hasOwnProperty = (source: object, key: string) =>
   Object.prototype.hasOwnProperty.call(source, key);
 
