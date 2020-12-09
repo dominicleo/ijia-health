@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { useQuery } from 'remax';
-import { VariableSizeList } from 'remax-virtual-list';
+import { VariableSizeList, areEqual } from 'remax-virtual-list';
 import { unstable_batchedUpdates } from 'remax/runtime';
 import {
     createSelectorQuery, GenericEvent, Input, ScrollView, setNavigationBarTitle, Swiper, SwiperItem,
@@ -71,18 +71,18 @@ const ArticleItemComponent: React.FC<{
   style: React.CSSProperties;
   data: Article;
   setSize: (size: number) => any;
-}> = ({ style, data, setSize }) => {
+}> = React.memo(({ style, data, setSize }) => {
   const { id, title, picture, category, doctor, date, like, likes, shares } = data;
   const elementId = `article_${id}`;
 
   React.useEffect(() => {
-    createSelectorQuery()
-      .select(`#${elementId}`)
-      .boundingClientRect((element) => {
-        console.log(element);
-        element && setSize(element.height);
-      })
-      .exec();
+    // createSelectorQuery()
+    //   .select(`#${elementId}`)
+    //   .boundingClientRect((element) => {
+    //     console.log(element);
+    //     element && setSize(element.height);
+    //   })
+    //   .exec();
   }, []);
 
   return (
@@ -100,9 +100,9 @@ const ArticleItemComponent: React.FC<{
       shares={shares}
     />
   );
-};
+}, areEqual);
 
-const CustomArticleList: React.FC<{ data?: Article[] }> = ({ data = [] }) => {
+const CustomArticleList: React.FC<{ data?: Article[],visible?:boolean }> = ({ data = [],visible }) => {
   const [itemSizes, setItemSizes] = React.useState<{ [key: number]: number }>({});
 
   const setItemSize = React.useCallback(
@@ -110,13 +110,14 @@ const CustomArticleList: React.FC<{ data?: Article[] }> = ({ data = [] }) => {
     [],
   );
 
-  const getItemSize = React.useCallback((index) => itemSizes[index] || 250, [itemSizes]);
+  const getItemSize = React.useCallback((index) => itemSizes[index] || 200 - 46, [itemSizes]);
+
 
   return (
-    <VariableSizeList width='100%' height={500} itemCount={data.length} itemSize={getItemSize}>
-      {({ index, style }) => (
+    <VariableSizeList width='100%' height={500} itemCount={data.length} itemSize={getItemSize} overscanCount={10} >
+      {visible ? ({ index, style }) => (
         <ArticleItemComponent style={style} data={data[index]} setSize={setItemSize(index)} />
-      )}
+      ): () => <></>}
     </VariableSizeList>
   );
 };
@@ -213,10 +214,10 @@ const CustomArticleListWrapper = () => {
           current={active}
           onChange={({ detail }) => detail.source === 'touch' && setActive(detail.current)}
         >
-          {categories.map(({ id }) => (
+          {categories.map(({ id }, index) => (
             <SwiperItem key={id}>
               {state[id]?.loaded ? (
-                <CustomArticleList data={state[id]?.list} />
+                <CustomArticleList data={state[id]?.list} visible={index === active} />
               ) : (
                 <ArticleItem.Loader size={5} />
               )}
