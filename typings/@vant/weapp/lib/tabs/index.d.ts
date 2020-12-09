@@ -51,14 +51,14 @@ declare const Tabs: ComponentType<{
   offsetTop?: number;
 
   /** 点击标签时触发 */
-  bindclick?: (event?: GenericEvent<Detail>) => any;
+  bindclick?: (event: GenericEvent<Detail>) => any;
   /** 当前激活的标签改变时触发 */
-  bindchange?: (event?: GenericEvent<Detail>) => any;
+  bindchange?: (event: GenericEvent<Detail>) => any;
   /** 点击被禁用的标签时触发 */
-  binddisabled?: (event?: GenericEvent<Detail>) => any;
+  binddisabled?: (event: GenericEvent<Detail>) => any;
   /** 滚动时触发 */
   bindscroll?: (
-    event?: GenericEvent<{
+    event: GenericEvent<{
       /** 距离顶部位置 */
       scrollTop?: number;
       /** 是否吸顶 */

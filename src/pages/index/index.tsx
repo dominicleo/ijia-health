@@ -7,6 +7,7 @@ import ArticleItem from '@/components/article-item';
 import SafeArea from '@/components/safe-area';
 import Toast from '@/components/toast';
 import { CUSTOMER_SERVICE_TELEPHONE } from '@/constants/common';
+import { DOCTOR_SEARCH_PLACEHOLDER } from '@/constants/message';
 import PAGE from '@/constants/page';
 import { useRequest, useShareMessage } from '@/hooks';
 import { ArticleService } from '@/services';
@@ -154,11 +155,11 @@ export default () => {
                   }) => (
                     <ArticleItem
                       key={id}
-                      id={id}
+                      articleId={id}
                       title={title}
                       picture={picture}
                       label={category.name}
-                      date={date(createdAt).format('LL')}
+                      date={createdAt}
                       description={[doctor?.name, doctor?.hospitalName]}
                       like={like}
                       likes={likes}
@@ -202,7 +203,7 @@ export default () => {
       <Toast.Component />
       <View className={s.header}>
         <View className={s.search} onClick={() => history.push(PAGE.SEARCH)}>
-          搜索医院、医生
+          {DOCTOR_SEARCH_PLACEHOLDER}
         </View>
         <View
           className={classnames(s.action, s.customer)}

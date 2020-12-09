@@ -1,6 +1,8 @@
 .wrapper {
   height: 100vh;
   overflow: hidden;
+  flex-direction: column;
+  display: flex;
 }
 
 .header {
@@ -8,7 +10,11 @@
   background-color: #f7f7f7;
   display: flex;
   align-items: center;
-  padding: 4px 16px 12px;
+  padding: 6px 16px;
+  &.special {
+    padding-top: 4px;
+    padding-bottom: 12px;
+  }
 }
 
 .search {
@@ -82,4 +88,53 @@
 
 .main {
   flex: 1;
+  position: relative;
+}
+
+.tabs {
+  --tabs-nav-background-color: #f7f7f7;
+
+  :global {
+    .van-tab {
+      height: 40px;
+      > view {
+        line-height: normal;
+        transform-origin: center;
+        transition: 0.2s linear 0s;
+        padding-top: 8px;
+      }
+      &--active {
+        font-weight: 700;
+        > view {
+          transform: scale(1.0769);
+        }
+      }
+    }
+    .van-tabs__line {
+      bottom: 6px;
+    }
+  }
+}
+
+.content {
+  flex: 1;
+}
+
+.loader {
+  .tabs {
+    height: 40px;
+    background-color: #f7f7f7;
+    padding-top: 8px;
+    box-sizing: border-box;
+
+    --skeleton-row-height: 18px;
+    --skeleton-row-margin-top: 0;
+
+    :global {
+      .van-skeleton__content {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
 }

@@ -32,20 +32,18 @@ export const bookmark = (id: number | string) => {
 
 const DEFAULT_PARAMS = { page: 1, size: 10 };
 
-export const getList = async (params: ArticleGetListParams) => {
-  const { categoryId, ...rest } = params;
-  const response = await fetch.get(`/api/article/list/${categoryId}`, {
-    params: Object.assign(DEFAULT_PARAMS, rest),
+export const getList = async (params?: ArticleGetListParams) => {
+  const response = await fetch.get(`/api/article/list/category`, {
+    params: Object.assign(DEFAULT_PARAMS, params),
   });
 
-  return response.data;
+  return ArticleMapper.getList(response.data);
 };
 
-export const getSpecialList = async (params: ArticleGetListParams) => {
-  const { categoryId, ...rest } = params;
+export const getSpecialList = async (params?: ArticleGetListParams) => {
   const response = await fetch.get(`/api/article/special`, {
-    params: Object.assign(DEFAULT_PARAMS, rest),
+    params: Object.assign(DEFAULT_PARAMS, params),
   });
 
-  return response.data;
+  return ArticleMapper.getList(response.data);
 };

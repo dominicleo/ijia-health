@@ -11,3 +11,4 @@ export { default as useRequest } from './useRequest';
 export { default as useQuery } from './useQuery';
 export { default as useShareMessage } from './useShareMessage';
 export { default as useEventEmitter } from './useEventEmitter';
+export { default as useVirtualList } from './useVirtualList';

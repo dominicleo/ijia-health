@@ -15,8 +15,11 @@ import ArticleItemLoader from './loader';
 
 interface ArticleItemProps {
   prefixCls?: string;
+  /** 根节点样式 */
+  style?: React.CSSProperties;
+  id?: string;
   /** 文章 ID */
-  id: number;
+  articleId: number;
   /** 文章标题 */
   title: string;
   /** 文章封面 */
@@ -42,7 +45,9 @@ const ArticleItem: React.FC<ArticleItemProps> & {
 } = (props) => {
   const {
     prefixCls,
+    style,
     id,
+    articleId,
     title,
     picture,
     label,
@@ -112,7 +117,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
       return;
     }
     showLoading({ title: '', mask: true });
-    await handleLike(id).finally(() => {
+    await handleLike(articleId).finally(() => {
       hideLoading();
     });
     setState({
@@ -126,7 +131,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     event.stopPropagation();
 
     if (shareLoading) return;
-    await handleShare(id);
+    await handleShare(articleId);
     setState({
       shares: state.shares + 1,
     });
@@ -134,7 +139,9 @@ const ArticleItem: React.FC<ArticleItemProps> & {
 
   return (
     <View
+      id={id}
       className={cls}
+      style={style}
       onClick={onClick}
       hoverClassName={isFunction(onClick) ? 'clickable' : 'none'}
       hoverStayTime={0}

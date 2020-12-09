@@ -4,7 +4,7 @@ import article from '@/pages/article';
 import { isArray } from '@/utils';
 import date from '@/utils/date';
 
-import { Article, HomepageArticleList } from './index.types';
+import { Article, ArticleList, HomepageArticleList } from './index.types';
 
 function doctorMapper() {
   const mapper = createMapper();
@@ -64,7 +64,7 @@ function articleMapper() {
     .map('shares')
     .to('shares', undefined, () => 0)
     .map('createTime')
-    .to('date', (value: any) => date(value).valueOf());
+    .to('date', (value: any) => date(value).format('LL'));
 
   return mapper;
 }
@@ -73,6 +73,24 @@ function query(source = {}): Article {
   const mapper = createMapper();
 
   mapper.map('bannerUrl').to('banner');
+
+  return mapper.execute(source);
+}
+
+function getList(source = {}): ArticleList {
+  const mapper = createMapper();
+
+  mapper
+    .map('articles')
+    .to('list', articleMapper().each, [])
+    .map('categories')
+    .to('categories', categoryMapper().each, [])
+    .map('currentPage')
+    .to('pagination.current')
+    .map('size')
+    .to('pagination.pageSize')
+    .map('total')
+    .to('pagination.total');
 
   return mapper.execute(source);
 }
@@ -94,6 +112,7 @@ function homepage(source = []): HomepageArticleList[] {
 
 const DoctorMapper = {
   query,
+  getList,
   homepage,
 };
 

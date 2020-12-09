@@ -49,6 +49,19 @@ export interface ArticleCategory {
   special: boolean;
 }
 
+export interface ArticleList {
+  list: Article[];
+  categories?: ArticleCategory[];
+  pagination: {
+    /** 当前页码 */
+    current: number;
+    /** 每页数量 */
+    pageSize: number;
+    /** 总条数 */
+    total: number;
+  };
+}
+
 export interface HomepageArticleList {
   category: ArticleCategory;
   articles: Article[];
@@ -58,7 +71,7 @@ export interface HomepageArticleList {
 
 export interface ArticleGetListParams {
   /** 文章类别 ID */
-  categoryId?: number | string;
+  categoryId?: string;
   /** 文章类型 */
   type?: ARTICLE_TYPE;
   /** 搜索关键字 */
