@@ -3,7 +3,16 @@ import './index.less';
 import classnames from 'classnames';
 import * as React from 'react';
 import { usePageEvent } from 'remax/macro';
-import { Button, hideLoading, showLoading, showToast, Text, TouchEvent, View } from 'remax/wechat';
+import {
+  Button,
+  hideLoading,
+  showLoading,
+  showToast,
+  Text,
+  TouchEvent,
+  View,
+  Image,
+} from 'remax/wechat';
 
 import { STORAGE } from '@/constants';
 import { useRequest, useStorageState, useUpdateEffect } from '@/hooks';
@@ -16,10 +25,11 @@ import ArticleItemLoader from './loader';
 interface ArticleItemProps {
   prefixCls?: string;
   /** 根节点样式 */
+  className?: string;
+  /** 根节点样式 */
   style?: React.CSSProperties;
-  id?: string;
   /** 文章 ID */
-  articleId: number;
+  id: number;
   /** 文章标题 */
   title: string;
   /** 文章封面 */
@@ -46,8 +56,8 @@ const ArticleItem: React.FC<ArticleItemProps> & {
   const {
     prefixCls,
     style,
+    className,
     id,
-    articleId,
     title,
     picture,
     label,
@@ -105,7 +115,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     manual: true,
   });
 
-  const cls = classnames(prefixCls);
+  const cls = classnames(prefixCls, { [`${className}`]: !!className });
 
   const onLike = async (event: TouchEvent) => {
     // @ts-ignore
@@ -117,7 +127,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
       return;
     }
     showLoading({ title: '', mask: true });
-    await handleLike(articleId).finally(() => {
+    await handleLike(id).finally(() => {
       hideLoading();
     });
     setState({
@@ -131,7 +141,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     event.stopPropagation();
 
     if (shareLoading) return;
-    await handleShare(articleId);
+    await handleShare(id);
     setState({
       shares: state.shares + 1,
     });
@@ -139,7 +149,6 @@ const ArticleItem: React.FC<ArticleItemProps> & {
 
   return (
     <View
-      id={id}
       className={cls}
       style={style}
       onClick={onClick}
@@ -154,9 +163,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
             {date && <Text className={`${prefixCls}-date`}>{date}</Text>}
           </View>
         </View>
-        {picture && (
-          <View className={`${prefixCls}-picture`} style={{ backgroundImage: `url(${picture})` }} />
-        )}
+        {picture && <Image className={`${prefixCls}-picture`} src={picture} lazyLoad />}
       </View>
       <View className={`${prefixCls}-footer`}>
         <View className={`${prefixCls}-description`}>

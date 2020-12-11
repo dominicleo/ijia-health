@@ -91,7 +91,7 @@
         {
           "name": "文章列表页",
           "pathName": "pages/article/list/index",
-          "query": "categoryId=21",
+          "query": "categoryId=0",
           "scene": null
         }
       ]

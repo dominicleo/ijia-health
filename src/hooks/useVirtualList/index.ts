@@ -7,8 +7,6 @@ export interface OptionType {
   overscan?: number;
 }
 
-let index = 0;
-
 export default <T = any>(list: T[], options: OptionType) => {
   const containerRef = useRef<HTMLElement | null>();
   // 暂时禁止 cache

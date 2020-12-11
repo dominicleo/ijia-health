@@ -1,38 +1,65 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { useQuery } from 'remax';
-import { VariableSizeList, areEqual } from 'remax-virtual-list';
-import { unstable_batchedUpdates } from 'remax/runtime';
+import { areEqual, FixedSizeList, VariableSizeList } from 'remax-virtual-list';
+import { unstable_batchedUpdates, usePageInstance } from 'remax/runtime';
 import {
-    createSelectorQuery, GenericEvent, Input, ScrollView, setNavigationBarTitle, Swiper, SwiperItem,
-    View
+  createIntersectionObserver,
+  createSelectorQuery,
+  GenericEvent,
+  Input,
+  nextTick,
+  ScrollView,
+  ScrollViewProps,
+  setNavigationBarTitle,
+  Swiper,
+  SwiperItem,
+  View,
 } from 'remax/wechat';
 
 import ArticleItem from '@/components/article-item';
 import { ARTICLE_SEARCH_PLACEHOLDER } from '@/constants/message';
 import PAGE from '@/constants/page';
-import { useRequest, useShareMessage, useVirtualList } from '@/hooks';
+import { useRequest, useShareMessage, useUpdateEffect, useVirtualList } from '@/hooks';
+import useDebounceFn from '@/hooks/useDebounceFn';
 import useSetState from '@/hooks/useSetState';
+import useThrottleFn from '@/hooks/useThrottleFn';
 import { ArticleService } from '@/services';
 import {
-    Article, ArticleCategory, ArticleGetListParams, ArticleList
+  Article,
+  ArticleCategory,
+  ArticleGetListParams,
+  ArticleList,
 } from '@/services/article/index.types';
 import { isArray, isDefine } from '@/utils';
 import history, { createURL } from '@/utils/history';
+import Loading from '@vant/weapp/lib/loading';
+import Divider from '@vant/weapp/lib/Divider';
 import Skeleton from '@vant/weapp/lib/skeleton';
 import Tab from '@vant/weapp/lib/tab';
 import Tabs from '@vant/weapp/lib/tabs';
 
 import s from './index.less';
+import Empty from '@/components/empty';
+import fetch from '@/utils/fetch';
 
 interface HeaderProps {
   className?: string;
   onSearch?: (value: string) => void;
   onClear?: () => void;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 // 公共头部
-const Header: React.FC<HeaderProps> = ({ className, children, onSearch, onClear }) => {
+const Header: React.FC<HeaderProps> = ({
+  className,
+  children,
+  onSearch,
+  onClear,
+  disabled,
+  loading,
+}) => {
   const [state, setState] = useSetState({
     value: '',
   });
@@ -42,10 +69,12 @@ const Header: React.FC<HeaderProps> = ({ className, children, onSearch, onClear 
   };
 
   const onConfirm = () => {
+    if (loading || disabled) return;
     onSearch && onSearch(state.value);
   };
 
   const handleClear = () => {
+    if (loading || disabled) return;
     setState({ value: '' });
     onClear && onClear();
   };
@@ -59,8 +88,15 @@ const Header: React.FC<HeaderProps> = ({ className, children, onSearch, onClear 
           placeholderClassName='input-placeholder'
           onInput={onInput}
           onConfirm={onConfirm}
+          disabled={disabled}
         />
-        <View className={classnames(s.clear, { [s.hidden]: !state.value })} onClick={handleClear} />
+        {!(loading || disabled) && (
+          <View
+            className={classnames(s.clear, { [s.hidden]: !state.value })}
+            onClick={handleClear}
+          />
+        )}
+        {loading && <Loading customClass={s.searching} size={14} />}
       </View>
       {children}
     </View>
@@ -68,28 +104,13 @@ const Header: React.FC<HeaderProps> = ({ className, children, onSearch, onClear 
 };
 
 const ArticleItemComponent: React.FC<{
-  style: React.CSSProperties;
   data: Article;
-  setSize: (size: number) => any;
-}> = React.memo(({ style, data, setSize }) => {
+}> = React.memo(({ style, data }) => {
   const { id, title, picture, category, doctor, date, like, likes, shares } = data;
-  const elementId = `article_${id}`;
-
-  React.useEffect(() => {
-    // createSelectorQuery()
-    //   .select(`#${elementId}`)
-    //   .boundingClientRect((element) => {
-    //     console.log(element);
-    //     element && setSize(element.height);
-    //   })
-    //   .exec();
-  }, []);
 
   return (
     <ArticleItem
-      id={elementId}
-      style={style}
-      articleId={id}
+      id={id}
       title={title}
       picture={picture}
       label={category?.name}
@@ -98,128 +119,257 @@ const ArticleItemComponent: React.FC<{
       like={like}
       likes={likes}
       shares={shares}
+      onClick={() => history.push(PAGE.ARTICLE, { articleId: id })}
     />
   );
 }, areEqual);
 
-const CustomArticleList: React.FC<{ data?: Article[],visible?:boolean }> = ({ data = [],visible }) => {
-  const [itemSizes, setItemSizes] = React.useState<{ [key: number]: number }>({});
+const ChunkList: React.FC<{ chunkId: string; observeHeight?: number }> = React.memo(
+  ({ chunkId, observeHeight, children }) => {
+    const instance = usePageInstance();
+    const observer = React.useRef(createIntersectionObserver(instance));
+    const chunkPrefix = React.useRef(Math.random().toString(36).slice(-8));
+    const [state, setState] = useSetState({ height: 0, visible: true });
 
-  const setItemSize = React.useCallback(
-    (index) => (size: number) => setItemSizes((sizes) => ({ ...sizes, [index]: size })),
-    [],
-  );
+    const init = () => {
+      if (!observer.current) return;
+      observer.current
+        .relativeToViewport({ top: observeHeight, bottom: observeHeight })
+        .observe(
+          `#${chunkPrefix.current}_${chunkId}`,
+          ({ intersectionRatio, boundingClientRect }) => {
+            if (intersectionRatio === 0) {
+              setState({ visible: false });
+              return;
+            }
+            setState({ height: boundingClientRect.height, visible: true });
+          },
+        );
+    };
 
-  const getItemSize = React.useCallback((index) => itemSizes[index] || 200 - 46, [itemSizes]);
+    React.useEffect(() => {
+      nextTick(init);
+    }, []);
 
+    return (
+      <View id={`${chunkPrefix.current}_${chunkId}`} style={{ minHeight: state.height + 'PX' }}>
+        {state.visible && children}
+      </View>
+    );
+  },
+);
 
-  return (
-    <VariableSizeList width='100%' height={500} itemCount={data.length} itemSize={getItemSize} overscanCount={10} >
-      {visible ? ({ index, style }) => (
-        <ArticleItemComponent style={style} data={data[index]} setSize={setItemSize(index)} />
-      ): () => <></>}
-    </VariableSizeList>
-  );
+ChunkList.defaultProps = {
+  observeHeight: 156 * 3,
 };
 
-interface CustomArticleListState extends ArticleList {
-  loaded: boolean;
-}
-
-const CustomArticleListWrapper = () => {
-  const { categoryId } = useQuery();
-
-  const keyword = React.useRef('');
-  const [active, setActive] = React.useState<number | undefined>();
+export default () => {
+  const query = useQuery();
+  const [active, setActive] = React.useState<number>(0);
   const [loaded, setLoaded] = React.useState(false);
+  const [keyword, setKeyword] = React.useState('');
+  const [refresherTriggereds, setRefresherTriggereds] = useSetState<{ [key: number]: boolean }>({});
   const [categories, setCategories] = React.useState<ArticleCategory[]>([]);
-  const [state, setState] = useSetState<{ [key: number]: CustomArticleListState }>({});
-
-  const { run, fetches } = useRequest(
+  const [articles, setArticles] = useSetState<{ [key: number]: Article[][] }>({});
+  const [state, setState] = useSetState<{ [key: number]: any }>({});
+  const [submitting, setSubmitting] = React.useState(false);
+  const { fetches, run } = useRequest(
     async (params) => {
       const { categories: cs = [], list, pagination } = await ArticleService.getList({
         ...params,
-        keyword: keyword.current,
+        keyword,
+        size: 6,
       });
 
       const id = params.categoryId - 0;
 
-      const firstIndex = cs?.findIndex((category) => id === category.id);
-
-      const article = state[id] || [];
+      const STATE = state[id] || {};
 
       state[id] = {
-        ...article,
-        list: pagination.current === 1 ? list : list.concat(article.list || []),
-        pagination,
+        ...STATE,
+        keyword,
+        completed: pagination.current * pagination.pageSize >= pagination.total,
         loaded: true,
       };
 
-      unstable_batchedUpdates(() => {
-        setState(state);
-        setCategories(cs);
+      nextTick(() => {
+        unstable_batchedUpdates(() => {
+          setState(state);
+          setCategories(cs);
 
-        if (!loaded) {
-          setLoaded(true);
-          isDefine(firstIndex) && setActive(firstIndex);
-        }
+          const ARTICLES = articles[id];
+          if (pagination.current === 1) {
+            setArticles({ [id]: list && list.length ? [list] : [] });
+          } else {
+            list && list.length && setArticles({ [id]: [...ARTICLES, list] });
+          }
+
+          if (!loaded) {
+            setLoaded(true);
+          }
+        });
       });
     },
-    {
-      manual: true,
-      fetchKey: (params = {}) => params.categoryId!,
-    },
+    { manual: true, fetchKey: (params = {}) => params.categoryId! },
   );
 
   React.useEffect(() => {
-    if (!isDefine(categoryId)) return;
-    run({ categoryId });
+    const id = query.categoryId;
+    if (!isDefine(id)) return;
+    run({ categoryId: id });
   }, []);
 
-  React.useEffect(() => {
+  useUpdateEffect(() => {
     if (!isDefine(active)) return;
     const category = categories[active];
-    category && run({ categoryId: category.id, page: 1 });
-  }, [active]);
+    setSubmitting(true);
+    category &&
+      run({ categoryId: category.id, page: 1 }).finally(() => {
+        setSubmitting(false);
+      });
+  }, [keyword]);
 
   const onSearch = (value: string) => {
-    keyword.current = value;
+    setKeyword(value);
   };
 
   const onClear = () => {
-    keyword.current = '';
+    setKeyword('');
   };
+
+  const onChangeActive = (index: number) => {
+    nextTick(() => {
+      setActive(index);
+    });
+
+    const category = categories[index];
+    const article = state[active];
+
+    if (category && (!article || (article && article.keyword !== keyword))) {
+      nextTick(() => {
+        run({ categoryId: category.id, page: 1 });
+      });
+    }
+  };
+
+  const onRefresherPulling = React.useCallback(
+    (id: number) => {
+      if (fetches[id]?.loading || refresherTriggereds[id]) return;
+      setRefresherTriggereds({ [id]: true });
+    },
+    [fetches, refresherTriggereds],
+  );
+  const onRefresherRefresh = React.useCallback(
+    (id: number) => {
+      if (!state[id]?.loaded && fetches[id]?.loading) return;
+      run({ categoryId: id, page: 1 }).finally(() => setRefresherTriggereds({ [id]: false }));
+    },
+    [fetches, refresherTriggereds],
+  );
+  const onRefresherRestore = React.useCallback(
+    (id: number) => {
+      setRefresherTriggereds({ [id]: false });
+    },
+    [fetches, refresherTriggereds],
+  );
+
+  const onScrollToLower = React.useCallback(
+    (id: number) => {
+      const fetch = fetches[id];
+      if (fetch?.loading) return;
+
+      const [params = {}] = fetch?.params || [];
+      const page = params.page || 1;
+
+      nextTick(() => {
+        run({ categoryId: id, page: page + 1 });
+      });
+    },
+    [fetches],
+  );
 
   let content;
 
   if (loaded) {
     content = (
       <>
-        <Tabs
+        {/* <Tabs
           customClass={s.tabs}
           active={active}
           ellipsis={false}
           lineWidth={12}
           lineHeight={3}
-          bindclick={({ detail }) => setActive(detail.index)}
-          animated
-          sticky
+          bindclick={({ detail }) => onChangeActive(detail.index)}
         >
           {categories.map(({ id, name }) => (
             <Tab key={`tab_${id}`} title={name} />
           ))}
-        </Tabs>
+        </Tabs> */}
+        <View className={s.tabs}>
+          {categories.map(({ id, name }, index) => (
+            <View
+              key={`tab_${id}`}
+              className={classnames(s.tab, { [s.active]: index === active })}
+              onClick={() => onChangeActive(index)}
+            >
+              <View>{name}</View>
+            </View>
+          ))}
+        </View>
         <Swiper
           className={s.content}
           current={active}
-          onChange={({ detail }) => detail.source === 'touch' && setActive(detail.current)}
+          onChange={({ detail }) => detail.source === 'touch' && onChangeActive(detail.current)}
         >
-          {categories.map(({ id }, index) => (
-            <SwiperItem key={id}>
+          {categories.map(({ id }) => (
+            <SwiperItem key={`swiper_${id}`} skipHiddenItemLayout>
               {state[id]?.loaded ? (
-                <CustomArticleList data={state[id]?.list} visible={index === active} />
+                <ScrollView
+                  className={s.container}
+                  onRefresherPulling={() => onRefresherPulling(id)}
+                  onRefresherRefresh={() => onRefresherRefresh(id)}
+                  onRefresherRestore={() => onRefresherRestore(id)}
+                  onRefresherAbort={() => onRefresherRestore(id)}
+                  onScrollToLower={() => onScrollToLower(id)}
+                  refresherTriggered={refresherTriggereds[id]}
+                  refresherEnabled
+                  scrollY
+                >
+                  {isArray(articles[id]) && articles[id].length > 0 ? (
+                    <>
+                      {articles[id].map((items, index) => (
+                        <ChunkList key={`chunk_${id}_${index}`} chunkId={`${id}_${index}`}>
+                          {items.map((item) => (
+                            <ArticleItemComponent key={`${index}_${item.id}`} data={item} />
+                          ))}
+                        </ChunkList>
+                      ))}
+                      <View className={s.loadable}>
+                        {state[id]?.completed ? (
+                          <>没有更多了</>
+                        ) : (
+                          <Loading size={14}>正在获取数据</Loading>
+                        )}
+                      </View>
+                    </>
+                  ) : (
+                    <Empty
+                      image='record'
+                      description={
+                        fetches[id]?.loading ? (
+                          <Loading size={14}>正在获取数据</Loading>
+                        ) : state[id]?.keyword ? (
+                          `未找到“${state[id]?.keyword}”的相关文章`
+                        ) : (
+                          '暂无文章'
+                        )
+                      }
+                      local
+                    />
+                  )}
+                </ScrollView>
               ) : (
-                <ArticleItem.Loader size={5} />
+                <ArticleItem.Loader size={6} />
               )}
             </SwiperItem>
           ))}
@@ -233,55 +383,21 @@ const CustomArticleListWrapper = () => {
           <Skeleton row={4} rowWidth='65px' loading />
         </View>
         <View>
-          <ArticleItem.Loader size={5} />
+          <ArticleItem.Loader size={6} />
         </View>
       </View>
     );
   }
 
   return (
-    <>
-      <Header onSearch={onSearch} onClear={onClear} />
-      {content}
-    </>
-  );
-};
-
-const SpecialArticleListWrapper = () => {
-  return (
-    <>
-      <Header className={s.special} />
-    </>
-  );
-};
-
-export default () => {
-  const { type } = useQuery();
-
-  // 健康科普
-  const isSpecial = type === 'special';
-
-  React.useEffect(() => {
-    setNavigationBarTitle({ title: isSpecial ? '健康科普' : '文章' });
-  }, []);
-
-  useShareMessage((event) => {
-    const { from } = event;
-
-    if (from === 'button') {
-      const { id, title, picture } = event.target.dataset;
-      return {
-        title,
-        path: createURL(PAGE.ARTICLE, { articleId: id }),
-        imageUrl: picture,
-      };
-    }
-    return {};
-  });
-
-  return (
     <View className={s.wrapper}>
-      {isSpecial ? <SpecialArticleListWrapper /> : <CustomArticleListWrapper />}
+      <Header
+        onSearch={onSearch}
+        onClear={onClear}
+        loading={submitting}
+        disabled={!loaded || submitting}
+      />
+      {content}
     </View>
   );
 };

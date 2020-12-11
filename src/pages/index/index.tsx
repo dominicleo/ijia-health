@@ -1,7 +1,15 @@
 import classnames from 'classnames';
 import qs from 'qs';
 import * as React from 'react';
-import { makePhoneCall, scanCode, ScrollView, View } from 'remax/wechat';
+import {
+  makePhoneCall,
+  scanCode,
+  ScrollView,
+  Swiper,
+  SwiperItem,
+  View,
+  createSelectorQuery,
+} from 'remax/wechat';
 
 import ArticleItem from '@/components/article-item';
 import SafeArea from '@/components/safe-area';
@@ -19,6 +27,8 @@ import Tab from '@vant/weapp/lib/tab';
 import Tabs from '@vant/weapp/lib/tabs';
 
 import s from './index.less';
+import Empty from '@/components/empty';
+import Button from '@vant/weapp/lib/button';
 
 const ENTRANCES = [
   {
@@ -39,13 +49,16 @@ const ENTRANCES = [
   },
 ];
 
+const DEFAULT_HEIGHT = 350;
+
 export default () => {
   const [refresherTriggered, setRefresherTriggered] = React.useState(false);
-  // const [offsetTop, setOffsetTop] = React.useState(0);
+  const [active, setActive] = React.useState(0);
+  const [heights, setHeights] = React.useState<number[]>([]);
+
   const { data, error, loading, run } = useRequest(
     async () => {
       const response = await ArticleService.homepage();
-      // return Promise.reject(new Error('test'));
       return { articles: response, loaded: true };
     },
     { manual: true, onError: noop },
@@ -100,15 +113,6 @@ export default () => {
       });
   };
 
-  // const onScroll = (event: GenericEvent) => {
-  //   createSelectorQuery()
-  //     .select('#main')
-  //     .boundingClientRect(({ top }) => {
-  //       setOffsetTop(top);
-  //     })
-  //     .exec();
-  // };
-
   const onRefresherPulling = () => {
     if (loading || refresherTriggered) return;
     setRefresherTriggered(true);
@@ -121,70 +125,121 @@ export default () => {
 
   const onRefresherRestore = () => {
     setRefresherTriggered(false);
-    // console.log('onRefresherRestore', event);
   };
+
+  React.useEffect(() => {
+    createSelectorQuery()
+      .selectAll(`.swiper`)
+      .boundingClientRect((elements) => {
+        if (!isArray(elements)) return;
+        setHeights(elements.map(({ height }) => height));
+      })
+      .exec();
+  }, [articles]);
 
   let content;
 
   if (loaded) {
     content = (
-      <Tabs
-        customClass={s.articles}
-        ellipsis={false}
-        lineWidth={8}
-        lineHeight={4}
-        // offsetTop={offsetTop}
-        animated
-        sticky
-      >
-        {articles.map(({ category, articles: items, more }, index) => (
-          <Tab key={`articles_${index}`} title={category.name}>
-            <View>
-              {isArray(items) &&
-                items.map(
-                  ({
-                    id,
-                    title,
-                    picture,
-                    category,
-                    doctor,
-                    date: createdAt,
-                    like,
-                    likes,
-                    shares,
-                  }) => (
-                    <ArticleItem
-                      key={id}
-                      articleId={id}
-                      title={title}
-                      picture={picture}
-                      label={category.name}
-                      date={createdAt}
-                      description={[doctor?.name, doctor?.hospitalName]}
-                      like={like}
-                      likes={likes}
-                      shares={shares}
-                      onClick={() => history.push(PAGE.ARTICLE, { articleId: id })}
-                    />
-                  ),
+      <>
+        <Tabs
+          active={active}
+          customClass={s.articles}
+          ellipsis={false}
+          lineWidth={8}
+          lineHeight={4}
+          bindclick={({ detail }) => setActive(detail.index)}
+          animated
+        >
+          {articles.map(({ category }, index) => (
+            <Tab key={`tab_${index}`} title={category.name} />
+          ))}
+        </Tabs>
+        <Swiper
+          current={active}
+          onChange={({ detail }) => detail.source === 'touch' && setActive(detail.current)}
+          style={{
+            height: (heights[active] || DEFAULT_HEIGHT) + 'PX',
+          }}
+        >
+          {articles.map(({ category, articles: items, more }, index) => (
+            <SwiperItem
+              key={`swiper_${index}`}
+              style={{ height: (heights[index] || DEFAULT_HEIGHT) + 'PX' }}
+            >
+              <View className='.swiper'>
+                <View>
+                  {isArray(items) && items.length > 0 ? (
+                    items.map(
+                      ({
+                        id,
+                        title,
+                        picture,
+                        category,
+                        doctor,
+                        date: createdAt,
+                        like,
+                        likes,
+                        shares,
+                      }) => (
+                        <ArticleItem
+                          key={id}
+                          id={id}
+                          title={title}
+                          picture={picture}
+                          label={category.name}
+                          date={createdAt}
+                          description={[doctor?.name, doctor?.hospitalName]}
+                          like={like}
+                          likes={likes}
+                          shares={shares}
+                          onClick={() => history.push(PAGE.ARTICLE, { articleId: id })}
+                        />
+                      ),
+                    )
+                  ) : (
+                    <Empty image='record' local />
+                  )}
+                </View>
+                {more && (
+                  <View
+                    className={s.more}
+                    hoverClassName='clickable'
+                    hoverStayTime={0}
+                    onClick={() => history.push(PAGE.ARTICLE_LIST, { categoryId: category?.id })}
+                  >
+                    点击查看更多
+                  </View>
                 )}
-            </View>
-            {more && (
-              <View
-                className={s.more}
-                hoverClassName='clickable'
-                hoverStayTime={0}
-                onClick={() => history.push(PAGE.ARTICLE_LIST, { categoryId: category?.id })}
-              >
-                点击查看更多
               </View>
-            )}
-          </Tab>
-        ))}
-      </Tabs>
+            </SwiperItem>
+          ))}
+        </Swiper>
+      </>
     );
   } else if (error) {
-    content = 'error';
+    content = (
+      <Empty
+        image='record'
+        description={
+          <>
+            数据获取失败<View>{error.message}</View>
+          </>
+        }
+        local
+      >
+        <Button
+          type='primary'
+          size='small'
+          bindclick={run}
+          loading={loading}
+          disabled={loading}
+          round
+        >
+          重试
+        </Button>
+      </Empty>
+    );
   } else {
     content = (
       <View className={s.loader}>

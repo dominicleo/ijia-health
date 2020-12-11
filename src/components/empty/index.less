@@ -1,0 +1,47 @@
+@import '~@/components/style/index.less';
+
+@empty-lg-pic-size: 200px;
+@empty-title-font-size: 20px;
+@empty-title-max-width: 48px;
+@empty-brief-min-margin: 96px;
+
+.ram-empty {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+  background: transparent;
+  background: var(--ram-empty-background, transparent);
+  &-picture {
+    width: 180px;
+    height: 120px;
+    margin: calc(50vh - @empty-lg-pic-size) auto 0;
+    background: center bottom no-repeat;
+    background-size: contain;
+  }
+
+  &-description {
+    max-width: calc(100vw - @empty-brief-min-margin);
+    margin: 0 auto;
+    padding-top: 8px;
+    padding-top: var(--ram-empty-brief-margin-top, 8px);
+    overflow: hidden;
+    color: #999;
+    color: var(--ram-empty-brief-color, #999);
+    font-size: 13px;
+    font-size: var(--ram-empty-brief-fontSize, 13px);
+    text-align: center;
+  }
+
+  &-footer {
+    margin: @empty-title-font-size auto 0;
+    margin: var(--ram-empty-margin-vertical, @empty-title-font-size) auto 0;
+  }
+
+  &-local {
+    box-sizing: border-box;
+    height: 100%;
+    padding-bottom: @empty-title-font-size;
+    padding-bottom: var(--ram-empty-margin-vertical, @empty-title-font-size);
+  }
+}

@@ -4,53 +4,53 @@ import classnames from 'classnames';
 import * as React from 'react';
 import { View } from 'remax/wechat';
 
-// const defaultPicture: { [key: string]: any } = {
-//   network: getFrontURL('miniprograms/page-network.png'),
-//   empty: getFrontURL('miniprograms/page-empty.png'),
-//   'empty-message': getFrontURL('miniprograms/page-empty-message.png'),
-//   'empty-record': getFrontURL('miniprograms/page-empty-record.png'),
-//   'empty-search': getFrontURL('miniprograms/page-empty-search.png'),
-//   'empty-scan': getFrontURL('miniprograms/page-empty-scan.png'),
-// };
-
-// const defaultMessage: { [key: string]: any } = {
-//   network: (
-//     <>
-//       <View>咦，网络跑丢了</View>
-//       <View>请检查网络后重新加载</View>
-//     </>
-//   ),
-//   empty: '未找到您要的内容',
-//   'empty-message': '这里空空如也，没有消息',
-//   'empty-record': '暂无订单记录',
-//   'empty-search': '未找到您要的内容',
-//   'empty-scan': '未找到您要的内容',
-// };
-
-enum EMPTY_TYPE {
-  /** 默认 */
-  DEFAULT = 'default',
-}
+const PRESETS = new Map<string, string[]>([
+  ['default', ['https://m.ijia120.com/miniprograms/page-empty.png', '']],
+  ['network', ['https://m.ijia120.com/miniprograms/page-network.png', '请检查网络后重新加载']],
+  ['search', ['https://m.ijia120.com/miniprograms/page-empty-search.png', '未找到您要的内容']],
+  ['record', ['https://m.ijia120.com/miniprograms/page-empty-record.png', '暂无数据']],
+  ['scan', ['https://m.ijia120.com/miniprograms/page-empty-scan.png', '请检查网络后重新加载']],
+  [
+    'message',
+    ['https://m.ijia120.com/miniprograms/page-empty-message.png', '这里空空如也，没有消息'],
+  ],
+]);
 
 interface EmptyProps {
   prefixCls?: string;
   /** 根节点样式 */
   className?: string;
-  /** 类型 */
-  type?: string;
-  /** 错误栈 */
-  error?: any;
+  /** (default: default) 图片类型 */
+  image?: 'default' | 'network' | 'search' | 'record' | 'scan' | 'message' | string;
+  /** 图片下方的描述文字 */
+  description?: React.ReactNode;
+  local?: boolean;
 }
 
-const Empty: React.FC<EmptyProps> = ({ prefixCls, className }) => {
-  return <View className={classnames(prefixCls, { [`${className}`]: !!className })}></View>;
+const Empty: React.FC<EmptyProps> = ({ prefixCls, className, local, children, ...props }) => {
+  const preset = (props.image && PRESETS.get(props.image)) || [];
+  const [image, presetDescription] = preset;
+  const description = props.description || presetDescription;
+
+  const pictureStyle: React.CSSProperties = image ? { backgroundImage: `url(${image})` } : {};
+
+  return (
+    <View
+      className={classnames(prefixCls, {
+        [`${prefixCls}-local`]: local,
+        [`${className}`]: !!className,
+      })}
+    >
+      <View className={`${prefixCls}-picture`} style={pictureStyle} />
+      {!!description && <View className={`${prefixCls}-description`}>{description}</View>}
+      {children && <View className={`${prefixCls}-footer`}>{children}</View>}
+    </View>
+  );
 };
 
 Empty.defaultProps = {
   prefixCls: 'ram-empty',
-  type: EMPTY_TYPE.DEFAULT,
+  image: 'default',
 };
-
-<Empty type='default' />;
 
 export default Empty;
