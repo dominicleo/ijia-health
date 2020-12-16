@@ -15,4 +15,8 @@ export interface Doctor {
   departmentId: string;
   /** 科室名称 */
   departmentName: string;
+  /** 关注 */
+  follow: boolean;
+  /** 关注人数 */
+  followNumber: number;
 }

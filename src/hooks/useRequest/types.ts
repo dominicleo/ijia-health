@@ -103,3 +103,33 @@ export type OptionsWithFormat<R, P extends any[], U, UU extends U> = {
 export type Options<R, P extends any[], U, UU extends U> =
   | BaseOptions<R, P>
   | OptionsWithFormat<R, P, U, UU>;
+
+/* ✅ --------------------------useLoadMore---------------------------- */
+export type LoadMoreParams<R> = [R | undefined, ...any[]];
+
+export interface LoadMoreFormatReturn {
+  list: any[];
+  [key: string]: any;
+}
+
+export interface LoadMoreResult<R> extends BaseResult<R, LoadMoreParams<R>> {
+  noMore?: boolean;
+  loadMore: () => void;
+  reload: () => void;
+  loadingMore: boolean;
+}
+
+export interface LoadMoreOptions<R extends LoadMoreFormatReturn>
+  extends Omit<BaseOptions<R, LoadMoreParams<R>>, 'loadMore'> {
+  loadMore: true;
+  isNoMore?: (r: R | undefined) => boolean;
+  threshold?: number;
+}
+
+export interface LoadMoreOptionsWithFormat<R extends LoadMoreFormatReturn, RR>
+  extends Omit<BaseOptions<R, LoadMoreParams<R>>, 'loadMore'> {
+  loadMore: true;
+  formatResult: (data: RR) => R;
+  isNoMore?: (r: R | undefined) => boolean;
+  threshold?: number;
+}

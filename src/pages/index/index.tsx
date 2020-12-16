@@ -20,11 +20,8 @@ import PAGE from '@/constants/page';
 import { useRequest, useShareMessage } from '@/hooks';
 import { ArticleService } from '@/services';
 import { isArray, isNativeCancel, isString, noop } from '@/utils';
-import date from '@/utils/date';
 import history, { createURL } from '@/utils/history';
 import Skeleton from '@vant/weapp/lib/skeleton';
-import Tab from '@vant/weapp/lib/tab';
-import Tabs from '@vant/weapp/lib/tabs';
 
 import s from './index.less';
 import Empty from '@/components/empty';
@@ -142,19 +139,18 @@ export default () => {
   if (loaded) {
     content = (
       <>
-        <Tabs
-          active={active}
-          customClass={s.articles}
-          ellipsis={false}
-          lineWidth={8}
-          lineHeight={4}
-          bindclick={({ detail }) => setActive(detail.index)}
-          animated
-        >
+        <View className={s.tabs}>
           {articles.map(({ category }, index) => (
-            <Tab key={`tab_${index}`} title={category.name} />
+            <View
+              key={`tab_${index}`}
+              className={classnames(s.tab, { [s.active]: index === active })}
+              onClick={() => setActive(index)}
+            >
+              <View>{category.name}</View>
+            </View>
           ))}
-        </Tabs>
+        </View>
+
         <Swiper
           current={active}
           onChange={({ detail }) => detail.source === 'touch' && setActive(detail.current)}

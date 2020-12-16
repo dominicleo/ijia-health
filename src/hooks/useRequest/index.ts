@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import ConfigContext from './configContext';
 import { BaseOptions, BaseResult, CombineService, OptionsWithFormat } from './types';
 import useAsync from './useAsync';
+import useLoadMore from './useLoadMore';
 
 function useRequest<R = any, P extends any[] = any, U = any, UU extends U = any>(
   service: CombineService<R, P>,
@@ -17,6 +18,12 @@ function useRequest<R = any, P extends any[] = any>(
 function useRequest(service: any, options: any = {}) {
   const contextConfig = useContext(ConfigContext);
   const finalOptions = { ...contextConfig, ...options };
+
+  const { loadMore } = finalOptions;
+
+  if (loadMore) {
+    return useLoadMore(service, finalOptions);
+  }
 
   return useAsync(service, finalOptions);
 }

@@ -1,0 +1,56 @@
+@height: 44px;
+
+.header {
+  line-height: normal;
+  transition: 0.2s ease-out 0s;
+  &.hidden {
+    transform: translate3d(0, -@height, 0);
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: @height;
+}
+
+.navbar {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+  box-sizing: 0 0 8px rgba(#000, 0.4);
+  overflow: hidden;
+
+  --nav-bar-height: @height;
+  --nav-bar-title-font-size: 17px;
+
+  :global {
+    .van-nav-bar__title {
+      max-width: initial;
+      margin: 0 52px;
+    }
+
+    .doctor {
+      height: @height;
+      text-align: left;
+      &-avatar {
+        width: 32px;
+        height: 32px;
+        margin-right: 8px;
+      }
+
+      &-brief {
+        margin-top: 2px;
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.back {
+  width: 28px;
+  height: 28px;
+  background: url('./images/icon-back.svg') center no-repeat;
+  background-size: contain;
+}

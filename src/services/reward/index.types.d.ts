@@ -19,8 +19,6 @@ export interface RewardQuery {
 }
 
 export interface RewardSubmitParams {
-  /** 医生 ID */
-  doctorId?: string;
   /** 文章 ID */
   articleId?: string;
   /** 打赏商品 ID */

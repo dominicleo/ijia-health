@@ -17,6 +17,8 @@ enum PAGE {
   CASHIER = '/pages/cashier/index',
   /** 支付结果页 */
   CASHIER_RESULT = '/pages/cashier/result/index',
+  /** 医生详情 */
+  DOCTOR = '/pages/doctor/index',
   /** 我的医生 */
   MY_DOCTOR = '/pages/doctor/my-doctor/index',
   /** 医生关注列表 */
@@ -37,6 +39,8 @@ enum PAGE {
   WEBVIEW = '/pages/webview/index',
   /** 我的处方列表 **/
   PRESCRIBE_LIST = '/pages/prescribe/order/index',
+  /** 打赏 */
+  REWARD = '/pages/reward/index',
 }
 
 export default PAGE;

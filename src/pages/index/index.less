@@ -207,9 +207,57 @@
   }
 }
 
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 52px;
+  padding-top: 19px;
+  background-color: #fff;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  &::after {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 0;
+    height: 4px;
+    background: @primary-color;
+    border-radius: 2px;
+    transform: translate3d(-50%, 0, 0);
+    transform-origin: center;
+    opacity: 0;
+    transition: 0.2s linear 0s;
+    content: '';
+  }
+  > view {
+    color: #999;
+    font-size: 16px;
+    transform-origin: center;
+    transition: 0.2s linear 0s;
+  }
+  &.active {
+    &::after {
+      width: 8px;
+      opacity: 1;
+    }
+    > view {
+      color: @text-color;
+      font-weight: 700;
+      transform: scale(1.25);
+    }
+  }
+}
+
 .loader {
   .tabs {
-    margin-bottom: 18px;
+    display: block;
 
     --skeleton-row-height: 20px;
     --skeleton-row-margin-top: 0;

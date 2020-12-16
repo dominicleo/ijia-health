@@ -1,0 +1,71 @@
+@import '~@/components/style/index.less';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 36px;
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  background: url('./images/icon-like.svg') center no-repeat;
+  transform: translate3d(-50%, -50%, 0);
+  transition: 0.2s ease-out 0s;
+}
+
+.like {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  background: #fef7f4;
+  border: 1px solid #fe7f40;
+  border-radius: 80px;
+  transition: 0.2s ease-out 0s;
+
+  &::before {
+    position: absolute;
+    right: 16px;
+    bottom: 26px;
+    color: #fff;
+    font-size: 12px;
+    opacity: 0;
+    content: '+1';
+  }
+}
+
+.active {
+  background: linear-gradient(315deg, #ff9147 0%, #ffb452 100%);
+  border-color: transparent;
+  box-shadow: 0 4px 20px 0 rgba(250, 124, 64, 0.2);
+  .thumb {
+    background-image: url('./images/icon-like-active.svg');
+  }
+}
+
+.animation {
+  &::before {
+    animation: like 0.5s ease-in-out 1;
+  }
+}
+
+.total {
+  margin-top: 12px;
+  font-size: 13px;
+}
+
+@keyframes like {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-32px);
+    opacity: 0;
+  }
+}

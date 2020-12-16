@@ -49,7 +49,7 @@ const Empty: React.FC<EmptyProps> = ({ prefixCls, className, local, children, ..
 };
 
 Empty.defaultProps = {
-  prefixCls: 'ram-empty',
+  prefixCls: 'rm-empty',
   image: 'default',
 };
 

@@ -21,6 +21,7 @@ import { ArticleService } from '@/services';
 import { getCurrentPage, isArray, isFunction } from '@/utils';
 
 import ArticleItemLoader from './loader';
+import { ARTICLE_TYPE } from '@/services/article/index.types.d';
 
 interface ArticleItemProps {
   prefixCls?: string;
@@ -30,6 +31,8 @@ interface ArticleItemProps {
   style?: React.CSSProperties;
   /** 文章 ID */
   id: number;
+  /** 文章类型 */
+  type?: ARTICLE_TYPE;
   /** 文章标题 */
   title: string;
   /** 文章封面 */
@@ -50,6 +53,11 @@ interface ArticleItemProps {
   onClick?: (event: TouchEvent) => void;
 }
 
+const ARTICLE_TYPE_TEXT = {
+  [ARTICLE_TYPE.COMMON]: '文章',
+  [ARTICLE_TYPE.PAPER]: '论文',
+};
+
 const ArticleItem: React.FC<ArticleItemProps> & {
   Loader: typeof ArticleItemLoader;
 } = (props) => {
@@ -58,6 +66,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     style,
     className,
     id,
+    type,
     title,
     picture,
     label,
@@ -159,8 +168,15 @@ const ArticleItem: React.FC<ArticleItemProps> & {
         <View className={`${prefixCls}-left`}>
           <View className={`${prefixCls}-title`}>{title}</View>
           <View className={`${prefixCls}-brief`}>
-            <Text className={`${prefixCls}-label`}>{label}</Text>
-            {date && <Text className={`${prefixCls}-date`}>{date}</Text>}
+            <View
+              className={classnames(`${prefixCls}-label`, {
+                [`${prefixCls}-type-article`]: type === ARTICLE_TYPE.COMMON,
+                [`${prefixCls}-type-thesis`]: type === ARTICLE_TYPE.PAPER,
+              })}
+            >
+              {type ? ARTICLE_TYPE_TEXT[type] : label}
+            </View>
+            {date && <View className={`${prefixCls}-date`}>{date}</View>}
           </View>
         </View>
         {picture && <Image className={`${prefixCls}-picture`} src={picture} lazyLoad />}

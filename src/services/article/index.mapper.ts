@@ -1,6 +1,5 @@
 import createMapper from 'map-factory';
 
-import article from '@/pages/article';
 import { isArray } from '@/utils';
 import date from '@/utils/date';
 
@@ -22,7 +21,10 @@ function doctorMapper() {
     .map('departmentid')
     .to('departmentId')
     .map('departmentName')
-    .map('officer');
+    .map('officer')
+    .map('follow')
+    .map('followNum')
+    .to('followNumber', undefined, () => 0);
 
   return mapper;
 }
@@ -48,12 +50,18 @@ function articleMapper() {
 
   mapper
     .map('id')
+    .map('type')
     .map('name')
-    .map('cnTitle')
+    .map('title')
+    .or('cnTitle')
     .to('title')
+    .map('content')
+    .or('cnContent')
+    .to('content')
     .map('coverUrl')
     .to('picture')
-    .map('articleCategory')
+    .map('category')
+    .or('articleCategory')
     .to('category', categoryMapper().execute, {})
     .map('doctor')
     .to('doctor', doctorMapper().execute, {})
@@ -63,8 +71,16 @@ function articleMapper() {
     .to('likes', undefined, () => 0)
     .map('shares')
     .to('shares', undefined, () => 0)
+    .map('reads')
+    .to('reads', undefined, () => 0)
+    .map('reward')
+    .to('reward', undefined, () => false)
+    .map('bookmark')
+    .to('bookmark', undefined, () => false)
+    .map('paper')
+    .to('file')
     .map('createTime')
-    .to('date', (value: any) => date(value).format('LL'));
+    .to('date', (value: any) => date.removeTimezone(value).format('LL'));
 
   return mapper;
 }
@@ -72,9 +88,11 @@ function articleMapper() {
 function query(source = {}): Article {
   const mapper = createMapper();
 
-  mapper.map('bannerUrl').to('banner');
+  const article = articleMapper().execute(source);
 
-  return mapper.execute(source);
+  mapper.map('hotArticleBOs').to('articles', articleMapper().each, []);
+
+  return mapper.execute(source, article);
 }
 
 function getList(source = {}): ArticleList {

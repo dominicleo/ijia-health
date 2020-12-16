@@ -26,8 +26,6 @@ export interface Article {
   content: string;
   /** 论文文件地址 */
   file: string;
-  /** 是否为健康科普 */
-  special: boolean;
   /** 阅读数量 */
   reads: number;
   /** 点赞状态 */
@@ -36,6 +34,12 @@ export interface Article {
   likes: number;
   /** 分享数量 */
   shares: number;
+  /** 是否收藏 */
+  bookmark: boolean;
+  /** 是否可以打赏 */
+  reward: boolean;
+  /** 推荐文章列表 */
+  articles?: Article[];
   /** 发布时间 */
   date: string;
 }

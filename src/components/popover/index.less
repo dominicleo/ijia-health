@@ -1,0 +1,211 @@
+@color-text-title: #242424;
+@corner-radius-md: 4px;
+@font-size-subtitle: 15px;
+@color-fill-grey-inverse: #fff;
+@color-product-mask: rgba(#000, 0.5);
+
+@prefixCls: rm-popover;
+
+.@{prefixCls} {
+  position: relative;
+
+  &-mask {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+    background-color: @color-product-mask;
+    background-color: var(--rm-mask-backgroundColor, @color-product-mask);
+  }
+
+  &-content {
+    position: absolute;
+    z-index: 100;
+    color: @color-text-title;
+    color: var(--rm-popover-font-color, @color-text-title);
+    font-size: @font-size-subtitle;
+    font-size: var(--rm-popover-font-size, @font-size-subtitle);
+    border-radius: @corner-radius-md;
+    border-radius: var(--rm-popover-border-radius, @corner-radius-md);
+  }
+
+  &-inner {
+    position: relative;
+    overflow: hidden;
+    // color: #000;
+    background-color: @color-fill-grey-inverse;
+    background-color: var(--rm-popover-bg-color, @color-fill-grey-inverse);
+    border-radius: @corner-radius-md;
+    border-radius: var(--rm-popover-border-radius, @corner-radius-md);
+  }
+
+  /* arrow style start */
+  &-arrow {
+    position: absolute;
+    z-index: 0;
+    width: 7px;
+    height: 7px;
+    background-color: @color-fill-grey-inverse;
+    background-color: var(--rm-popover-arrow-color, @color-fill-grey-inverse);
+
+    /* box-shadow: 0 0 2px rgba(0, 0, 0, 0.21); */
+  }
+
+  &-placement {
+    /* popover position: top */
+    &-top {
+      top: -7px;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      .@{prefixCls}-arrow {
+        left: 50%;
+        transform: translate(-50%, 50%) rotate(45deg);
+      }
+    }
+    &-topLeft {
+      top: -7px;
+      left: 0;
+      transform: translate(0, -100%);
+      .@{prefixCls}-arrow {
+        left: 16px;
+      }
+    }
+    &-topRight {
+      top: -7px;
+      right: 0;
+      transform: translate(0, -100%);
+      .@{prefixCls}-arrow {
+        right: 16px;
+      }
+    }
+
+    /* popover position: right */
+    &-right {
+      top: 50%;
+      right: -7px;
+      transform: translate(100%, -50%);
+      .@{prefixCls}-arrow {
+        top: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+    &-rightTop {
+      top: 0;
+      right: -7px;
+      transform: translateX(100%);
+      .@{prefixCls}-arrow {
+        top: 16px;
+      }
+    }
+    &-rightBottom {
+      right: -7px;
+      bottom: 0;
+      transform: translateX(100%);
+      .@{prefixCls}-arrow {
+        bottom: 16px;
+      }
+    }
+
+    /* popover position: bottom */
+    &-bottom {
+      bottom: -7px;
+      left: 50%;
+      transform: translate(-50%, 100%);
+      .@{prefixCls}-arrow {
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+      }
+    }
+    &-bottomRight {
+      right: 0;
+      bottom: -7px;
+      transform: translateY(100%);
+      .@{prefixCls}-arrow {
+        right: 16px;
+      }
+    }
+    &-bottomLeft {
+      bottom: -7px;
+      left: 0;
+      transform: translateY(100%);
+      .@{prefixCls}-arrow {
+        left: 16px;
+      }
+    }
+
+    /* popover position: left */
+    &-left {
+      top: 50%;
+      left: -7px;
+      transform: translate(-100%, -50%);
+
+      .@{prefixCls}-arrow {
+        top: 50%;
+        transform: translate(50%, -50%) rotate(45deg);
+      }
+    }
+    &-leftTop {
+      top: 0;
+      left: -7px;
+      transform: translateX(-100%);
+      .@{prefixCls}-arrow {
+        top: 16px;
+      }
+    }
+    &-leftBottom {
+      bottom: 0;
+      left: -7px;
+      transform: translateX(-100%);
+      .@{prefixCls}-arrow {
+        bottom: 16px;
+      }
+    }
+
+    /* arrow position: top */
+    &-top,
+    &-topLeft,
+    &-topRight {
+      .@{prefixCls}-arrow {
+        bottom: 0;
+        transform: translateY(50%) rotate(45deg);
+      }
+    }
+
+    /* arrow position: right */
+    &-right,
+    &-rightTop,
+    &-rightBottom {
+      .@{prefixCls}-arrow {
+        left: 0;
+        transform: translateX(-50%) rotate(45deg);
+      }
+    }
+
+    /* arrow position: bottom */
+    &-bottom,
+    &-bottomLeft,
+    &-bottomRight {
+      .@{prefixCls}-arrow {
+        top: 0;
+        transform: translateY(-50%) rotate(45deg);
+      }
+    }
+
+    /* arrow position: left */
+    &-left,
+    &-leftTop,
+    &-leftBottom {
+      .@{prefixCls}-arrow {
+        right: 0;
+        transform: translateX(50%) rotate(45deg);
+      }
+    }
+  }
+
+  /* arrow style end */
+  .border-true {
+    border: 1px solid #ddd;
+  }
+}

@@ -85,13 +85,19 @@
         {
           "name": "文章",
           "pathName": "pages/article/index",
-          "query": "",
+          "query": "articleId=211",
           "scene": null
         },
         {
           "name": "文章列表页",
           "pathName": "pages/article/list/index",
           "query": "categoryId=0",
+          "scene": null
+        },
+        {
+          "name": "文章列表页（健康科普）",
+          "pathName": "pages/article/list/index",
+          "query": "type=special",
           "scene": null
         }
       ]

@@ -1,0 +1,31 @@
+.bookmark {
+  position: relative;
+  display: flex;
+  align-items: center;
+  transition: 0.2s ease-out 0s;
+  &::before {
+    display: block;
+    width: 16px;
+    height: 16px;
+    margin-right: 4px;
+    background: url('./images/icon-star.svg') center no-repeat;
+    background-size: contain;
+    transition: 0.2s ease-out 0s;
+    content: '';
+  }
+  &::after {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    bottom: -10px;
+    left: -10px;
+    content: '';
+  }
+
+  &.active {
+    color: #b3b3b3;
+    &::before {
+      background-image: url('./images/icon-star-active.svg');
+    }
+  }
+}

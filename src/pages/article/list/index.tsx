@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { useQuery } from 'remax';
-import { areEqual, FixedSizeList, VariableSizeList } from 'remax-virtual-list';
 import { unstable_batchedUpdates, usePageInstance } from 'remax/runtime';
 import {
   createIntersectionObserver,
@@ -20,28 +19,22 @@ import {
 import ArticleItem from '@/components/article-item';
 import { ARTICLE_SEARCH_PLACEHOLDER } from '@/constants/message';
 import PAGE from '@/constants/page';
-import { useRequest, useShareMessage, useUpdateEffect, useVirtualList } from '@/hooks';
-import useDebounceFn from '@/hooks/useDebounceFn';
+import { useRequest, useShareMessage, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
-import useThrottleFn from '@/hooks/useThrottleFn';
 import { ArticleService } from '@/services';
 import {
   Article,
   ArticleCategory,
   ArticleGetListParams,
-  ArticleList,
+  ARTICLE_TYPE,
 } from '@/services/article/index.types';
 import { isArray, isDefine } from '@/utils';
 import history, { createURL } from '@/utils/history';
 import Loading from '@vant/weapp/lib/loading';
-import Divider from '@vant/weapp/lib/Divider';
 import Skeleton from '@vant/weapp/lib/skeleton';
-import Tab from '@vant/weapp/lib/tab';
-import Tabs from '@vant/weapp/lib/tabs';
-
-import s from './index.less';
 import Empty from '@/components/empty';
-import fetch from '@/utils/fetch';
+import s from './index.less';
+import Popover from '@/components/popover';
 
 interface HeaderProps {
   className?: string;
@@ -105,8 +98,9 @@ const Header: React.FC<HeaderProps> = ({
 
 const ArticleItemComponent: React.FC<{
   data: Article;
-}> = React.memo(({ style, data }) => {
-  const { id, title, picture, category, doctor, date, like, likes, shares } = data;
+  showType?: boolean;
+}> = ({ data, showType }) => {
+  const { id, title, picture, category, doctor, date, like, likes, shares, type } = data;
 
   return (
     <ArticleItem
@@ -120,9 +114,10 @@ const ArticleItemComponent: React.FC<{
       likes={likes}
       shares={shares}
       onClick={() => history.push(PAGE.ARTICLE, { articleId: id })}
+      {...(showType ? { type } : {})}
     />
   );
-}, areEqual);
+};
 
 const ChunkList: React.FC<{ chunkId: string; observeHeight?: number }> = React.memo(
   ({ chunkId, observeHeight, children }) => {
@@ -149,6 +144,9 @@ const ChunkList: React.FC<{ chunkId: string; observeHeight?: number }> = React.m
 
     React.useEffect(() => {
       nextTick(init);
+      return () => {
+        observer.current && observer.current.disconnect();
+      };
     }, []);
 
     return (
@@ -163,7 +161,9 @@ ChunkList.defaultProps = {
   observeHeight: 156 * 3,
 };
 
-export default () => {
+const CUSTOM_PAGE_SIZE = 6;
+
+const CustomList = () => {
   const query = useQuery();
   const [active, setActive] = React.useState<number>(0);
   const [loaded, setLoaded] = React.useState(false);
@@ -178,7 +178,7 @@ export default () => {
       const { categories: cs = [], list, pagination } = await ArticleService.getList({
         ...params,
         keyword,
-        size: 6,
+        size: CUSTOM_PAGE_SIZE,
       });
 
       const id = params.categoryId - 0;
@@ -188,26 +188,24 @@ export default () => {
       state[id] = {
         ...STATE,
         keyword,
-        completed: pagination.current * pagination.pageSize >= pagination.total,
+        completed: pagination.current * CUSTOM_PAGE_SIZE >= pagination.total,
         loaded: true,
       };
 
-      nextTick(() => {
-        unstable_batchedUpdates(() => {
-          setState(state);
-          setCategories(cs);
+      unstable_batchedUpdates(() => {
+        setState(state);
+        setCategories(cs);
 
-          const ARTICLES = articles[id];
-          if (pagination.current === 1) {
-            setArticles({ [id]: list && list.length ? [list] : [] });
-          } else {
-            list && list.length && setArticles({ [id]: [...ARTICLES, list] });
-          }
+        const ARTICLES = articles[id] || [];
+        if (pagination.current === 1) {
+          setArticles({ [id]: list && list.length ? [list] : [] });
+        } else {
+          list && list.length && setArticles({ [id]: [...ARTICLES, list] });
+        }
 
-          if (!loaded) {
-            setLoaded(true);
-          }
-        });
+        if (!loaded) {
+          setLoaded(true);
+        }
       });
     },
     { manual: true, fetchKey: (params = {}) => params.categoryId! },
@@ -243,7 +241,7 @@ export default () => {
     });
 
     const category = categories[index];
-    const article = state[active];
+    const article = state[category?.id];
 
     if (category && (!article || (article && article.keyword !== keyword))) {
       nextTick(() => {
@@ -264,7 +262,7 @@ export default () => {
       if (!state[id]?.loaded && fetches[id]?.loading) return;
       run({ categoryId: id, page: 1 }).finally(() => setRefresherTriggereds({ [id]: false }));
     },
-    [fetches, refresherTriggereds],
+    [state, fetches, refresherTriggereds],
   );
   const onRefresherRestore = React.useCallback(
     (id: number) => {
@@ -276,7 +274,7 @@ export default () => {
   const onScrollToLower = React.useCallback(
     (id: number) => {
       const fetch = fetches[id];
-      if (fetch?.loading) return;
+      if (fetch?.loading || state[id]?.completed) return;
 
       const [params = {}] = fetch?.params || [];
       const page = params.page || 1;
@@ -285,7 +283,7 @@ export default () => {
         run({ categoryId: id, page: page + 1 });
       });
     },
-    [fetches],
+    [state, fetches],
   );
 
   let content;
@@ -293,18 +291,6 @@ export default () => {
   if (loaded) {
     content = (
       <>
-        {/* <Tabs
-          customClass={s.tabs}
-          active={active}
-          ellipsis={false}
-          lineWidth={12}
-          lineHeight={3}
-          bindclick={({ detail }) => onChangeActive(detail.index)}
-        >
-          {categories.map(({ id, name }) => (
-            <Tab key={`tab_${id}`} title={name} />
-          ))}
-        </Tabs> */}
         <View className={s.tabs}>
           {categories.map(({ id, name }, index) => (
             <View
@@ -322,7 +308,7 @@ export default () => {
           onChange={({ detail }) => detail.source === 'touch' && onChangeActive(detail.current)}
         >
           {categories.map(({ id }) => (
-            <SwiperItem key={`swiper_${id}`} skipHiddenItemLayout>
+            <SwiperItem key={`swiper_${id}`}>
               {state[id]?.loaded ? (
                 <ScrollView
                   className={s.container}
@@ -400,4 +386,225 @@ export default () => {
       {content}
     </View>
   );
+};
+
+const SPECIAL_PAGE_SIZE = 10;
+
+const FILTERS = [
+  {
+    label: '全部',
+    icon: 'all',
+  },
+  {
+    value: 'COMMON',
+    label: '文章',
+    icon: 'article',
+  },
+  {
+    value: 'PAPER',
+    label: '论文',
+    icon: 'thesis',
+  },
+];
+
+const SpecialList = () => {
+  const [visible, setVisible] = React.useState(false);
+  const [type, setType] = React.useState<string | undefined>();
+  const [keyword, setKeyword] = React.useState('');
+  const [refresherTriggered, setRefresherTriggered] = React.useState(false);
+  const [submitting, setSubmitting] = React.useState(false);
+  const [articles, setArticles] = React.useState<Article[]>([]);
+
+  const { data, loading, run, params } = useRequest(
+    async (params?) => {
+      const { list, pagination } = await ArticleService.getSpecialList({
+        ...params,
+        type,
+        keyword,
+      });
+
+      setArticles(pagination.current === 1 ? list : [...articles, ...list]);
+
+      return {
+        keyword: keyword,
+        loaded: true,
+        completed: pagination.current * SPECIAL_PAGE_SIZE >= pagination.total,
+      };
+    },
+    { manual: true },
+  );
+
+  const { loaded, completed } = data || {};
+
+  React.useEffect(() => {
+    run();
+  }, []);
+
+  useUpdateEffect(() => {
+    setSubmitting(true);
+    run({ page: 1 }).finally(() => {
+      setSubmitting(false);
+    });
+  }, [keyword]);
+
+  useUpdateEffect(() => {
+    run({ page: 1 });
+  }, [type]);
+
+  const onSearch = (value: string) => {
+    setKeyword(value);
+  };
+
+  const onClear = () => {
+    setKeyword('');
+  };
+
+  const onClickFilter = (value: string | undefined) => {
+    if (value === type) {
+      return setVisible(false);
+    }
+    unstable_batchedUpdates(() => {
+      setType(value);
+      setVisible(false);
+    });
+  };
+
+  const onRefresherPulling = React.useCallback(() => {
+    if (loading || refresherTriggered) return;
+    setRefresherTriggered(true);
+  }, [loading, refresherTriggered]);
+  const onRefresherRefresh = React.useCallback(() => {
+    if (!loaded && loading) return;
+    run({ page: 1 }).finally(() => setRefresherTriggered(false));
+  }, [loaded, loading, refresherTriggered]);
+
+  const onRefresherRestore = React.useCallback(() => {
+    setRefresherTriggered(false);
+  }, [loading, refresherTriggered]);
+
+  const onScrollToLower = React.useCallback(() => {
+    if (loading || completed) return;
+    const [p = {}] = params || [];
+    const page = p.page || 1;
+    run({ page: page + 1 });
+  }, [params, loading, completed]);
+
+  let content;
+
+  if (loaded) {
+    content = (
+      <View className={s.content}>
+        <ScrollView
+          className={s.container}
+          onRefresherPulling={onRefresherPulling}
+          onRefresherRefresh={onRefresherRefresh}
+          onRefresherRestore={onRefresherRestore}
+          onScrollToLower={onScrollToLower}
+          onRefresherAbort={onRefresherRestore}
+          refresherTriggered={refresherTriggered}
+          refresherEnabled
+          scrollY
+        >
+          {isArray(articles) && articles.length > 0 ? (
+            <>
+              {articles.map((article, index) => (
+                <ArticleItemComponent key={`${index}_${article.id}`} data={article} showType />
+              ))}
+
+              <View className={s.loadable}>
+                {completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
+              </View>
+            </>
+          ) : (
+            <Empty
+              image='record'
+              description={
+                loading ? (
+                  <Loading size={14}>正在获取数据</Loading>
+                ) : data?.keyword ? (
+                  `未找到“${data?.keyword}”的相关文章`
+                ) : (
+                  '暂无文章'
+                )
+              }
+              local
+            />
+          )}
+        </ScrollView>
+      </View>
+    );
+  } else {
+    content = (
+      <View className={s.loader}>
+        <ArticleItem.Loader size={6} />
+      </View>
+    );
+  }
+
+  return (
+    <>
+      <View className={s.wrapper}>
+        <Header
+          className={s.special}
+          onSearch={onSearch}
+          onClear={onClear}
+          loading={submitting}
+          disabled={!loaded || submitting}
+        >
+          <Popover
+            visible={visible}
+            overlay={FILTERS.map(({ icon, value, label }, index) => (
+              <Popover.Item
+                key={index}
+                className={classnames({ ['selected']: value === type })}
+                onClick={() => onClickFilter(value)}
+              >
+                <View className={classnames(s.icon, s[icon])} />
+                {label}
+              </Popover.Item>
+            ))}
+            onClickMask={() => setVisible(false)}
+            mask
+          >
+            <View
+              className={classnames(s.filter, { [s.active]: visible, [s.selected]: !!type })}
+              hoverClassName='clickable-opacity'
+              hoverStayTime={0}
+              onClick={() => loaded && setVisible(true)}
+            >
+              筛选
+            </View>
+          </Popover>
+        </Header>
+        {content}
+      </View>
+    </>
+  );
+};
+
+export default () => {
+  const { type } = useQuery();
+
+  // 健康科普
+  const isSpecial = type === 'special';
+
+  React.useEffect(() => {
+    setNavigationBarTitle({ title: isSpecial ? '健康科普' : '文章' });
+  }, []);
+
+  useShareMessage((event) => {
+    const { from } = event;
+
+    if (from === 'button') {
+      const { id, title, picture } = event.target.dataset;
+      return {
+        title,
+        path: createURL(PAGE.ARTICLE, { articleId: id }),
+        imageUrl: picture,
+      };
+    }
+    return {};
+  });
+
+  return <View className={s.wrapper}>{isSpecial ? <SpecialList /> : <CustomList />}</View>;
 };

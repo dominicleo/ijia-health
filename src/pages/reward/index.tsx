@@ -27,7 +27,7 @@ interface State {
 }
 
 export default () => {
-  const { doctorId } = useQuery();
+  const { articleId } = useQuery();
 
   const timer = React.useRef<NodeJS.Timeout>();
   const [state, setState] = useSetState<State>({
@@ -55,8 +55,8 @@ export default () => {
   React.useEffect(() => clear, []);
 
   usePageEvent('onShow', () => {
-    if (!doctorId) return;
-    run(doctorId);
+    if (!articleId) return;
+    run(articleId);
   });
 
   const onClickGift = (index: number) => {
@@ -103,7 +103,7 @@ export default () => {
     if (submitting) return;
 
     submit({
-      doctorId,
+      articleId,
       count: isSelectedCustom ? state.customAmount : gifts[state.selectedIndex].count,
       goodsId: 10,
     });

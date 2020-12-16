@@ -81,6 +81,8 @@ declare const Button: ComponentType<{
   binderror?: (event: GenericEvent) => any;
   /** 在打开授权设置页后回调 */
   bindopensetting?: (event: GenericEvent) => any;
+  /** 打开 APP 成功的回调 */
+  bindlaunchapp?: (event: GenericEvent) => any;
 }>;
 
 export default Button;

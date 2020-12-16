@@ -1,0 +1,17 @@
+@import '~@/components/style/index.less';
+
+.launch {
+  width: 54px;
+  font-weight: 500;
+  opacity: 0.9;
+
+  --button-default-font-size: 14px;
+  --button-default-height: 52px;
+  --button-border-radius: 52px;
+
+  :global {
+    .van-button {
+      box-shadow: 0 2px 8px @primary-color;
+    }
+  }
+}

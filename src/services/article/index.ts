@@ -3,10 +3,8 @@ import fetch from '@/utils/fetch';
 import ArticleMapper from './index.mapper';
 import { ArticleGetListParams } from './index.types';
 
-export const query = async (doctorId: string) => {
-  const response = await fetch.post('/api/api/reward/getRewardInfo', null, {
-    params: { doctorId },
-  });
+export const query = async (articleId: number | string) => {
+  const response = await fetch.get(`/api/article/${articleId}`);
   return ArticleMapper.query(response.data);
 };
 
@@ -15,19 +13,19 @@ export const homepage = async () => {
   return ArticleMapper.homepage(response.data);
 };
 
-export const read = (id: number | string) => {
-  return fetch.post(`/api/article/${id}/reads`);
+export const read = (articleId: number | string) => {
+  return fetch.post(`/api/article/${articleId}/reads`);
 };
 
-export const like = (id: number | string) => {
-  return fetch.post(`/api/article/${id}/likes`);
+export const like = (articleId: number | string) => {
+  return fetch.post(`/api/article/${articleId}/likes`);
 };
 
-export const share = (id: number | string) => {
-  return fetch.post(`/api/article/${id}/shares`);
+export const share = (articleId: number | string) => {
+  return fetch.post(`/api/article/${articleId}/shares`);
 };
-export const bookmark = (id: number | string) => {
-  return fetch.post(`/api/article/${id}/bookmark`);
+export const bookmark = (articleId: number | string) => {
+  return fetch.post(`/api/article/${articleId}/bookmark`);
 };
 
 const DEFAULT_PARAMS = { page: 1, size: 10 };
