@@ -1,15 +1,16 @@
 import * as React from 'react';
-import { getLaunchOptionsSync, showToast, View } from 'remax/wechat';
+import { getLaunchOptionsSync, View } from 'remax/wechat';
 
 import { APP_ID } from '@/constants/common';
 import PAGE from '@/constants/page';
 import { LINEAR_GRADIENT_PRIMARY } from '@/constants/theme';
-import { useQuery } from '@/hooks';
 import { isPlainObject } from '@/utils';
 import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 
 import s from './index.less';
+import Toast from '@/components/toast';
+import { useQuery } from 'remax';
 
 const LaunchApp: React.FC = React.memo(() => {
   const { articleId } = useQuery<{ articleId: string }>();
@@ -19,7 +20,7 @@ const LaunchApp: React.FC = React.memo(() => {
     (scene === 1069 && isPlainObject(referrerInfo) && referrerInfo.appId === APP_ID);
 
   const onLaunchApp = () => {
-    showToast({ title: '请在 APP 中查看' });
+    Toast('请在 APP 中查看');
   };
 
   const onLaunchAppError = () => {

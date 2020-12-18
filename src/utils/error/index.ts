@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { showModal, showToast } from 'remax/wechat';
+import { hideLoading, hideToast, showModal, showToast } from 'remax/wechat';
 
 import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
@@ -11,15 +9,18 @@ import AuthorizeError from './authorize';
 import NetworkError from './network';
 import ServerError from './server';
 import ServiceError from './service';
+import { noop } from '..';
 
-export const handleError = (error: Error) => {
+export const handleError = (error: Error | string) => {
+  if (/^useRequest has caught the exception/.test(error as string)) return;
   Toast.clear();
+  hideLoading();
+  hideToast();
 
   if (AuthorizeError.is(error)) {
     history.push(PAGE.AUTHORIZE, { redirect: error.redirect });
     return;
   }
-
   if (ServiceError.is(error)) {
     showToast({
       icon: 'none',
@@ -29,17 +30,10 @@ export const handleError = (error: Error) => {
     });
     return;
   }
-
   if (ServerError.is(error)) {
-    showModal({
-      title: MESSAGE.SYSTEM_PROMPT,
-      content: error.message,
-      confirmText: MESSAGE.GOT_IT,
-      showCancel: false,
-    });
+    showToast({ title: error.message, icon: 'none', mask: true });
     return;
   }
-
   if (NetworkError.is(error)) {
     showModal({
       title: MESSAGE.SYSTEM_PROMPT,

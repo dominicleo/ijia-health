@@ -55,7 +55,7 @@
         {
           "name": "打赏",
           "pathName": "pages/reward/index",
-          "query": "doctorId=zgm0mk07",
+          "query": "articleId=555",
           "scene": null
         },
         {
@@ -67,7 +67,7 @@
         {
           "name": "支付收银台",
           "pathName": "pages/cashier/index",
-          "query": "orderId=20201204140844LSTAJ99156480",
+          "query": "orderId=20201218171756100011000112781312",
           "scene": null
         },
         {
@@ -85,7 +85,7 @@
         {
           "name": "文章",
           "pathName": "pages/article/index",
-          "query": "articleId=211",
+          "query": "articleId=555",
           "scene": null
         },
         {

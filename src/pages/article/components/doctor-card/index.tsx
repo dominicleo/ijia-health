@@ -11,7 +11,7 @@ import Button from '@vant/weapp/lib/button';
 
 import ArticleContext from '../context';
 import ArticleDoctor from '../doctor';
-import s from './index.less';
+import './index.less';
 
 const ArticleDoctorCard: React.FC<{ id?: string; data: Doctor }> = React.memo(({ id, data }) => {
   const { follow } = data;
@@ -44,7 +44,7 @@ const ArticleDoctorCard: React.FC<{ id?: string; data: Doctor }> = React.memo(({
   return (
     <View
       id={id}
-      className={s.doctorcard}
+      className='doctorcard'
       hoverClassName='clickable'
       hoverStayTime={0}
       onClick={() => history.push(PAGE.DOCTOR, { doctorId: data.id })}

@@ -2,7 +2,7 @@ import './index.less';
 
 import classnames from 'classnames';
 import * as React from 'react';
-import { View } from 'remax/wechat';
+import { View, TouchEvent } from 'remax/wechat';
 
 const PRESETS = new Map<string, string[]>([
   ['default', ['https://m.ijia120.com/miniprograms/page-empty.png', '']],
@@ -25,9 +25,17 @@ interface EmptyProps {
   /** 图片下方的描述文字 */
   description?: React.ReactNode;
   local?: boolean;
+  onClick?: (event: TouchEvent) => void;
 }
 
-const Empty: React.FC<EmptyProps> = ({ prefixCls, className, local, children, ...props }) => {
+const Empty: React.FC<EmptyProps> = ({
+  prefixCls,
+  className,
+  local,
+  onClick,
+  children,
+  ...props
+}) => {
   const preset = (props.image && PRESETS.get(props.image)) || [];
   const [image, presetDescription] = preset;
   const description = props.description || presetDescription;
@@ -40,6 +48,7 @@ const Empty: React.FC<EmptyProps> = ({ prefixCls, className, local, children, ..
         [`${prefixCls}-local`]: local,
         [`${className}`]: !!className,
       })}
+      onClick={onClick}
     >
       <View className={`${prefixCls}-picture`} style={pictureStyle} />
       {!!description && <View className={`${prefixCls}-description`}>{description}</View>}

@@ -41,7 +41,8 @@ const App: React.FC = (props) => {
   return (
     <UseRequestProvider
       value={{
-        throwOnError: true,
+        // throwOnError: true,
+        onError: handleError,
       }}
     >
       {props.children as React.ReactElement}

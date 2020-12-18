@@ -4,8 +4,4 @@ export default class CustomError extends Error {
     super(message);
     this.message = message || this.name;
   }
-
-  static is<T extends typeof CustomError>(this: T, error: any): error is InstanceType<T> {
-    return error instanceof this;
-  }
 }

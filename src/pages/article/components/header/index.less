@@ -19,13 +19,24 @@
   position: relative;
   z-index: 10;
   flex-shrink: 0;
-  box-sizing: 0 0 8px rgba(#000, 0.4);
-  overflow: hidden;
 
   --nav-bar-height: @height;
   --nav-bar-title-font-size: 17px;
 
+  &::before {
+    position: absolute;
+    right: 0;
+    bottom: -8px;
+    left: 0;
+    height: 8px;
+    background: linear-gradient(180deg, rgba(#000, 0.04) 0%, rgba(#000, 0) 100%);
+    content: '';
+  }
+
   :global {
+    .van-nav-bar {
+      overflow: hidden;
+    }
     .van-nav-bar__title {
       max-width: initial;
       margin: 0 52px;

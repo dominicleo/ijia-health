@@ -16,7 +16,7 @@ import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
 import PAGE from '@/constants/page';
 import { LINEAR_GRADIENT_PRIMARY } from '@/constants/theme';
-import { useQuery, useRequest, useUpdateEffect } from '@/hooks';
+import { useRequest, useUpdateEffect } from '@/hooks';
 import { CashierService, SubscribeService } from '@/services';
 import { CashierSubmitParams } from '@/services/cashier/index.types';
 import { first, isArray, isNativeCancel, noop } from '@/utils';
@@ -26,13 +26,15 @@ import Checkbox from '@vant/weapp/lib/checkbox';
 import CountDown from '@vant/weapp/lib/count-down';
 
 import s from './index.less';
+import { useQuery } from 'remax';
+import Empty from '@/components/empty';
 
 export default () => {
   const { orderId, redirect, subscribeKey } = useQuery();
   const code = React.useRef<string | null>();
   const [channel, setChannel] = React.useState<string | null>();
   // 获取支付信息
-  const { data, run } = useRequest(
+  const { data, loading, run } = useRequest(
     async (id) => {
       const response = await CashierService.query(id);
       return { ...response, loaded: true };
@@ -65,11 +67,9 @@ export default () => {
   const handleSubscribeMessage = async () => {
     if (!templateIds) return;
 
-    return new Promise((resolve) =>
-      requestSubscribeMessage({
-        tmplIds: templateIds,
-      }).finally(resolve),
-    );
+    return requestSubscribeMessage({
+      tmplIds: templateIds,
+    }).catch(noop);
   };
 
   // 获取微信支付参数
@@ -113,6 +113,10 @@ export default () => {
 
   const getAmountText = (options: currency.Options) => currency(amount / 100, options).format();
 
+  const onFinish = () => {
+    Toast({ message: '支付订单已超时', onClose: () => history.back() });
+  };
+
   const onSubmit = async () => {
     if (!channel) {
       Toast('请选择支付方式');
@@ -132,6 +136,62 @@ export default () => {
     history.replace(PAGE.CASHIER_RESULT, { id, redirect });
   };
 
+  const onContactError = (event: any) => {
+    Toast(event.detail.errMsg);
+  };
+
+  if (error) {
+    return (
+      <Empty
+        image='record'
+        description={
+          <>
+            数据获取失败<View>{error.message}</View>
+          </>
+        }
+      >
+        <Button
+          type='primary'
+          size='small'
+          bindclick={run}
+          loading={loading}
+          disabled={loading}
+          round
+        >
+          重新加载
+        </Button>
+      </Empty>
+    );
+  }
+
+  let content;
+
+  if (loaded) {
+    content =
+      isArray(channels) && channels.length > 0 ? (
+        channels.map(({ code, name, icon }) => (
+          <View key={code} className={s.channel} onClick={() => setChannel(code)}>
+            <View className={s.icon} style={icon ? { backgroundImage: `url(${icon})` } : {}} />
+            <View className={s.name}>{name}</View>
+            <Checkbox iconSize={22} value={code === channel} />
+          </View>
+        ))
+      ) : (
+        <Empty description='支付渠道为空' local>
+          <Button type='primary' size='small' openType='contact' binderror={onContactError} round>
+            联系客服
+          </Button>
+        </Empty>
+      );
+  } else {
+    content = Array.from(Array(3).keys()).map((_, index) => (
+      <View key={`cashier_channel_item_${index}`} className={s.channel}>
+        <View className={s.icon} />
+        <View className={s.name} />
+      </View>
+    ));
+  }
+
   return (
     <View className={classnames(s.wrapper, { [s.laoder]: !loaded })}>
       <Toast.Component />
@@ -142,26 +202,10 @@ export default () => {
         </View>
         <View className={s.countdown}>
           支付剩余时间
-          <CountDown className={s.time} time={time} />
+          <CountDown className={s.time} time={time} finish={onFinish} />
         </View>
       </View>
-      <View className={s.channels}>
-        {loaded
-          ? isArray(channels) &&
-            channels.map(({ code, name, icon }) => (
-              <View key={code} className={s.channel} onClick={() => setChannel(code)}>
-                <View className={s.icon} style={icon ? { backgroundImage: `url(${icon})` } : {}} />
-                <View className={s.name}>{name}</View>
-                <Checkbox iconSize={22} value={code === channel} />
-              </View>
-            ))
-          : Array.from(Array(3).keys()).map((_, index) => (
-              <View key={`cashier_channel_item_${index}`} className={s.channel}>
-                <View className={s.icon} />
-                <View className={s.name} />
-              </View>
-            ))}
-      </View>
+      <View className={s.channels}>{content}</View>
 
       <View className={s.submit}>
         <Button
@@ -170,7 +214,7 @@ export default () => {
           size='large'
           bindclick={onSubmit}
           loading={submitting}
-          disabled={!loaded || submitting}
+          disabled={!loaded || submitting || !channel}
           round
           block
         >

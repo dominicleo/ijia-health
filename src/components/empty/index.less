@@ -4,6 +4,7 @@
 @empty-title-font-size: 20px;
 @empty-title-max-width: 48px;
 @empty-brief-min-margin: 96px;
+@empty-picture-margin-top: calc(50vh - @empty-lg-pic-size);
 
 .rm-empty {
   display: flex;
@@ -15,7 +16,8 @@
   &-picture {
     width: 180px;
     height: 120px;
-    margin: calc(50vh - @empty-lg-pic-size) auto 0;
+    margin: @empty-picture-margin-top auto 0;
+    margin: var(--rm-empty-picture-margin-top, @empty-picture-margin-top) auto 0;
     background: center bottom no-repeat;
     background-size: contain;
   }

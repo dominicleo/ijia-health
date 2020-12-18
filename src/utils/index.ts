@@ -17,16 +17,28 @@ export const hasOwnProperty = (source: object, key: string) =>
 
 /** 微信小程序取消操作 */
 export const isNativeCancel = (
-  event: GenericEvent & WechatMiniprogram.AccessFailCallbackResult,
+  event: GenericEvent | WechatMiniprogram.AccessFailCallbackResult,
 ): boolean => {
-  return isPlainObject(event) && (event.errMsg || event.detail?.errMsg).includes('cancel');
+  return (
+    isPlainObject(event) &&
+    (
+      (event as WechatMiniprogram.AccessFailCallbackResult).errMsg ||
+      (event as GenericEvent).detail?.errMsg
+    ).includes('cancel')
+  );
 };
 
 /** 微信小程序拒绝操作 */
 export const isNativeDeny = (
-  event: GenericEvent & WechatMiniprogram.AccessFailCallbackResult,
+  event: GenericEvent | WechatMiniprogram.AccessFailCallbackResult,
 ): boolean => {
-  return isPlainObject(event) && (event.errMsg || event.detail?.errMsg).includes('deny');
+  return (
+    isPlainObject(event) &&
+    (
+      (event as WechatMiniprogram.AccessFailCallbackResult).errMsg ||
+      (event as GenericEvent).detail?.errMsg
+    ).includes('deny')
+  );
 };
 
 /** 获取 array 中的第一个元素 */

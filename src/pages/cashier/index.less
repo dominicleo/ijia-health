@@ -47,6 +47,12 @@ page {
 
   --count-down-text-color: @primary-color;
   --count-down-line-height: normal;
+
+  :global {
+    .van-count-down {
+      margin-left: 4px;
+    }
+  }
 }
 
 .time {
@@ -58,6 +64,9 @@ page {
   padding: 3px 0;
   background-color: #fff;
   border-radius: 8px;
+
+  --rm-empty-margin-vertical: 24px;
+  --rm-empty-picture-margin-top: 24px;
 }
 
 .channel {

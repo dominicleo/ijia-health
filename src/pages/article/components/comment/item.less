@@ -1,0 +1,54 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+.comment {
+  display: flex;
+  padding: 20px 16px 0;
+  &:not(:last-child) .details {
+    .hairline('bottom');
+  }
+}
+
+.avatar {
+  display: block;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  margin-right: 12px;
+  background-color: @skeleton-color;
+  border-radius: 32px;
+}
+
+.details {
+  padding-bottom: 16px;
+
+  position: relative;
+  flex: 1;
+}
+
+.name {
+  color: #666;
+  font-size: 13px;
+}
+
+.content {
+  margin-top: 4px;
+  line-height: 20px;
+}
+
+.date {
+  margin-top: 12px;
+  color: #b2b3b2;
+  font-size: 11px;
+}
+
+.loader {
+  --skeleton-padding: 0;
+
+  :global {
+    .van-skeleton__avatar {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}

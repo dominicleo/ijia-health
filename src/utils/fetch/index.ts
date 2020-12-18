@@ -35,7 +35,7 @@ fetch.interceptors.response.use(
     const { code, message, data = {} } = response?.data || {};
 
     if (code !== 200) {
-      return Promise.reject(new ServiceError(message));
+      return Promise.reject(new ServiceError(message, code));
     }
 
     return { code, message, data };

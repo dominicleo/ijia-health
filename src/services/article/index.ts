@@ -1,9 +1,9 @@
 import fetch from '@/utils/fetch';
 
 import ArticleMapper from './index.mapper';
-import { ArticleGetListParams } from './index.types';
+import { ArticleGetListParams, ArticleId } from './index.types';
 
-export const query = async (articleId: number | string) => {
+export const query = async (articleId: ArticleId) => {
   const response = await fetch.get(`/api/article/${articleId}`);
   return ArticleMapper.query(response.data);
 };
@@ -13,26 +13,26 @@ export const homepage = async () => {
   return ArticleMapper.homepage(response.data);
 };
 
-export const read = (articleId: number | string) => {
+export const read = (articleId: ArticleId) => {
   return fetch.post(`/api/article/${articleId}/reads`);
 };
 
-export const like = (articleId: number | string) => {
+export const like = (articleId: ArticleId) => {
   return fetch.post(`/api/article/${articleId}/likes`);
 };
 
-export const share = (articleId: number | string) => {
+export const share = (articleId: ArticleId) => {
   return fetch.post(`/api/article/${articleId}/shares`);
 };
-export const bookmark = (articleId: number | string) => {
+export const bookmark = (articleId: ArticleId) => {
   return fetch.post(`/api/article/${articleId}/bookmark`);
 };
 
-const DEFAULT_PARAMS = { page: 1, size: 10 };
+const GET_LIST_DEFAULT_PARAMS = { page: 1, size: 10 };
 
 export const getList = async (params?: ArticleGetListParams) => {
   const response = await fetch.get(`/api/article/list/category`, {
-    params: Object.assign(DEFAULT_PARAMS, params),
+    params: { ...GET_LIST_DEFAULT_PARAMS, ...params },
   });
 
   return ArticleMapper.getList(response.data);
@@ -40,7 +40,7 @@ export const getList = async (params?: ArticleGetListParams) => {
 
 export const getSpecialList = async (params?: ArticleGetListParams) => {
   const response = await fetch.get(`/api/article/special`, {
-    params: Object.assign(DEFAULT_PARAMS, params),
+    params: { ...GET_LIST_DEFAULT_PARAMS, ...params },
   });
 
   return ArticleMapper.getList(response.data);

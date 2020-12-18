@@ -5,13 +5,13 @@ import { GenericEvent, login, removeStorage, setStorage, View } from 'remax/wech
 import Toast from '@/components/toast';
 import { COMMON, STORAGE, THEME } from '@/constants';
 import { useRequest, useUpdateEffect } from '@/hooks';
-import useQuery from '@/hooks/useQuery';
 import { UserService } from '@/services';
 import { isNativeDeny, noop } from '@/utils';
 import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 
 import s from './index.less';
+import { useQuery } from 'remax';
 
 const AUTHORIZE_ERROR_TEXT = '授权信息获取失败，请重试';
 
@@ -29,7 +29,7 @@ export default () => {
           message: '授权登录成功',
           onClose: () => {
             if (redirect) {
-              history.replace(redirect);
+              history.replace(redirect).catch(() => history.back());
               return;
             }
             history.back();

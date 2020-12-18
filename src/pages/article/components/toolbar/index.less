@@ -1,0 +1,91 @@
+@import '~@/components/style/index.less';
+
+.overlay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.toolbar {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: -100px;
+    left: 0;
+    height: 100px;
+    background-color: #fff;
+    content: '';
+  }
+}
+
+.content {
+  padding: 0 16px 20px;
+}
+
+.form {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  padding-right: 16px;
+  background-color: #fff;
+  &::before {
+    position: absolute;
+    top: -8px;
+    right: 0;
+    left: 0;
+    height: 8px;
+    background: linear-gradient(180deg, rgba(#000, 0) 0%, rgba(#000, 0.04) 100%);
+    content: '';
+  }
+
+  :global {
+    .safe-area {
+      width: 100%;
+    }
+  }
+}
+
+.value {
+  flex: 1;
+
+  --cell-vertical-padding: 12px 0;
+  --cell-horizontal-padding: 12px 16px;
+
+  :global {
+    textarea {
+      max-height: 70px;
+    }
+  }
+}
+
+.submit {
+  margin-left: 4px;
+
+  --button-small-min-width: 54px;
+  --button-small-height: 24px;
+}
+
+.placeholder {
+  :global {
+    .van-field {
+      pointer-events: none;
+    }
+  }
+}

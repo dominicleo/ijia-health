@@ -30,7 +30,6 @@ declare const Popup: ComponentType<{
   safeAreaInsetBottom?: boolean;
   /** (default: false) 是否留出顶部安全距离（状态栏高度） */
   safeAreaInsetTop?: boolean;
-
   /** 关闭弹出层时触发 */
   bindclose?: (event: GenericEvent) => any;
   /** 点击遮罩层时触发 */

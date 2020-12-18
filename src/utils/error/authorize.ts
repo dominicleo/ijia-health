@@ -7,4 +7,8 @@ export default class AuthorizeError extends CustomError {
     super(message);
     this.redirect = redirect;
   }
+
+  static is(error: any): error is AuthorizeError {
+    return error instanceof this;
+  }
 }

@@ -1,11 +1,11 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { usePageEvent } from 'remax/runtime';
-import { setClipboardData, showModal, View } from 'remax/wechat';
+import { showModal, View } from 'remax/wechat';
 
 import PAGE from '@/constants/page';
 import { LINEAR_GRADIENT_PRIMARY } from '@/constants/theme';
-import { useQuery, useRequest } from '@/hooks';
+import { useRequest } from '@/hooks';
 import { CashierService } from '@/services';
 import { CASHIER_ORDER_STATUS, CASHIER_STATUS } from '@/services/cashier/index.types.d.ts';
 import date from '@/utils/date';
@@ -13,6 +13,7 @@ import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 
 import s from './index.less';
+import { useQuery } from 'remax';
 
 const CASHIER_STATUS_TEXT = {
   [CASHIER_STATUS.CANCELED]: '交易关闭',

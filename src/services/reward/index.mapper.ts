@@ -30,8 +30,17 @@ function query(source = {}): RewardQuery {
   return mapper.execute(source);
 }
 
+function submit(source = {}): { orderId: string } {
+  const mapper = createMapper();
+
+  mapper.map('payOrderNo').to('orderId');
+
+  return mapper.execute(source);
+}
+
 const RewardMapper = {
   query,
+  submit,
 };
 
 export default RewardMapper;

@@ -1,30 +1,31 @@
-import { Article } from '@/services/article/index.types';
-import * as React from 'react';
-import { hideLoading, nextTick, showLoading, showToast, View } from 'remax/wechat';
 import classnames from 'classnames';
+import * as React from 'react';
+import { unstable_batchedUpdates } from 'remax/runtime';
+import { nextTick, View } from 'remax/wechat';
 
-import s from './index.less';
+import Toast from '@/components/toast';
+import { STORAGE } from '@/constants';
 import { useRequest, useStorageState } from '@/hooks';
 import { ArticleService } from '@/services';
-import Toast from '@/components/toast';
+import { Article, ArticleId } from '@/services/article/index.types';
+
 import ArticleContext from '../context';
-import { STORAGE } from '@/constants';
-import { unstable_batchedUpdates } from 'remax/runtime';
+import s from './index.less';
 
 interface ArticleLikeProps extends Pick<Article, 'like' | 'likes'> {
-  articleId: number | string;
+  id: ArticleId;
 }
 
-const ArticleLike: React.FC<ArticleLikeProps> = React.memo(({ articleId, like, likes }) => {
+const ArticleLike: React.FC<ArticleLikeProps> = React.memo(({ id, like, likes }) => {
   const { mutate } = React.useContext(ArticleContext);
   const [animation, setAnimation] = React.useState(false);
   const timer = React.useRef<NodeJS.Timeout>();
 
   const [, updateLikesCache] = useStorageState<number | undefined>(
-    STORAGE.ARTICLE_LIKE_CACHE_PREFIX + articleId,
+    STORAGE.ARTICLE_LIKE_CACHE_PREFIX + id,
   );
 
-  const { loading, run } = useRequest(() => ArticleService.like(articleId), {
+  const { loading, run } = useRequest(() => ArticleService.like(id), {
     manual: true,
     loadingDelay: 200,
     onSuccess() {
@@ -42,14 +43,15 @@ const ArticleLike: React.FC<ArticleLikeProps> = React.memo(({ articleId, like, l
 
   React.useEffect(() => () => timer.current && clearTimeout(timer.current), []);
 
-  const onClick = () => {
+  const onClick = async () => {
     if (loading) return;
     if (like) {
-      showToast({ title: '已点赞', icon: 'none' });
+      Toast('已点赞');
       return;
     }
-    showLoading();
-    run().finally(() => hideLoading());
+    Toast.loading({ duration: 0 });
+    await run();
+    Toast.clear();
   };
 
   return (

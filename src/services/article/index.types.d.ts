@@ -7,13 +7,15 @@ export enum ARTICLE_TYPE {
   PAPER = 'PAPER',
 }
 
+export type ArticleId = number | string;
+
 export interface Article {
   /** 文章分类信息 */
   category: ArticleCategory;
   /** 关联医生信息 */
   doctor: Doctor;
   /** 文章 ID */
-  id: number;
+  id: ArticleId;
   /** 文章类型 */
   type: ARTICLE_TYPE;
   /** 文章标题 */

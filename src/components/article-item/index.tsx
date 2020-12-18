@@ -6,22 +6,22 @@ import { usePageEvent } from 'remax/macro';
 import {
   Button,
   hideLoading,
+  Image,
   showLoading,
   showToast,
   Text,
   TouchEvent,
   View,
-  Image,
 } from 'remax/wechat';
 
 import { STORAGE } from '@/constants';
 import { useRequest, useStorageState, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
 import { ArticleService } from '@/services';
+import { ARTICLE_TYPE, ArticleId } from '@/services/article/index.types.d';
 import { getCurrentPage, isArray, isFunction } from '@/utils';
 
 import ArticleItemLoader from './loader';
-import { ARTICLE_TYPE } from '@/services/article/index.types.d';
 
 interface ArticleItemProps {
   prefixCls?: string;
@@ -30,7 +30,7 @@ interface ArticleItemProps {
   /** 根节点样式 */
   style?: React.CSSProperties;
   /** 文章 ID */
-  id: number;
+  id: ArticleId;
   /** 文章类型 */
   type?: ARTICLE_TYPE;
   /** 文章标题 */
@@ -130,7 +130,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     // @ts-ignore
     event.stopPropagation();
 
-    if (likeLoading) return;
+    if (!id || likeLoading) return;
     if (state.like) {
       showToast({ icon: 'none', title: '已点赞', mask: true });
       return;
@@ -149,7 +149,7 @@ const ArticleItem: React.FC<ArticleItemProps> & {
     // @ts-ignore
     event.stopPropagation();
 
-    if (shareLoading) return;
+    if (!id || shareLoading) return;
     await handleShare(id);
     setState({
       shares: state.shares + 1,

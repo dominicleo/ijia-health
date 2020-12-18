@@ -35,6 +35,7 @@ import Skeleton from '@vant/weapp/lib/skeleton';
 import Empty from '@/components/empty';
 import s from './index.less';
 import Popover from '@/components/popover';
+import SafeArea from '@/components/safe-area';
 
 interface HeaderProps {
   className?: string;
@@ -322,7 +323,7 @@ const CustomList = () => {
                   scrollY
                 >
                   {isArray(articles[id]) && articles[id].length > 0 ? (
-                    <>
+                    <View>
                       {articles[id].map((items, index) => (
                         <ChunkList key={`chunk_${id}_${index}`} chunkId={`${id}_${index}`}>
                           {items.map((item) => (
@@ -337,7 +338,8 @@ const CustomList = () => {
                           <Loading size={14}>正在获取数据</Loading>
                         )}
                       </View>
-                    </>
+                      <SafeArea />
+                    </View>
                   ) : (
                     <Empty
                       image='record'
@@ -514,6 +516,7 @@ const SpecialList = () => {
               <View className={s.loadable}>
                 {completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
               </View>
+              <SafeArea />
             </>
           ) : (
             <Empty

@@ -19,7 +19,7 @@ export default () => {
       <View className={s.logo} />
       <View className={s.apps} />
       <View className={s.button}>
-        <Button openType='contact' binderror={onContactError} type='primary' block>
+        <Button type='primary' openType='contact' binderror={onContactError} block>
           点击进入，回复“爱加”下载APP
         </Button>
       </View>

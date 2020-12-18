@@ -7,4 +7,8 @@ export default class ServerError extends CustomError {
     super(message);
     this.status = status;
   }
+
+  static is(error: any): error is ServerError {
+    return error instanceof this;
+  }
 }
