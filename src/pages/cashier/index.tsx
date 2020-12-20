@@ -34,7 +34,7 @@ export default () => {
   const code = React.useRef<string | null>();
   const [channel, setChannel] = React.useState<string | null>();
   // 获取支付信息
-  const { data, loading, run } = useRequest(
+  const { data, error, loading, run } = useRequest(
     async (id) => {
       const response = await CashierService.query(id);
       return { ...response, loaded: true };
@@ -75,29 +75,32 @@ export default () => {
   // 获取微信支付参数
   const handleRequestPayment = async (params: CashierSubmitParams) => {
     const response = await CashierService.submit(params);
-    await requestPayment(response.params).catch((event) => {
-      let message = event.errMsg;
-      if (isNativeCancel(event)) return;
-      if (/parameter error/i.test(message)) {
-        message = '微信支付参数错误';
-      }
-      showModal({ title: MESSAGE.SYSTEM_PROMPT, content: message, showCancel: false });
-      return Promise.reject(new Error(message));
-    });
-
-    return response;
+    return requestPayment(response.params)
+      .then(() => response)
+      .catch((event) => {
+        let message = event.errMsg;
+        if (isNativeCancel(event)) return;
+        if (/parameter error/i.test(message)) {
+          message = '微信支付参数错误';
+        }
+        showModal({ title: MESSAGE.SYSTEM_PROMPT, content: message, showCancel: false });
+        return Promise.reject(new Error(message));
+      });
   };
 
-  const { run: payment, loading: submitting, error } = useRequest(handleRequestPayment, {
-    manual: true,
-  });
+  const { run: payment, loading: submitting, error: requestPaymentError } = useRequest(
+    handleRequestPayment,
+    {
+      manual: true,
+    },
+  );
 
   const createAuthorizeCode = () => {
     login().then((response) => (code.current = response.code));
   };
 
   React.useEffect(createAuthorizeCode, []);
-  useUpdateEffect(createAuthorizeCode, [error]);
+  useUpdateEffect(createAuthorizeCode, [requestPaymentError]);
 
   usePageEvent('onShow', () => {
     if (!orderId) {
