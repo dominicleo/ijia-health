@@ -59,3 +59,11 @@ export const getCurrentPage = () => {
   const page = pages[pages.length - 1];
   return page;
 };
+
+export const JSONParse = <T = object>(value: string) => {
+  try {
+    return JSON.parse(value) as T;
+  } catch (error) {
+    return {} as T;
+  }
+};

@@ -5,3 +5,4 @@ export * as RewardService from './reward';
 export * as SubscribeService from './subscribe';
 export * as DoctorService from './doctor';
 export * as CommentService from './comment';
+export * as MessageService from './message';

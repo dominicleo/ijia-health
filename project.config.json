@@ -99,6 +99,17 @@
           "pathName": "pages/article/list/index",
           "query": "type=special",
           "scene": null
+        },
+        {
+          "name": "消息中心",
+          "pathName": "pages/message/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的",
+          "pathName": "pages/me/index",
+          "scene": null
         }
       ]
     }

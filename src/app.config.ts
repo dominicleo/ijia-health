@@ -12,8 +12,8 @@ const config: AppConfig = {
   pages: [
     'pages/index/index',
     'pages/archives/index',
-    // 'pages/message/index',
-    // 'pages/me/index',
+    'pages/message/index',
+    'pages/me/index',
     'pages/authorize/index',
   ],
   subpackages: [
@@ -36,6 +36,11 @@ const config: AppConfig = {
       name: 'cashier',
       root: 'pages/cashier',
       pages: ['index', 'result/index'],
+    },
+    {
+      name: 'im',
+      root: 'pages/im',
+      pages: ['chating/index', 'videocall/index'],
     },
   ],
   window: {

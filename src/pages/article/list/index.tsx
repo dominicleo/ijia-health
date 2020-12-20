@@ -1,15 +1,12 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { useQuery } from 'remax';
-import { unstable_batchedUpdates, usePageInstance } from 'remax/runtime';
+import { unstable_batchedUpdates } from 'remax/runtime';
 import {
-  createIntersectionObserver,
-  createSelectorQuery,
   GenericEvent,
   Input,
   nextTick,
   ScrollView,
-  ScrollViewProps,
   setNavigationBarTitle,
   Swiper,
   SwiperItem,
@@ -22,12 +19,7 @@ import PAGE from '@/constants/page';
 import { useRequest, useShareMessage, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
 import { ArticleService } from '@/services';
-import {
-  Article,
-  ArticleCategory,
-  ArticleGetListParams,
-  ARTICLE_TYPE,
-} from '@/services/article/index.types';
+import { Article, ArticleCategory } from '@/services/article/index.types';
 import { isArray, isDefine } from '@/utils';
 import history, { createURL } from '@/utils/history';
 import Loading from '@vant/weapp/lib/loading';
@@ -36,6 +28,7 @@ import Empty from '@/components/empty';
 import s from './index.less';
 import Popover from '@/components/popover';
 import SafeArea from '@/components/safe-area';
+import ChunkList from '@/components/chunk-list';
 
 interface HeaderProps {
   className?: string;
@@ -118,48 +111,6 @@ const ArticleItemComponent: React.FC<{
       {...(showType ? { type } : {})}
     />
   );
-};
-
-const ChunkList: React.FC<{ chunkId: string; observeHeight?: number }> = React.memo(
-  ({ chunkId, observeHeight, children }) => {
-    const instance = usePageInstance();
-    const observer = React.useRef(createIntersectionObserver(instance));
-    const chunkPrefix = React.useRef(Math.random().toString(36).slice(-8));
-    const [state, setState] = useSetState({ height: 0, visible: true });
-
-    const init = () => {
-      if (!observer.current) return;
-      observer.current
-        .relativeToViewport({ top: observeHeight, bottom: observeHeight })
-        .observe(
-          `#${chunkPrefix.current}_${chunkId}`,
-          ({ intersectionRatio, boundingClientRect }) => {
-            if (intersectionRatio === 0) {
-              setState({ visible: false });
-              return;
-            }
-            setState({ height: boundingClientRect.height, visible: true });
-          },
-        );
-    };
-
-    React.useEffect(() => {
-      nextTick(init);
-      return () => {
-        observer.current && observer.current.disconnect();
-      };
-    }, []);
-
-    return (
-      <View id={`${chunkPrefix.current}_${chunkId}`} style={{ minHeight: state.height + 'PX' }}>
-        {state.visible && children}
-      </View>
-    );
-  },
-);
-
-ChunkList.defaultProps = {
-  observeHeight: 156 * 3,
 };
 
 const CUSTOM_PAGE_SIZE = 6;
@@ -325,7 +276,11 @@ const CustomList = () => {
                   {isArray(articles[id]) && articles[id].length > 0 ? (
                     <View>
                       {articles[id].map((items, index) => (
-                        <ChunkList key={`chunk_${id}_${index}`} chunkId={`${id}_${index}`}>
+                        <ChunkList
+                          key={`chunk_${id}_${index}`}
+                          chunkId={`${id}_${index}`}
+                          observeHeight={156 * 3}
+                        >
                           {items.map((item) => (
                             <ArticleItemComponent key={`${index}_${item.id}`} data={item} />
                           ))}

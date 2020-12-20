@@ -41,6 +41,10 @@ enum PAGE {
   PRESCRIBE_LIST = '/pages/prescribe/order/index',
   /** 打赏 */
   REWARD = '/pages/reward/index',
+  /** 聊天室 */
+  CHATING = '/pages/im/chating/index',
+  /** 视频聊天 */
+  VIDEO_CALL = '/pages/im/videocall/index',
 }
 
 export default PAGE;

@@ -1,0 +1,52 @@
+<svg width="375" height="278" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient x1="0%" y1="22.521%" x2="100%" y2="77.479%" id="prefix__b">
+      <stop stop-color="#05A3FF" offset="0%" />
+      <stop stop-color="#1D8DF0" offset="100%" />
+    </linearGradient>
+    <linearGradient x1="0%" y1="0%" x2="100%" y2="100%" id="prefix__d">
+      <stop stop-color="#FFF" stop-opacity=".15" offset="0%" />
+      <stop stop-color="#FFF" stop-opacity=".05" offset="100%" />
+    </linearGradient>
+    <linearGradient x1="14.83%" y1="14.569%" x2="50%" y2="50%" id="prefix__g">
+      <stop stop-color="#24AFFF" offset="0%" />
+      <stop stop-color="#1B84E0" offset="100%" />
+    </linearGradient>
+    <linearGradient x1="100%" y1="0%" x2="0%" y2="100%" id="prefix__h">
+      <stop stop-color="#FFF" stop-opacity=".24" offset="0%" />
+      <stop stop-color="#FFF" stop-opacity=".06" offset="100%" />
+    </linearGradient>
+    <filter x="-15%" y="-15%" width="130%" height="130%" filterUnits="objectBoundingBox" id="prefix__e">
+      <feOffset in="SourceAlpha" result="shadowOffsetOuter1" />
+      <feGaussianBlur stdDeviation="20" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+      <feColorMatrix values="0 0 0 0 0.141176471 0 0 0 0 0.68627451 0 0 0 0 1 0 0 0 1 0" in="shadowBlurOuter1" />
+    </filter>
+    <circle id="prefix__f" cx="200" cy="200" r="200" />
+    <path id="prefix__a" d="M0 0h375v278H0z" />
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <mask id="prefix__c" fill="#fff">
+      <use xlink:href="#prefix__a" />
+    </mask>
+    <use fill="url(#prefix__b)" xlink:href="#prefix__a" />
+    <g mask="url(#prefix__c)" stroke="url(#prefix__d)" stroke-width=".5">
+      <g transform="translate(-175 70)">
+        <circle cx="200" cy="200" r="199.75" />
+        <circle cx="200" cy="200" r="175.75" />
+        <circle cx="200" cy="200" r="151.75" />
+        <circle cx="200" cy="200" r="127.75" />
+        <circle cx="200" cy="200" r="103.75" />
+      </g>
+    </g>
+    <g mask="url(#prefix__c)">
+      <g transform="translate(150 70)">
+        <use fill="#000" filter="url(#prefix__e)" xlink:href="#prefix__f" />
+        <use fill="url(#prefix__g)" xlink:href="#prefix__f" />
+        <circle stroke="url(#prefix__h)" stroke-width=".5" cx="200" cy="200" r="175.75" />
+        <circle stroke="url(#prefix__h)" stroke-width=".5" cx="200" cy="200" r="151.75" />
+        <circle stroke="url(#prefix__h)" stroke-width=".5" cx="200" cy="200" r="127.75" />
+        <circle stroke="url(#prefix__h)" stroke-width=".5" cx="200" cy="200" r="103.75" />
+      </g>
+    </g>
+  </g>
+</svg>

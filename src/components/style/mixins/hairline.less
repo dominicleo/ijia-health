@@ -33,12 +33,13 @@
   }
 }
 
-.hairline(@direction, @color: @color-divider-line) when (@direction = 'right') {
+.hairline(@direction, @color: @color-divider-line, @top: 0, @bottom: 0)
+  when
+  (@direction = 'right') {
   &::after {
-    .scale-hairline-common(@color, 0, 0, auto, auto);
+    .scale-hairline-common(@color, @top, 0, @bottom, auto);
 
     width: @hair-width;
-    height: 100%;
   }
 
   @media (min-resolution: 2dppx) {
@@ -75,12 +76,11 @@
   }
 }
 
-.hairline(@direction, @color: @color-divider-line) when (@direction = 'left') {
+.hairline(@direction, @color: @color-divider-line, @top: 0, @bottom: 0) when (@direction = 'left') {
   &::before {
-    .scale-hairline-common(@color, 0, auto, auto, 0);
+    .scale-hairline-common(@color, @top, auto, @bottom, 0);
 
     width: @hair-width;
-    height: 100%;
   }
 
   @media (min-resolution: 2dppx) {
