@@ -176,6 +176,7 @@ export default () => {
               border={false}
               bindchange={(event) => setState({ value: event.detail })}
               bindblur={() => setState({ focus: false })}
+              adjustPosition
             />
           </View>
           <Button

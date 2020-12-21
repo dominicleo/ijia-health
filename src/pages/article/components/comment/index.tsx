@@ -9,13 +9,14 @@ import Button from '@vant/weapp/lib/button';
 import Loading from '@vant/weapp/lib/loading';
 import Popup from '@vant/weapp/lib/popup';
 import * as React from 'react';
-import { View, Text, ScrollView, GenericEvent } from 'remax/wechat';
+import { View, Text, ScrollView, GenericEvent, nextTick } from 'remax/wechat';
 import ArticleContext from '../context';
 import Headline from '../headline';
 import s from './index.less';
 import ArticleCommentItem from './item';
 import ActionSheet from '@vant/weapp/lib/action-sheet';
 import Toast from '@/components/toast';
+import { MESSAGE } from '@/constants';
 
 const PREVIEW_SIZE = 3;
 
@@ -23,7 +24,12 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
   const { comment$ } = React.useContext(ArticleContext);
   const [comments, setComments] = React.useState<Comment[]>([]);
   const reportComment = React.useRef<Comment>();
-  const [visible, setVisible] = useSetState({ comments: false, actions: false, report: false });
+  const [visible, setVisible] = useSetState({
+    comments: false,
+    actions: false,
+    report: false,
+    render: false,
+  });
   const { data, error, loading, run, params } = useRequest(
     async (params?) => {
       const { list, pagination } = await CommentService.getList({ ...params, articleId: id });
@@ -82,6 +88,7 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
     return (
       <ArticleCommentItem
         key={id}
+        id={id}
         name={name}
         avatar={avatar}
         content={content}
@@ -97,7 +104,13 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
   if (data?.loaded) {
     if (data.total > PREVIEW_SIZE) {
       extra = (
-        <View className={s.more} onClick={() => setVisible({ comments: true })}>
+        <View
+          className={s.more}
+          onClick={() => {
+            setVisible({ comments: true });
+            nextTick(() => setVisible({ render: true }));
+          }}
+        >
           <Text>{data.total}</Text>条
         </View>
       );
@@ -132,7 +145,7 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
               hoverStayTime={0}
             />
             <ScrollView className={s.container} onScrollToLower={onScrollToLower} scrollY>
-              <View>{comments.length > 0 && comments.map(renderItem)}</View>
+              <View>{visible.render && comments.length > 0 && comments.map(renderItem)}</View>
               <View className={s.loadable}>
                 {data.completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
               </View>
@@ -185,7 +198,7 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
           disabled={loading}
           round
         >
-          重试
+          {MESSAGE.RETRY}
         </Button>
       </Empty>
     );

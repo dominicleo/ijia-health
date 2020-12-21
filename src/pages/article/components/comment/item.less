@@ -34,12 +34,26 @@
 .content {
   margin-top: 4px;
   line-height: 20px;
+  word-wrap: break-word;
+  word-break: break-all;
+  &.contrast {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.expand {
+  color: @primary-color;
 }
 
 .date {
   margin-top: 12px;
   color: #b2b3b2;
   font-size: 11px;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
 }
 
 .loader {

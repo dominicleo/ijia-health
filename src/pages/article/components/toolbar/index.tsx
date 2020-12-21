@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'remax/wechat';
+import { hideKeyboard, View } from 'remax/wechat';
 
 import SafeArea from '@/components/safe-area';
 import Toast from '@/components/toast';
@@ -44,9 +44,11 @@ const ArticleToolbar: React.FC<{ id: ArticleId }> = React.memo((props) => {
     setState({ focus: true });
   };
 
-  const onBlur = () => {
+  const onBlur = React.useCallback(() => {
+    if (!state.focus) return;
     setState({ focus: false });
-  };
+    hideKeyboard();
+  }, [state.focus]);
 
   const onClose = () => {
     setState({ focus: false });

@@ -111,7 +111,7 @@ export default () => {
   const onClickReward = (event: TouchEvent) => {
     // @ts-ignore
     event.stopPropagation();
-    history.push(PAGE.REWARD, { articleId });
+    history.push(PAGE.REWARD, { articleId }, { authorize: true });
   };
 
   let content;

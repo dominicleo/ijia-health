@@ -15,6 +15,7 @@ import { usePageEvent } from 'remax/macro';
 import chunk from 'lodash.chunk';
 import ChunkList from '@/components/chunk-list';
 import NoticeItem from './item';
+import { MESSAGE } from '@/constants';
 
 const EMPTY_TEXT = '这里空空如也，没有消息';
 
@@ -111,7 +112,7 @@ const MessageNotice: React.FC<MessageNoticeProps> = ({ type, visible }) => {
         disabled={loading}
         round
       >
-        {AuthorizeError.is(error) ? '授权登录' : '重试'}
+        {AuthorizeError.is(error) ? '授权登录' : MESSAGE.RETRY}
       </Button>
     );
 

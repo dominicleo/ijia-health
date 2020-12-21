@@ -232,7 +232,7 @@ export default () => {
           disabled={loading}
           round
         >
-          重试
+          {MESSAGE.RETRY}
         </Button>
       </Empty>
     );

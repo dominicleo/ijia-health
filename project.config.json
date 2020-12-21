@@ -55,7 +55,7 @@
         {
           "name": "打赏",
           "pathName": "pages/reward/index",
-          "query": "articleId=555",
+          "query": "articleId=211",
           "scene": null
         },
         {
@@ -85,7 +85,7 @@
         {
           "name": "文章",
           "pathName": "pages/article/index",
-          "query": "articleId=555",
+          "query": "articleId=211",
           "scene": null
         },
         {
@@ -109,6 +109,13 @@
         {
           "name": "我的",
           "pathName": "pages/me/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "视频聊天",
+          "pathName": "pages/im/videocall/index",
+          "query": "",
           "scene": null
         }
       ]

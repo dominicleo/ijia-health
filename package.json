@@ -17,8 +17,10 @@
     "build": "cross-env NODE_ENV=production remax build -t wechat",
     "start": "cross-env REMAX_APP_ENV=development yarn dev",
     "start:test": "cross-env REMAX_APP_ENV=test yarn dev",
+    "start:prod": "cross-env REMAX_APP_ENV=production yarn dev",
     "release:dev": "cross-env REMAX_APP_ENV=development yarn build",
     "release:test": "cross-env REMAX_APP_ENV=test yarn build",
+    "release": "cross-env REMAX_APP_ENV=production yarn build",
     "update:deps": "yarn upgrade-interactive --latest"
   },
   "husky": {

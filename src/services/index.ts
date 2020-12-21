@@ -6,3 +6,4 @@ export * as SubscribeService from './subscribe';
 export * as DoctorService from './doctor';
 export * as CommentService from './comment';
 export * as MessageService from './message';
+export * as MinepageService from './minepage';
