@@ -11,7 +11,7 @@ import {
 } from 'remax/wechat';
 
 import Toast from '@/components/toast';
-import { STORAGE } from '@/constants';
+import { MESSAGE, STORAGE } from '@/constants';
 import PAGE from '@/constants/page';
 import { useEventEmitter, useRequest, useShareMessage, useStorageState } from '@/hooks';
 import { ArticleService } from '@/services';
@@ -183,7 +183,8 @@ export default () => {
             message
           ) : (
             <>
-              数据获取失败<View>{message}</View>
+              {MESSAGE.REQUEST_FAILED}
+              <View>{message}</View>
             </>
           )
         }

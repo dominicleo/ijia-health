@@ -6,15 +6,15 @@ page {
 }
 
 .wrapper {
-  height: 100vh;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .content {
   flex: 1;
-  overflow: hidden;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .container {
@@ -22,50 +22,49 @@ page {
 }
 
 .header {
-  width: 375px;
-  color: #fff;
-  height: 278px;
-  padding-top: constant(safe-area-inset-top);
-  padding-top: env(safe-area-inset-top);
-  background: url('./images/bg.svg') center bottom no-repeat;
-  background-size: 100% 100%;
   position: relative;
   flex-shrink: 0;
   box-sizing: border-box;
+  width: 375px;
+  height: 278px;
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+  color: #fff;
+  background: url('./images/bg.svg') center bottom no-repeat;
+  background-size: 100% 100%;
 }
 
 .tips {
+  position: absolute;
+  bottom: -1px;
+  z-index: 1;
   width: 375px;
   height: 67px;
   background: url('./images/tips.svg') center bottom no-repeat;
   background-size: 100% 100%;
-  position: absolute;
-  bottom: -1px;
-  z-index: 1;
 }
 
 .userinfo {
-  padding: 44px 24px 0;
-  justify-content: space-between;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding: 44px 24px 0;
 }
 
 .username {
-  font-size: 24px;
   font-weight: 500;
+  font-size: 24px;
 }
 
 .description {
-  height: 16px;
-  background: rgba(#fff, 0.2);
-  border-radius: 0px 9px 9px 9px;
-  padding: 0 8px;
-  align-items: center;
   display: flex;
+  align-items: center;
+  height: 16px;
   margin-top: 8px;
-
+  padding: 0 8px;
   font-size: 10px;
+  background: rgba(#fff, 0.2);
+  border-radius: 0 9px 9px 9px;
 }
 
 .avatar {
@@ -73,33 +72,33 @@ page {
   height: 64px;
   background: #fff url('./images/avatar-default.svg') center no-repeat;
   background-size: cover;
+  background-clip: padding-box;
   border: 5px solid rgba(#fff, 0.2);
   border-radius: 64px;
-  background-clip: padding-box;
 }
 
 .totals {
-  margin-top: 16px;
   display: flex;
+  margin-top: 16px;
   > view {
-    padding: 10px 16px;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    display: flex;
     position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
     + view {
       .hairline('left', rgba(#fff, 0.4), 10px, 10px);
     }
   }
   text {
-    line-height: 16px;
     font-weight: 300;
+    line-height: 16px;
     + text {
       margin-left: 6px;
+      font-weight: 500;
       font-size: 16px;
       font-family: DIN;
-      font-weight: 500;
     }
   }
 }
@@ -111,30 +110,30 @@ page {
 }
 
 .item {
-  background-color: #fff;
-  padding: 17px 16px;
-  align-items: center;
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: center;
+  padding: 17px 16px;
+  background-color: #fff;
   &:first-child {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
   &:last-child {
-    border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
   }
 
   &::after {
-    content: '';
+    position: absolute;
+    top: 50%;
+    right: 16px;
     width: 5px;
     height: 10px;
     background: url('./images/icon-arrow-right.svg') center no-repeat;
     background-size: contain;
-    position: absolute;
-    top: 50%;
-    right: 16px;
     transform: translate3d(0, -50%, 0);
+    content: '';
   }
 
   button {
@@ -149,9 +148,9 @@ page {
   .icon {
     width: 18px;
     height: 18px;
+    margin-right: 12px;
     background: center no-repeat;
     background-size: contain;
-    margin-right: 12px;
 
     &.help {
       background-image: url('./images/icon-help.svg');
@@ -171,9 +170,9 @@ page {
 .slogan {
   width: 280px;
   height: 20px;
+  margin: 45px auto 0;
   background: url('./images/slogan.svg') center no-repeat;
   background-size: contain;
-  margin: 45px auto 0;
 }
 
 .customerService {

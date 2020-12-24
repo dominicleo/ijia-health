@@ -26,6 +26,7 @@ import Skeleton from '@vant/weapp/lib/skeleton';
 import s from './index.less';
 import Empty from '@/components/empty';
 import Button from '@vant/weapp/lib/button';
+import { MESSAGE } from '@/constants';
 
 const ENTRANCES = [
   {
@@ -219,7 +220,8 @@ export default () => {
         image='record'
         description={
           <>
-            数据获取失败<View>{error.message}</View>
+            {MESSAGE.REQUEST_FAILED}
+            <View>{error.message}</View>
           </>
         }
         local

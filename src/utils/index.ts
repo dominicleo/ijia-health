@@ -1,8 +1,10 @@
+import isEqualFn from 'lodash.isequal';
 import { GenericEvent } from 'remax/wechat';
 
 export const noop = (): void => {};
 
 export const isRelease = __wxConfig?.envVersion === 'release';
+export const isEqual = isEqualFn;
 export const isArray = Array.isArray;
 export const isString = (value: any): value is string => typeof value === 'string';
 export const isPlainObject = <T>(value: T): value is T =>
@@ -14,6 +16,10 @@ export const isDefine = <T>(value: T): value is Exclude<T, undefined | null> =>
   value !== undefined && value !== null;
 export const hasOwnProperty = (source: object, key: string) =>
   Object.prototype.hasOwnProperty.call(source, key);
+
+export function uniqueBySet(source: any[]) {
+  return Array.from(new Set(source));
+}
 
 /** 微信小程序取消操作 */
 export const isNativeCancel = (

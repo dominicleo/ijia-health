@@ -1,0 +1,53 @@
+.messagebar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: 52px;
+  padding: 0 11px 0 12px;
+  background-color: #fff;
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.02);
+}
+
+.input {
+  flex: 1;
+  box-sizing: border-box;
+  height: 34px;
+  margin: 0 10px 0 12px;
+  padding: 9px 16px 8px;
+  font-size: 12px;
+  background: #f6f6f6;
+  border-radius: 17px;
+}
+
+.placeholder {
+  color: #787878;
+}
+
+.icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: center no-repeat;
+  background-size: contain;
+  + .icon {
+    margin-left: 10px;
+  }
+}
+
+.voice {
+  background-image: url('./images/icon-voice.svg');
+}
+
+.keyboard {
+  background-image: url('./images/icon-keyboard.svg');
+}
+
+.emoji {
+  background-image: url('./images/icon-emoji.svg');
+}
+
+.plus {
+  background-image: url('./images/icon-plus.svg');
+}

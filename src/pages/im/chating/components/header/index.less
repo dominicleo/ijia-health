@@ -1,0 +1,45 @@
+@height: 44px;
+
+.navbar {
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+
+  --nav-bar-height: @height;
+
+  :global {
+    .van-nav-bar {
+      line-height: normal;
+    }
+    .van-nav-bar__title {
+      height: @height;
+    }
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.title {
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 17px;
+}
+
+.subtitle {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 11px;
+}
+
+.back {
+  width: 28px;
+  height: 28px;
+  background: url('./images/icon-back.svg') center no-repeat;
+  background-size: contain;
+}

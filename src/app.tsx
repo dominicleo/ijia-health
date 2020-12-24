@@ -6,6 +6,7 @@ import { loadFontFace } from 'remax/wechat';
 
 import { UseRequestProvider } from './hooks/useRequest';
 import { handleError } from './utils/error';
+import Provider from './utils/unstated/provider';
 
 loadFontFace({
   global: true,
@@ -39,14 +40,16 @@ const App: React.FC = (props) => {
   });
 
   return (
-    <UseRequestProvider
-      value={{
-        // throwOnError: true,
-        onError: handleError,
-      }}
-    >
-      {props.children as React.ReactElement}
-    </UseRequestProvider>
+    <Provider>
+      <UseRequestProvider
+        value={{
+          // throwOnError: true,
+          onError: handleError,
+        }}
+      >
+        {props.children as React.ReactElement}
+      </UseRequestProvider>
+    </Provider>
   );
 };
 

@@ -99,7 +99,8 @@ const MessageNotice: React.FC<MessageNoticeProps> = ({ type, visible }) => {
       EMPTY_TEXT
     ) : (
       <>
-        数据获取失败<View>{error.message}</View>
+        {MESSAGE.REQUEST_FAILED}
+        <View>{error.message}</View>
       </>
     );
 
@@ -112,7 +113,7 @@ const MessageNotice: React.FC<MessageNoticeProps> = ({ type, visible }) => {
         disabled={loading}
         round
       >
-        {AuthorizeError.is(error) ? '授权登录' : MESSAGE.RETRY}
+        {AuthorizeError.is(error) ? MESSAGE.AUTHORIZED_LOGIN : MESSAGE.RETRY}
       </Button>
     );
 

@@ -17,27 +17,32 @@ interface UserInfoProps {
   avatar: string;
   /** 是否被叫 */
   becalling?: boolean;
-  /** 等待接听 */
+  /** 是否等待接听中 */
   loading?: boolean;
 }
 
-const UserInfo: React.FC<UserInfoProps> = ({ type, name, avatar, becalling, loading }) => {
-  const BECALLING_TEXT = type === CALL_TYPE.VOICE ? VOICDE_TEXT : VIDEO_TEXT;
-  const message = becalling ? BECALLING_TEXT : WAITING_TEXT;
+const UserInfo: React.FC<UserInfoProps> = React.memo(
+  ({ type, name, avatar, becalling, loading }) => {
+    const BECALLING_TEXT = type === CALL_TYPE.VOICE ? VOICDE_TEXT : VIDEO_TEXT;
+    const message = becalling ? BECALLING_TEXT : WAITING_TEXT;
 
-  return (
-    <CoverView
-      className={classnames(s.userinfo, s[type], {
-        [s.hidden]: !loading && type === CALL_TYPE.VIDEO,
-      })}
-    >
-      <CoverView className={s.name}>{name}</CoverView>
-      {loading && <CoverView className={s.message}>{message}</CoverView>}
-      <CoverView className={s.avatar}>
-        <CoverImage src={avatar} />
-      </CoverView>
-    </CoverView>
-  );
-};
+    const getCls = (...args: any[]) =>
+      classnames(s[type], { [s.hidden]: !loading && type === CALL_TYPE.VIDEO }, ...args);
+
+    const nameCls = getCls(s.name);
+    const avatarCLs = getCls(s.avatar);
+    const messageCls = getCls(s.message);
+
+    return (
+      <>
+        <CoverView className={nameCls}>{name}</CoverView>
+        {loading && <CoverView className={messageCls}>{message}</CoverView>}
+        <CoverView className={avatarCLs}>
+          <CoverImage src={avatar} />
+        </CoverView>
+      </>
+    );
+  },
+);
 
 export default UserInfo;

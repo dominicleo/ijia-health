@@ -11,3 +11,8 @@ export const authorize = async (params: AuthorizeParams) => {
 export function checkAuthorize() {
   return fetch.post('/api/api/app/isLogin');
 }
+
+export async function getYunxinConfig() {
+  const response = await fetch.get('/api/user/im');
+  return UserMapper.getYunxinConfig(response.data);
+}

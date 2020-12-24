@@ -13,3 +13,8 @@ export interface AuthorizeParams {
   /** 加密算法的初始向量 */
   iv: string;
 }
+
+export interface YunxinConfig {
+  account: string;
+  token: string;
+}

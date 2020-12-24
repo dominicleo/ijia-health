@@ -10,7 +10,6 @@ import {
   switchTab,
 } from 'remax/wechat';
 
-import Toast from '@/components/toast';
 import { STORAGE, TABBAR } from '@/constants';
 import PAGE from '@/constants/page';
 import { UserService } from '@/services';

@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  &::after {
+    position: absolute;
+    right: 0;
+    bottom: -100vh;
+    left: 0;
+    height: 100vh;
+    background-color: #fff;
+    content: '';
+  }
+}

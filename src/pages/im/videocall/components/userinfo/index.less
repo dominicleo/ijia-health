@@ -1,72 +1,65 @@
-.userinfo {
-  transition: opacity 350ms;
-  .avatar {
-    border-radius: 8px;
-    position: absolute;
-    top: 0;
-    transition: 350ms;
-    cover-image {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-  }
-
-  .name {
-    font-size: 24px;
-    position: absolute;
-    top: 0;
-    white-space: nowrap;
-    transition: 350ms;
-  }
-
-  .message {
-    font-size: 13px;
-    position: absolute;
-    top: 0;
-    white-space: nowrap;
-    transition: 350ms;
-  }
-
-  &.voice {
-    .avatar {
-      width: 110px;
-      height: 110px;
-      right: 50%;
-      transform: translate3d(50%, 259px, 0);
-    }
-
-    .name {
-      right: 50%;
-      transform: translate3d(50%, 385px, 0);
-    }
-
-    .message {
-      right: 50%;
-      transform: translate3d(50%, 422px, 0);
-    }
-  }
-
-  &.video {
-    .avatar {
-      width: 64px;
-      height: 64px;
-      right: 20px;
-      transform: translate3d(0, 50px, 0);
-    }
-
-    .name {
-      right: 96px;
-      transform: translate3d(0, 54px, 0);
-    }
-
-    .message {
-      right: 96px;
-      transform: translate3d(0, 91px, 0);
-    }
-  }
-
+.voice,
+.video {
+  position: absolute;
+  // transition: 350ms;
+  top: constant(safe-area-inset-top);
+  top: env(safe-area-inset-top);
   &.hidden {
     opacity: 0;
+  }
+}
+
+.avatar {
+  border-radius: 8px;
+  cover-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.name {
+  font-size: 24px;
+}
+
+.message {
+  font-size: 13px;
+}
+
+.voice {
+  &.avatar {
+    right: 50%;
+    width: 110px;
+    height: 110px;
+    transform: translate(50%, 259px);
+  }
+
+  &.name {
+    right: 50%;
+    transform: translate(50%, 385px);
+  }
+
+  &.message {
+    right: 50%;
+    transform: translate(50%, 422px);
+  }
+}
+
+.video {
+  &.avatar {
+    right: 20px;
+    width: 64px;
+    height: 64px;
+    transform: translate(0, 50px);
+  }
+
+  &.name {
+    right: 96px;
+    transform: translate(0, 54px);
+  }
+
+  &.message {
+    right: 96px;
+    transform: translate(0, 91px);
   }
 }

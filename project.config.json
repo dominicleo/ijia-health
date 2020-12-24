@@ -115,6 +115,18 @@
         {
           "name": "视频聊天",
           "pathName": "pages/im/videocall/index",
+          "query": "type=video",
+          "scene": null
+        },
+        {
+          "name": "聊天室",
+          "pathName": "pages/im/chating/index",
+          "query": "account=yunxin_dev_z1nzez1jkq6mt8mm&scene=p2p",
+          "scene": null
+        },
+        {
+          "name": "示例",
+          "pathName": "pages/example/index",
           "query": "",
           "scene": null
         }

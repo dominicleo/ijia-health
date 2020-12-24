@@ -18,12 +18,11 @@ export interface RewardQuery {
   doctor: Doctor;
 }
 
-export interface RewardSubmitParams {
+export interface RewardSubmitParams extends Record<string, any> {
   /** 文章 ID */
   articleId?: string;
   /** 打赏商品 ID */
   goodsId: number;
   /** 打赏数量 */
   count: number;
-  [key: string]: any;
 }

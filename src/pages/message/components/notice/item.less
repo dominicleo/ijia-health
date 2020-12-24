@@ -5,47 +5,47 @@
 }
 
 .date {
-  font-size: 11px;
   color: #b3b3b3;
+  font-size: 11px;
   text-align: center;
 }
 
 .card {
-  background-color: #fff;
-  border-radius: 8px 8px 0 0;
   margin-top: 8px;
   padding: 20px 16px 16px;
   overflow: hidden;
+  background-color: #fff;
+  border-radius: 8px 8px 0 0;
 }
 
 .title {
-  font-size: 15px;
   font-weight: 500;
+  font-size: 15px;
   line-height: 21px;
 }
 
 .content {
-  font-size: 13px;
-  color: #666;
-  line-height: 18px;
   margin-top: 8px;
+  color: #666;
+  font-size: 13px;
+  line-height: 18px;
 }
 
 .footbar {
-  color: @primary-color;
-  height: 44px;
-  background: #fcfcfc;
-  justify-content: space-between;
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
   padding: 0 16px;
+  color: @primary-color;
+  background: #fcfcfc;
   border-radius: 0 0 8px 8px;
   &::after {
+    display: block;
     width: 16px;
     height: 12px;
     background: url('./images/icon-arrow-right.svg') center no-repeat;
     background-size: contain;
-    display: block;
     content: '';
   }
 }
@@ -55,6 +55,7 @@
   .date {
     width: 60px;
     margin: 0 auto;
+
     --skeleton-row-height: 16px;
   }
   .footbar {

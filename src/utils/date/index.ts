@@ -1,10 +1,12 @@
+import 'dayjs/locale/zh-cn';
+
 import Dayjs from 'dayjs';
 import calendar from 'dayjs/plugin/calendar';
+import duration from 'dayjs/plugin/duration';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import updateLocale from 'dayjs/plugin/updateLocale';
-import duration from 'dayjs/plugin/duration';
+
 import removeTimezone from './removeTimezone';
-import 'dayjs/locale/zh-cn';
 
 Dayjs.locale('zh-cn');
 Dayjs.extend(removeTimezone);

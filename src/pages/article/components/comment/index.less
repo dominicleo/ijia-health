@@ -12,9 +12,9 @@
 
     .van-action-sheet__description {
       overflow: hidden;
+      color: @text-color;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: @text-color;
       background-color: #f5f5f5;
     }
   }
@@ -49,51 +49,50 @@
 }
 
 .comments {
-  height: 70vh;
-  flex-direction: column;
   display: flex;
-  overflow: hidden;
-  padding-top: 24px;
-
+  flex-direction: column;
   box-sizing: border-box;
+  height: 70vh;
+  padding-top: 24px;
+  overflow: hidden;
   .title {
     flex-shrink: 0;
     padding: 0 16px;
-    font-size: 20px;
     font-weight: 500;
+    font-size: 20px;
     text {
+      margin-left: 4px;
+      font-weight: 500;
       font-size: 16px;
       font-family: DIN;
-      font-weight: 500;
-      margin-left: 4px;
       vertical-align: text-top;
     }
   }
 }
 
 .close {
-  width: 20px;
-  height: 20px;
   position: absolute;
   top: 12px;
   right: 12px;
+  z-index: 2;
+  width: 20px;
+  height: 20px;
   background: url('./images/icon-close.svg') center no-repeat;
   background-size: contain;
-  z-index: 2;
   &::after {
     position: absolute;
     top: -10px;
-    bottom: -10px;
     right: -10px;
+    bottom: -10px;
     left: -10px;
     content: '';
   }
 }
 
 .container {
+  position: relative;
   flex: 1;
   overflow: hidden;
-  position: relative;
   &::before {
     position: absolute;
     top: -1px;

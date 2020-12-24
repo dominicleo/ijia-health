@@ -6,20 +6,20 @@ page {
 }
 
 .wrapper {
-  height: 100vh;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .tabs {
+  position: relative;
   display: flex;
+  flex-shrink: 0;
   justify-content: space-between;
   box-sizing: border-box;
   height: 34px;
-  background-color: #fff;
   padding-top: 4px;
-  position: relative;
-  flex-shrink: 0;
+  background-color: #fff;
   .hairline('bottom', #ebebeb);
 }
 
@@ -30,12 +30,12 @@ page {
   justify-content: center;
 
   > view {
+    position: relative;
     color: #999;
-    font-size: 13px;
     font-weight: 500;
+    font-size: 13px;
     transform-origin: center;
     transition: 0.2s linear 0s;
-    position: relative;
 
     &::after {
       position: absolute;

@@ -21,5 +21,5 @@ export interface Message {
   /** 时间 */
   date: string;
   /** 扩展字段 */
-  params: { [key: string]: any };
+  params: Record<string, any>;
 }

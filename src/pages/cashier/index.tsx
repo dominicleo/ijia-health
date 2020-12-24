@@ -149,7 +149,8 @@ export default () => {
         image='record'
         description={
           <>
-            数据获取失败<View>{error.message}</View>
+            {MESSAGE.REQUEST_FAILED}
+            <View>{error.message}</View>
           </>
         }
       >
@@ -161,7 +162,7 @@ export default () => {
           disabled={loading}
           round
         >
-          重新加载
+          {MESSAGE.RETRY}
         </Button>
       </Empty>
     );

@@ -4,12 +4,12 @@ import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
 import PAGE from '@/constants/page';
 
+import { noop } from '../';
 import history from '../history';
 import AuthorizeError from './authorize';
 import NetworkError from './network';
 import ServerError from './server';
 import ServiceError from './service';
-import { noop } from '..';
 
 export const handleError = (error: Error | string) => {
   if (/^useRequest has caught the exception/.test(error as string)) return;
