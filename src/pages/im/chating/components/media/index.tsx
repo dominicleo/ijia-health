@@ -1,10 +1,12 @@
-import * as React from 'react';
-import { View, Text } from 'remax/wechat';
-import s from './media.less';
-import { CHATING_MEDIA_TYPE, MESSAGEBAR_ACTION_TYPE } from '../types.d';
-import SafeArea from '@/components/safe-area';
 import classnames from 'classnames';
+import * as React from 'react';
+import { Text, View } from 'remax/wechat';
+
+import SafeArea from '@/components/safe-area';
+
 import ChatingContext from '../context';
+import { CHATING_MEDIA_TYPE, MESSAGEBAR_ACTION_TYPE } from '../types.d';
+import s from './index.less';
 
 const MEDIA_ITEMS: Array<{ value: CHATING_MEDIA_TYPE; label: string }> = [
   {

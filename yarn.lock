@@ -8442,6 +8442,11 @@ readdirp@~3.5.0:
   dependencies:
     picomatch "^2.2.1"
 
+recoil@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.npm.taobao.org/recoil/download/recoil-0.1.2.tgz#844c612f535826dbe54c977761a67ded16f6d063"
+  integrity sha1-hExhL1NYJtvlTJd3YaZ97Rb20GM=
+
 redent@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/redent/download/redent-2.0.0.tgz#c1b2007b42d57eb1389079b3c8333639d5e1ccaa"

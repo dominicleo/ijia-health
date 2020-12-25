@@ -1,19 +1,13 @@
 import * as React from 'react';
+import { useRecoilValue } from 'recoil';
 import { View } from 'remax/wechat';
-import ChatingContext from '../context';
-import { MESSAGEBAR_ACTION_TYPE } from '../types.d';
+
+import { keyboardHeightState } from '../atoms';
 import s from './index.less';
 
 const ChatingContainer: React.FC = React.memo(({ children }) => {
-  const { messagebar$ } = React.useContext(ChatingContext);
-  const [keyboardHeight, setKeyboardHeight] = React.useState(0);
+  const keyboardHeight = useRecoilValue(keyboardHeightState);
   const content = React.useMemo(() => children, []);
-
-  messagebar$?.useSubscription((action) => {
-    if (action.type === MESSAGEBAR_ACTION_TYPE.KEYBOARDHEIGHTCHANGE) {
-      setKeyboardHeight(action.payload);
-    }
-  });
 
   const contentStyle: React.CSSProperties = {
     transition: '200ms',

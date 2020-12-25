@@ -42,6 +42,7 @@
     "map-factory": "^3.8.3",
     "qs": "^6.9.4",
     "react": "^17.0.1",
+    "recoil": "^0.1.2",
     "remax": "^2.10.1"
   },
   "devDependencies": {

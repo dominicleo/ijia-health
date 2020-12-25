@@ -1,34 +1,19 @@
-import SafeArea from '@/components/safe-area';
 import * as React from 'react';
+import { useRecoilValue } from 'recoil';
 import { View } from 'remax/wechat';
-import ChatingContext from '../context';
+
+import SafeArea from '@/components/safe-area';
+
+import { keyboardHeightState, toolbarState } from '../atoms';
+import ChatingEmoji from '../emoji';
+import ChatingMedia from '../media';
 import ChatingMessageBar from '../messagebar';
-import { CHATING_TOOLBAR_MODE, MESSAGEBAR_ACTION_TYPE } from '../types.d';
-import ChatingEmoji from './emoji';
+import { CHATING_TOOLBAR } from '../types.d';
 import s from './index.less';
-import ChatingMedia from './media';
 
 const ChatingToolbar: React.FC = React.memo(() => {
-  console.log('ChatingToolbar init');
-
-  const { messagebar$ } = React.useContext(ChatingContext);
-  const [mode, setMode] = React.useState<CHATING_TOOLBAR_MODE>(CHATING_TOOLBAR_MODE.HIDDEN);
-  const [keyboardHeight, setKeyboardHeight] = React.useState(0);
-
-  messagebar$?.useSubscription((action) => {
-    if (action.type === MESSAGEBAR_ACTION_TYPE.FOCUS && mode !== CHATING_TOOLBAR_MODE.HIDDEN) {
-      setMode(CHATING_TOOLBAR_MODE.HIDDEN);
-      return;
-    }
-    if (action.type === MESSAGEBAR_ACTION_TYPE.TOOLBAR) {
-      setMode(action.payload === mode ? CHATING_TOOLBAR_MODE.HIDDEN : action.payload);
-      return;
-    }
-    if (action.type === MESSAGEBAR_ACTION_TYPE.KEYBOARDHEIGHTCHANGE) {
-      setKeyboardHeight(action.payload);
-      return;
-    }
-  });
+  const keyboardHeight = useRecoilValue(keyboardHeightState);
+  const toolbar = useRecoilValue(toolbarState);
 
   return (
     <View className={s.toolbar}>
@@ -36,12 +21,10 @@ const ChatingToolbar: React.FC = React.memo(() => {
         <ChatingMessageBar />
       </View>
       <View className={s.footer}>
-        {mode === CHATING_TOOLBAR_MODE.EMOJI && <ChatingEmoji />}
-        {mode === CHATING_TOOLBAR_MODE.MEDIA && <ChatingMedia />}
+        {toolbar === CHATING_TOOLBAR.EMOJI && <ChatingEmoji />}
+        {toolbar === CHATING_TOOLBAR.MEDIA && <ChatingMedia />}
       </View>
-      {(!keyboardHeight || mode === CHATING_TOOLBAR_MODE.HIDDEN) && (
-        <SafeArea className={s.safearea} />
-      )}
+      {!keyboardHeight && toolbar === CHATING_TOOLBAR.HIDDEN && <SafeArea className={s.safearea} />}
     </View>
   );
 });

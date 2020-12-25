@@ -50,9 +50,9 @@ class Yunxin {
       onupdatemyinfo: (user) => YunxinContainer.setUsers([user]),
       onsessions: this.onSessions,
       onupdatesession: (session) => YunxinContainer.setSessions([session]),
-      onroamingmsgs: (a) => console.log('onroamingmsgs', a),
-      onofflinemsgs: (a) => console.log('onroamingmsgs', a),
-      onmsg: (a) => console.log('onroamingmsgs', a),
+      onroamingmsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
+      onofflinemsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
+      onmsg: (message) => YunxinContainer.setMessages([message]),
       onsyncdone: () => YunxinContainer.synced(),
     });
   }

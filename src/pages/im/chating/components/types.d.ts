@@ -9,7 +9,14 @@ export enum CHATING_MEDIA_TYPE {
   VOICE = 'voice',
 }
 
-export enum CHATING_TOOLBAR_MODE {
+export enum CHATING_MESSAGEBAR {
+  /** 键盘输入 */
+  KEYBOARD = 'keyboard',
+  /** 语音输入 */
+  VOICE = 'voice',
+}
+
+export enum CHATING_TOOLBAR {
   /** 隐藏 */
   HIDDEN = 0,
   /** 表情 */
@@ -18,27 +25,20 @@ export enum CHATING_TOOLBAR_MODE {
   MEDIA = 2,
 }
 
-export enum MESSAGEBAR_MODE {
-  /** 键盘输入 */
-  KEYBOARD = 'keyboard',
-  /** 语音输入 */
-  VOICE = 'voice',
-}
-
 export enum MESSAGEBAR_ACTION_TYPE {
   /** 发送 */
   SEND = 'send',
-  /** 获取输入框焦点 */
-  FOCUS = 'focus',
-  /** 失去输入框焦点 */
-  BLUR = 'blur',
-  /** 键盘高度发送变化 */
-  KEYBOARDHEIGHTCHANGE = 'keyboardHeightChange',
+  /** 清除输入框文本 */
+  CLEAR = 'clear',
   /** 点击多媒体组件 */
   MEDIA = 'media',
-  /** 工具栏切换 */
-  TOOLBAR = 'toolbar',
 }
+
+export type EmojiItem = {
+  name: string;
+  url: string;
+  catalog: string;
+};
 
 type MessagebarActionSendAction =
   | {
@@ -48,15 +48,13 @@ type MessagebarActionSendAction =
   | {
       type: 'audio';
       payload: WechatMiniprogram.OnStopCallbackResult;
-    };
+    }
+  | { type: 'emoji'; payload: EmojiItem };
 
 export type MessagebarAction =
-  | { type: MESSAGEBAR_ACTION_TYPE.FOCUS | MESSAGEBAR_ACTION_TYPE.BLUR }
   | {
-      type: MESSAGEBAR_ACTION_TYPE.KEYBOARDHEIGHTCHANGE;
-      payload: number;
+      type: MESSAGEBAR_ACTION_TYPE.CLEAR;
     }
-  | { type: MESSAGEBAR_ACTION_TYPE.TOOLBAR; payload: CHATING_TOOLBAR_MODE }
   | {
       type: MESSAGEBAR_ACTION_TYPE.MEDIA;
       payload: CHATING_MEDIA_TYPE;

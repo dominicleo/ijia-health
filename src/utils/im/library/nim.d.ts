@@ -131,7 +131,7 @@ interface CallbackEvents {
   /** 同步离线消息 */
   onofflinemsgs?(data: NimReceiveMessage): void;
   /** 收到消息 */
-  onmsg?(data: NimReceiveMessage): void;
+  onmsg?(data: NimMessage): void;
   /** 同步完成回调 */
   onsyncdone?(): void;
   /** 错误回调 */
