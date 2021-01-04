@@ -60,6 +60,41 @@ export enum NIM_SCENE {
   SUPERTEAM = 'superTeam',
 }
 
+export type NimFile = {
+  /** 文件地址 */
+  url: string;
+  /** 名字 */
+  name: string;
+  /** 大小, 单位byte */
+  size: number;
+  /** md5 */
+  md5: string;
+  /** 扩展名 */
+  ext: string;
+};
+
+export interface NimImageFile extends NimFile {
+  /** 宽, 单位px */
+  w: number;
+  /** 高, 单位px */
+  h: number;
+}
+
+export interface NimAudioFile extends NimFile {
+  /** 长度, 单位ms */
+  dur: number;
+  /** 实时转成 mp3 流的 url, 此 url 支持的格式有: mp3, wav, aac, wma, wmv, amr, mp2, flac, vorbis, ac3 */
+  mp3Url: string;
+}
+export interface NimVideoFile extends NimFile {
+  /** 长度, 单位ms */
+  dur: number;
+  /** 宽, 分辨率, 单位px */
+  w: number;
+  /** 高, 分辨率, 单位px */
+  h: number;
+}
+
 export type NimMessage = {
   /** 消息类型 */
   type: MessageType;
@@ -79,6 +114,14 @@ export type NimMessage = {
   content: any;
   /** 文本消息的文本内容 */
   text: string;
+  /** 文件消息的文件对象 */
+  file: NimImageFile | NimAudioFile | NimVideoFile | NimFile;
+  /** SDK生成的消息id, 在发送消息之后会返回给开发者, 开发者可以在发送消息的结果回调里面根据这个ID来判断相应消息的发送状态, 到底是发送成功了还是发送失败了, 然后根据此状态来更新页面的UI。如果发送失败, 那么可以重新发送此消息 */
+  idClient: string;
+  /** 服务器用于区分消息用的ID, 用于获取历史消息和获取包含关键词的历史消息, 此字段可能没有, 所以开发者应该使用idClient来唯一标识消息 */
+  idServer?: string;
+  /** 聊天对象, 账号或者群id */
+  target: string;
   /** 发送时间 */
   time: number;
   /** 自定义推送文案 */
@@ -86,6 +129,13 @@ export type NimMessage = {
   /** 消息发送状态 */
   status: NIM_MESSAGE_STATUS;
 };
+
+export interface NimRecord extends NimMessage {
+  user: NimUser;
+  custom: Record<string, any>;
+  content: Record<string, any>;
+  displayTime: string;
+}
 
 export type NimSession = {
   id: string;

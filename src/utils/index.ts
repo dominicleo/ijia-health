@@ -66,7 +66,7 @@ export const getCurrentPage = () => {
   return page;
 };
 
-export const JSONParse = <T = object>(value: string) => {
+export const JSONParse = <T = Record<string, any>>(value: string) => {
   try {
     return JSON.parse(value) as T;
   } catch (error) {

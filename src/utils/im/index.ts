@@ -4,11 +4,12 @@ import { NIM_APPKEY } from '@/constants/common';
 import YunxinContainer from '@/containers/im';
 import { UserService } from '@/services';
 
-import { hasOwnProperty, JSONParse } from '../';
+import { hasOwnProperty, JSONParse } from '@/utils';
 import GlobalData from '../globalData';
 import Netcall from './library/netcall';
-import Nim, { NimMessage, NimSession } from './library/nim';
+import Nim, { NimMessage, NimRecord, NimSession, NimUser } from './library/nim';
 import { NIM_MESSAGE_TYPE } from './library/nim.d';
+import date from '../date';
 
 export * from './library/nim.d';
 export * from './library/netcall.d';
@@ -29,6 +30,9 @@ interface YunxinOptions {
 }
 
 const DEBUG = false;
+
+// 消息间隔时间
+const MESSAGE_INTERVAL_TIME = 60 * 1000 * 2;
 
 class Yunxin {
   constructor(options: YunxinOptions) {
@@ -153,14 +157,63 @@ class Yunxin {
     }
   }
 
+  static formatMessageRecordList(
+    messages: Record<number, NimMessage>,
+    users: Record<string, NimUser>,
+  ) {
+    const records: NimRecord[] = [];
+
+    Object.values(messages).forEach((message) => {
+      records.push({
+        ...message,
+        custom: JSONParse(message.custom),
+        content: JSONParse(message.content),
+        user: users[message.from],
+        displayTime: Yunxin.getMessageRecordDisplayTime(records, message.time),
+      });
+    });
+
+    return records;
+  }
+
+  static getMessageRecordDisplayTime(records: NimRecord[], timestamp: number) {
+    const lastMessageRecord = records[records.length - 1];
+    let displayTime = '';
+    if (lastMessageRecord) {
+      const delta: number = timestamp - lastMessageRecord.time;
+      if (delta > MESSAGE_INTERVAL_TIME) {
+        displayTime = date(timestamp).calendar(undefined, { sameElse: 'L LTS' });
+      }
+    } else {
+      displayTime = date(timestamp).calendar(undefined, { sameElse: 'L LTS' });
+    }
+    return displayTime;
+  }
+
   /** 校验消息是否合法 */
   static isLegalMessage(message: NimMessage) {
-    const custom = JSONParse<Record<string, any>>(message.custom);
-    // 我的医生消息
-    if (hasOwnProperty(custom, 'IM_MESSAGE_TYPE') && custom.IM_MESSAGE_TYPE === 'MY_DOCTOR') {
-      return true;
+    const custom = JSONParse(message.custom);
+    const content = JSONParse(message.content);
+    const isCustomMessage = NIM_MESSAGE_TYPE.CUSTOM;
+
+    // 对方自定义消息
+    if (isCustomMessage && custom?.target === message.target) {
+      return false;
     }
-    return false;
+    // 自定义消息 (订单评价)
+    if (isCustomMessage && content?.data?.code === '5') {
+      return false;
+    }
+    // 自定义消息 (绑定病例)
+    if (isCustomMessage && content?.data?.infoType === '0') {
+      return false;
+    }
+
+    // 非我的医生消息
+    if (!(hasOwnProperty(custom, 'IM_MESSAGE_TYPE') && custom.IM_MESSAGE_TYPE === 'MY_DOCTOR')) {
+      return false;
+    }
+    return true;
   }
 }
 

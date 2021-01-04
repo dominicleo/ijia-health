@@ -32,6 +32,8 @@ export enum MESSAGEBAR_ACTION_TYPE {
   CLEAR = 'clear',
   /** 点击多媒体组件 */
   MEDIA = 'media',
+  /** 显示支付窗口 */
+  PAYMENT = 'payment',
 }
 
 export type EmojiItem = {
@@ -52,6 +54,7 @@ type MessagebarActionSendAction =
   | { type: 'emoji'; payload: EmojiItem };
 
 export type MessagebarAction =
+  | { type: MESSAGEBAR_ACTION_TYPE.SEND; payload: MessagebarActionSendAction }
   | {
       type: MESSAGEBAR_ACTION_TYPE.CLEAR;
     }
@@ -59,4 +62,4 @@ export type MessagebarAction =
       type: MESSAGEBAR_ACTION_TYPE.MEDIA;
       payload: CHATING_MEDIA_TYPE;
     }
-  | { type: MESSAGEBAR_ACTION_TYPE.SEND; payload: MessagebarActionSendAction };
+  | { type: MESSAGEBAR_ACTION_TYPE.PAYMENT };

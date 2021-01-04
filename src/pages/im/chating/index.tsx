@@ -14,12 +14,11 @@ import { RecoilRoot } from 'recoil';
 import s from './index.less';
 import Subscribe from '@/utils/unstated/subscribe';
 import YunxinContainer from '@/containers/im';
-import { noop } from '@/utils';
 import Yunxin from '@/utils/im';
 import { usePageEvent } from 'remax/runtime';
 
 export default () => {
-  const { account } = useQuery<{ account: string }>();
+  const { sessionId, account } = useQuery<{ sessionId: string; account: string }>();
   const messagebar$ = useEventEmitter<MessagebarAction>();
 
   const { run: init, loading } = useRequest(
@@ -39,6 +38,7 @@ export default () => {
   };
 
   messagebar$.useSubscription((action) => {
+    console.log(action);
     if (action.type === MESSAGEBAR_ACTION_TYPE.SEND) {
       const { type, payload } = action.payload;
       if (type === 'text') {
@@ -49,7 +49,10 @@ export default () => {
       }
     }
     if (action.type === MESSAGEBAR_ACTION_TYPE.MEDIA) {
-      console.log('media', action.payload);
+    }
+
+    if (action.type === MESSAGEBAR_ACTION_TYPE.PAYMENT) {
+      // 显示支付窗口
     }
   });
 
@@ -60,7 +63,14 @@ export default () => {
         <RecoilRoot>
           <ChatingContainer>
             <Subscribe to={[YunxinContainer]}>
-              {() => <ChatingRecord data={YunxinContainer} />}
+              {({ state }) => (
+                <ChatingRecord
+                  messages={Yunxin.formatMessageRecordList(
+                    state.messages[sessionId] || {},
+                    state.users,
+                  )}
+                />
+              )}
             </Subscribe>
             <ChatingToolbar />
           </ChatingContainer>

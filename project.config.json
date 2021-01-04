@@ -121,7 +121,7 @@
         {
           "name": "聊天室",
           "pathName": "pages/im/chating/index",
-          "query": "account=yunxin_dev_z1nzez1jkq6mt8mm&scene=p2p",
+          "query": "sessionId=p2p-yunxin_ht_9m8qjljjkm36a14y&account=yunxin_ht_9m8qjljjkm36a14y&scene=p2p",
           "scene": null
         },
         {

@@ -1,0 +1,27 @@
+@import '~@/components/style/index.less';
+
+.bubble {
+  position: relative;
+  box-sizing: border-box;
+  min-height: 44px;
+  padding: 12px 12px 11px;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 21px;
+  word-wrap: break-word;
+  word-break: normal;
+  background-color: #fff;
+  border-radius: 8px;
+  &::before {
+    width: 8px;
+    height: 8px;
+    content: '';
+    transform: rotate(45deg);
+    background-color: #fff;
+    border-radius: 0 2px;
+    position: absolute;
+    top: 18px;
+    left: -4px;
+    z-index: 1;
+  }
+}

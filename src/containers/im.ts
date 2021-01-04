@@ -58,7 +58,6 @@ class container extends Container<YunxinContainerState> {
       }
       this.state.messages[message.sessionId][message.time] = message;
     });
-    console.log(this.state.messages);
     this.setState({ messages: this.state.messages });
   }
 

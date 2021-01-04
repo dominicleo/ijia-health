@@ -4,8 +4,10 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { usePageEvent } from 'remax/macro';
 import {
   authorize,
+  CoverView,
   getRecorderManager,
   getSetting,
+  hideKeyboard,
   hideToast,
   Input,
   nextTick,
@@ -44,6 +46,7 @@ const InputBar = React.memo(() => {
   const onBlur = () => {
     if (!focus) return;
     setFocus(false);
+    hideKeyboard();
   };
 
   return (
@@ -232,7 +235,7 @@ const ChatingMessageBar: React.FC = React.memo(() => {
       </View>
       <View
         onClick={() => onClickToolbarMode(CHATING_TOOLBAR.EMOJI)}
-        className={classnames(s.icon, s.emoji)}
+        className={classnames(s.icon, s.emoji, { [s.keyboard]: toolbar === CHATING_TOOLBAR.EMOJI })}
         hoverClassName='clickable-opacity'
         hoverStayTime={0}
       />

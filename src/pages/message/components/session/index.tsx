@@ -25,7 +25,7 @@ const SessionItemWrapper: React.FC<{
   const { id, scene, to, lastMsg, unread, updateTime } = data;
   const onClick = () => {
     Promise.all([YunxinContainer.setSessionId(id), Yunxin.resetSessionUnread(data)]).finally(() => {
-      history.push(PAGE.CHATING, { account: to, scene });
+      history.push(PAGE.CHATING, { sessionId: id, account: to, scene });
     });
   };
 

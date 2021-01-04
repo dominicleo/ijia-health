@@ -1,0 +1,69 @@
+@import '~@/components/style/index.less';
+
+.record {
+  padding: 24px 16px 0;
+}
+
+.header {
+  flex: 1;
+  justify-content: center;
+  display: flex;
+}
+
+.body {
+  display: flex;
+}
+
+.date {
+  min-width: 77px;
+  height: 24px;
+  background-color: #cacaca;
+  border-radius: 13px;
+  box-sizing: border-box;
+  padding: 0 21px;
+  align-items: center;
+  display: flex;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 44px;
+  background: #fff center no-repeat;
+  background-size: cover;
+}
+
+.content {
+  overflow: hidden;
+}
+
+.received {
+  .content {
+    padding-left: 8px;
+  }
+}
+
+.sent {
+  .body {
+    flex-direction: row-reverse;
+  }
+  .content {
+    padding-right: 8px;
+  }
+
+  :global {
+    .bubble {
+      color: #fff;
+      background-color: @primary-color;
+      &::before {
+        left: auto;
+        right: -4px;
+        background-color: @primary-color;
+      }
+    }
+  }
+}
