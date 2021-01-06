@@ -1,9 +1,54 @@
 type Done<T, R = void> = (error: Error, data: T) => R;
 
+type SendMessageBaseOptions = {
+  /** 场景 */
+  scene?: NIM_SCENE;
+  /** 接收方, 对方帐号或者群id */
+  to?: string;
+  /** 扩展字段 */
+  custom?: string;
+  /** 如果是重发, 那么需要带上之前生成的idClient来标记这条消息 */
+  idClient?: string;
+  /** 是否是重发 */
+  resend?: boolean;
+  /** 结果回调函数 */
+  done?: Done<NimMessage>;
+  /** 发送状态 */
+  status?: NIM_MESSAGE_STATUS;
+};
+
+interface SendTextMessageOptions extends SendMessageBaseOptions {
+  type: NIM_MESSAGE_TYPE.TEXT;
+  /** 文本消息内容 */
+  text: string;
+}
+
+interface SendFileMessageOptions extends SendMessageBaseOptions {
+  type: NIM_MESSAGE_TYPE.IMAGE | NIM_MESSAGE_TYPE.AUDIO | NIM_MESSAGE_TYPE.VIDEO;
+  /** 文件临时路径 (微信小程序特有) */
+  wxFilePath: string;
+}
+interface SendCustomMessageOptions extends SendMessageBaseOptions {
+  type: NIM_MESSAGE_TYPE.CUSTOM;
+  /** 自定义消息的消息内容, 推荐使用JSON格式构建 */
+  content: string;
+}
+
+export type SendMessageOptions =
+  | SendTextMessageOptions
+  | SendFileMessageOptions
+  | SendCustomMessageOptions;
+
 export interface NimInstance extends Record<string, any> {
   name: string;
   account: string;
-  sendText: () => void;
+  /** 发送文本消息 */
+  sendText: (options: SendTextMessageOptions) => void;
+  /** 发送文件消息 */
+  sendFile: (options: SendFileMessageOptions) => void;
+  /** 发送自定义消息 */
+  sendCustomMsg: (options: SendCustomMessageOptions) => void;
+  /** 获取用户名片数组 */
   getUsers: (options: { accounts: string[]; sync?: boolean; done?: Done<NimUser[]> }) => void;
   /** 重置某个会话的未读数 */
   resetSessionUnread: (sessionId: string) => void;
@@ -60,7 +105,7 @@ export enum NIM_SCENE {
   SUPERTEAM = 'superTeam',
 }
 
-export type NimFile = {
+export type NimFileBase = {
   /** 文件地址 */
   url: string;
   /** 名字 */
@@ -73,20 +118,20 @@ export type NimFile = {
   ext: string;
 };
 
-export interface NimImageFile extends NimFile {
+export interface NimImageFile extends NimFileBase {
   /** 宽, 单位px */
   w: number;
   /** 高, 单位px */
   h: number;
 }
 
-export interface NimAudioFile extends NimFile {
+export interface NimAudioFile extends NimFileBase {
   /** 长度, 单位ms */
   dur: number;
   /** 实时转成 mp3 流的 url, 此 url 支持的格式有: mp3, wav, aac, wma, wmv, amr, mp2, flac, vorbis, ac3 */
   mp3Url: string;
 }
-export interface NimVideoFile extends NimFile {
+export interface NimVideoFile extends NimFileBase {
   /** 长度, 单位ms */
   dur: number;
   /** 宽, 分辨率, 单位px */
@@ -95,7 +140,9 @@ export interface NimVideoFile extends NimFile {
   h: number;
 }
 
-export type NimMessage = {
+export type NimFile = NimImageFile | NimAudioFile | NimVideoFile | NimFileBase;
+
+export type NimMessage<F = NimFile> = {
   /** 消息类型 */
   type: MessageType;
   /** 消息发送方帐号 */
@@ -111,11 +158,11 @@ export type NimMessage = {
   /** 扩展字段 */
   custom: any;
   /** 自定义消息的消息内容 */
-  content: any;
+  content?: any;
   /** 文本消息的文本内容 */
-  text: string;
+  text?: string;
   /** 文件消息的文件对象 */
-  file: NimImageFile | NimAudioFile | NimVideoFile | NimFile;
+  file?: F;
   /** SDK生成的消息id, 在发送消息之后会返回给开发者, 开发者可以在发送消息的结果回调里面根据这个ID来判断相应消息的发送状态, 到底是发送成功了还是发送失败了, 然后根据此状态来更新页面的UI。如果发送失败, 那么可以重新发送此消息 */
   idClient: string;
   /** 服务器用于区分消息用的ID, 用于获取历史消息和获取包含关键词的历史消息, 此字段可能没有, 所以开发者应该使用idClient来唯一标识消息 */
@@ -125,16 +172,17 @@ export type NimMessage = {
   /** 发送时间 */
   time: number;
   /** 自定义推送文案 */
-  pushContent: string;
+  pushContent?: string;
   /** 消息发送状态 */
   status: NIM_MESSAGE_STATUS;
 };
 
-export interface NimRecord extends NimMessage {
+export interface NimRecord<F = NimFile> extends NimMessage<F> {
   user: NimUser;
   custom: Record<string, any>;
   content: Record<string, any>;
   displayTime: string;
+  originalMessage: NimMessage;
 }
 
 export type NimSession = {

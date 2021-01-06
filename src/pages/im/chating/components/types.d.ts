@@ -1,3 +1,5 @@
+import { NimAudioFile, NimFile, NimRecord } from '@/utils/im';
+
 export enum CHATING_MEDIA_TYPE {
   /** 相册 */
   ALBUM = 'album',
@@ -25,7 +27,7 @@ export enum CHATING_TOOLBAR {
   MEDIA = 2,
 }
 
-export enum MESSAGEBAR_ACTION_TYPE {
+export enum CHATING_ACTION_TYPE {
   /** 发送 */
   SEND = 'send',
   /** 清除输入框文本 */
@@ -34,6 +36,10 @@ export enum MESSAGEBAR_ACTION_TYPE {
   MEDIA = 'media',
   /** 显示支付窗口 */
   PAYMENT = 'payment',
+  /** 播放音频 */
+  PLAYAUDIO = 'playaudio',
+  /** 预览图片/视频 */
+  PREVIEW = 'preview',
 }
 
 export type EmojiItem = {
@@ -42,24 +48,49 @@ export type EmojiItem = {
   catalog: string;
 };
 
-type MessagebarActionSendAction =
-  | {
-      type: 'text';
-      payload: string;
-    }
-  | {
-      type: 'audio';
-      payload: WechatMiniprogram.OnStopCallbackResult;
-    }
-  | { type: 'emoji'; payload: EmojiItem };
+export enum MESSAGEBAR_ACTION_TYPE {
+  /** 文本 */
+  TEXT = 'text',
+  /** 音频 */
+  AUDIO = 'audio',
+  /** 表情 */
+  EMOJI = 'emoji',
+}
 
-export type MessagebarAction =
-  | { type: MESSAGEBAR_ACTION_TYPE.SEND; payload: MessagebarActionSendAction }
-  | {
-      type: MESSAGEBAR_ACTION_TYPE.CLEAR;
-    }
-  | {
-      type: MESSAGEBAR_ACTION_TYPE.MEDIA;
-      payload: CHATING_MEDIA_TYPE;
-    }
-  | { type: MESSAGEBAR_ACTION_TYPE.PAYMENT };
+type MessagebarSendActionText = {
+  type: MESSAGEBAR_ACTION_TYPE.TEXT;
+  payload: string;
+};
+type MessagebarSendActionAudio = {
+  type: MESSAGEBAR_ACTION_TYPE.AUDIO;
+  payload: WechatMiniprogram.OnStopCallbackResult;
+};
+type MessagebarSendActionEmoji = {
+  type: MESSAGEBAR_ACTION_TYPE.EMOJI;
+  payload: EmojiItem;
+};
+
+type MessagebarSendAction =
+  | MessagebarSendActionText
+  | MessagebarSendActionAudio
+  | MessagebarSendActionEmoji;
+
+type ChatingActionSend = { type: CHATING_ACTION_TYPE.SEND; payload: MessagebarSendAction };
+type ChatingActionClear = {
+  type: CHATING_ACTION_TYPE.CLEAR;
+};
+type ChatingActionMedia = {
+  type: CHATING_ACTION_TYPE.MEDIA;
+  payload: CHATING_MEDIA_TYPE;
+};
+type ChatingActionPlayAudio = { type: CHATING_ACTION_TYPE.PLAYAUDIO; payload: NimAudioFile };
+type ChatingActionPreview = { type: CHATING_ACTION_TYPE.PREVIEW; payload: NimRecord };
+type ChatingActionPayment = { type: CHATING_ACTION_TYPE.PAYMENT };
+
+export type ChatingAction =
+  | ChatingActionSend
+  | ChatingActionClear
+  | ChatingActionMedia
+  | ChatingActionPlayAudio
+  | ChatingActionPreview
+  | ChatingActionPayment;

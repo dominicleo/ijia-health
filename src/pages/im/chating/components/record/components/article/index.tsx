@@ -11,8 +11,7 @@ import history from '@/utils/history';
 import PAGE from '@/constants/page';
 import defaultImage from './images/icon-article.svg';
 
-const ChatingRecordArticle: React.FC<NimRecord> = React.memo((props) => {
-  const { content } = props;
+const ChatingRecordArticle: React.FC<NimRecord> = React.memo(({ content }) => {
   const { id, title: label, content: title, thumbnail } = content?.data || {};
 
   return (

@@ -4,7 +4,6 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { usePageEvent } from 'remax/macro';
 import {
   authorize,
-  CoverView,
   getRecorderManager,
   getSetting,
   hideKeyboard,
@@ -20,18 +19,23 @@ import {
 import { MESSAGE } from '@/constants';
 
 import {
-  keyboardHeightState,
-  valueState,
   focusState,
-  toolbarState,
+  keyboardHeightState,
   messagebarState,
+  toolbarState,
+  valueState,
 } from '../atoms';
 import ChatingContext from '../context';
-import { CHATING_MESSAGEBAR, CHATING_TOOLBAR, MESSAGEBAR_ACTION_TYPE } from '../types.d';
+import {
+  CHATING_ACTION_TYPE,
+  CHATING_MESSAGEBAR,
+  CHATING_TOOLBAR,
+  MESSAGEBAR_ACTION_TYPE,
+} from '../types.d';
 import s from './index.less';
 
 const InputBar = React.memo(() => {
-  const { messagebar$ } = React.useContext(ChatingContext);
+  const { chating$ } = React.useContext(ChatingContext);
   const [value, setValue] = useRecoilState(valueState);
   const [focus, setFocus] = useRecoilState(focusState);
   const setkeyboardHeight = useSetRecoilState(keyboardHeightState);
@@ -57,7 +61,10 @@ const InputBar = React.memo(() => {
       placeholderClassName={s.placeholder}
       placeholder='请仔细描述你的问题'
       onConfirm={(event) =>
-        messagebar$?.emit({ type: MESSAGEBAR_ACTION_TYPE.SEND, payload: event.detail.value })
+        chating$?.emit({
+          type: CHATING_ACTION_TYPE.SEND,
+          payload: { type: MESSAGEBAR_ACTION_TYPE.TEXT, payload: event.detail.value },
+        })
       }
       onFocus={onFocus}
       onBlur={onBlur}
@@ -71,14 +78,14 @@ const InputBar = React.memo(() => {
 });
 
 // 最大录音时长
-const RECORDER_MAX_TIME = 60 * 2 * 1000;
+const RECORDER_MAX_TIME = 120 * 1000;
 // 最小录音时长
 const RECORDER_MIN_TIME = 2000;
 
 const RECORDER_AUTH_NAME = 'scope.record';
 
 const SpeakBar: React.FC = React.memo(() => {
-  const { messagebar$ } = React.useContext(ChatingContext);
+  const { chating$ } = React.useContext(ChatingContext);
   const [speaking, setSpeaking] = React.useState(false);
   const [recordAuthorize, setRecordAuthorize] = React.useState<boolean | undefined>();
   const recorder = React.useRef(getRecorderManager());
@@ -92,16 +99,16 @@ const SpeakBar: React.FC = React.memo(() => {
     setSpeaking(true);
     showToast({ title: '正在录音', duration: 60 * 60 * 1000 * 24, icon: 'none' });
     if (!recorder.current) return;
-    recorder.current.start({ duration: RECORDER_MAX_TIME, format: 'mp3' });
+    recorder.current.start({ duration: RECORDER_MAX_TIME, format: 'mp3', numberOfChannels: 1 });
     recorder.current.onStop((response) => {
       if (response.duration < RECORDER_MIN_TIME) {
         showToast({ title: '录音时间太短', icon: 'none' });
         setSpeaking(false);
         return;
       }
-      messagebar$?.emit({
-        type: MESSAGEBAR_ACTION_TYPE.SEND,
-        payload: { type: 'audio', payload: response },
+      chating$?.emit({
+        type: CHATING_ACTION_TYPE.SEND,
+        payload: { type: MESSAGEBAR_ACTION_TYPE.AUDIO, payload: response },
       });
     });
 

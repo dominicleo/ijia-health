@@ -22,7 +22,7 @@ Dayjs.updateLocale('zh-cn', {
     nextWeek: '[下] dddd LT',
     lastDay: '[昨天] LT',
     lastWeek: 'dddd LT',
-    sameElse: 'L',
+    sameElse: 'L LTS',
   },
 });
 

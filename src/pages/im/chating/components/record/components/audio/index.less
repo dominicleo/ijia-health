@@ -1,1 +1,82 @@
 @import '~@/components/style/index.less';
+
+.voice {
+  width: 11px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  animation-duration: 0.6s;
+  animation-delay: 0.25s;
+  animation-iteration-count: infinite;
+}
+
+.audio {
+  justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  width: 75px;
+  transition: 0.2s ease-out 0s;
+  &.large {
+    width: 234px;
+  }
+  &.middle {
+    width: 175.5px;
+  }
+  &.small {
+    width: 117px;
+  }
+  &.loading {
+    width: 40px;
+  }
+}
+
+.received {
+  flex-direction: row-reverse;
+  --loading-spinner-color: @text-color;
+  .voice {
+    margin-right: 8px;
+    background-image: url('./images/icon-voice-received-normal.svg');
+    background-position-x: left;
+  }
+
+  &.playing .voice {
+    animation-name: playing-received;
+  }
+}
+
+.sent {
+  --loading-spinner-color: #fff;
+  .voice {
+    margin-left: 8px;
+    background-image: url('./images/icon-voice-sent-normal.svg');
+    background-position-x: right;
+  }
+
+  &.playing .voice {
+    animation-name: playing-sent;
+  }
+}
+
+@keyframes playing-received {
+  0% {
+    background-image: url('./images/icon-voice-received-small.svg');
+  }
+  50% {
+    background-image: url('./images/icon-voice-received-middle.svg');
+  }
+  100% {
+    background-image: url('./images/icon-voice-received-normal.svg');
+  }
+}
+
+@keyframes playing-sent {
+  0% {
+    background-image: url('./images/icon-voice-sent-small.svg');
+  }
+  50% {
+    background-image: url('./images/icon-voice-sent-middle.svg');
+  }
+  100% {
+    background-image: url('./images/icon-voice-sent-normal.svg');
+  }
+}

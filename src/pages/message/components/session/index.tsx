@@ -1,4 +1,10 @@
+import dayjs from 'dayjs';
+import isEqual from 'lodash.isequal';
 import * as React from 'react';
+import { usePageEvent } from 'remax/macro';
+import { nextTick, ScrollView, View } from 'remax/wechat';
+import { Subscribe } from 'unstated';
+
 import Empty from '@/components/empty';
 import { MESSAGE } from '@/constants';
 import PAGE from '@/constants/page';
@@ -8,15 +14,10 @@ import { getCurrentPage, noop } from '@/utils';
 import { AuthorizeError } from '@/utils/error';
 import history from '@/utils/history';
 import Yunxin, { NimSession, NimUser } from '@/utils/im';
-import Subscribe from '@/utils/unstated/subscribe';
 import Button from '@vant/weapp/lib/button';
-import dayjs from 'dayjs';
-import { usePageEvent } from 'remax/macro';
-import { nextTick, ScrollView, View } from 'remax/wechat';
 
 import s from './index.less';
 import SessionItem from './item';
-import isEqual from 'lodash.isequal';
 
 const SessionItemWrapper: React.FC<{
   data: NimSession;

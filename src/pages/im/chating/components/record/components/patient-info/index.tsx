@@ -7,8 +7,7 @@ import ChatingRecordBubble from '../bubble';
 import ChatingRecordWrapper from '../wrapper';
 import s from './index.less';
 
-const ChatingRecordPatientInfo: React.FC<NimRecord> = React.memo((props) => {
-  const { content } = props;
+const ChatingRecordPatientInfo: React.FC<NimRecord> = React.memo(({ content }) => {
   const { name, sex, age } = content?.data || {};
   return (
     <ChatingRecordBubble className={s.patientinfo}>

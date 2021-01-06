@@ -15,13 +15,12 @@ function ChatingRecordWrapper<T extends NimRecord>(options: ChatingRecordWrapper
   const { header, children } = options;
   return (props: T) => {
     const { idClient, flow, user, displayTime } = props;
-    const isReceived = flow === NIM_MESSAGE_FLOW.IN;
     const isSent = flow === NIM_MESSAGE_FLOW.OUT;
     return (
       <View
         id={`record_${idClient}`}
         className={classnames(s.record, {
-          [s.received]: isReceived,
+          [s.received]: !isSent,
           [s.sent]: isSent,
         })}
       >

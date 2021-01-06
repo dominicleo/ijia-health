@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { TouchEvent, View } from 'remax/wechat';
+
+import Loading from '@vant/weapp/lib/loading';
 import Navbar from '@vant/weapp/lib/nav-bar';
 
 import s from './index.less';
-import Loading from '@vant/weapp/lib/loading';
 
 interface ChatingHeaderProps {
   title: string;

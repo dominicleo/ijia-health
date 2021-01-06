@@ -13,15 +13,15 @@ export enum MESSAGE_RECORD_CUSTOM_TYPE {
   REDPACKETTIP = 6,
   /** 多条消息合并转发 */
   MULTIRETWEET = 15,
-  /** 自定义患者资料消息 */
+  /** 患者资料 */
   PATIENTINFO = 16,
   /** 自定义tips纯文本消息 */
   PAYRESULT = 101,
   /** 自定义tips富文本消息 */
   SETMEAL = 102,
-  /** 电子处方消息 */
+  /** 处方 */
   PRESCRIBE = 103,
-  /** 医生文章 */
+  /** 文章 */
   ARTICLE = 104,
   /** 业务需要的一些系统消息 */
   SYSTEM = 105,

@@ -1,60 +1,61 @@
 @import '~@/components/style/mixins.less';
 
 .article {
+  position: relative;
+  box-sizing: border-box;
   width: 234px;
+  padding: 13px 12px 0;
   background-color: #fff;
   border-radius: 8px;
-  padding: 13px 12px 0;
-  position: relative;
   &::before {
-    width: 8px;
-    height: 8px;
-    content: '';
-    transform: rotate(45deg);
-    background-color: #fff;
-    border-radius: 0 2px;
     position: absolute;
     top: 18px;
     left: -4px;
     z-index: 1;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 0 2px;
+    transform: rotate(45deg);
+    content: '';
   }
 }
 
 .content {
-  display: flex;
   position: relative;
+  display: flex;
   padding-bottom: 12px;
   .hairline('bottom');
 }
 
 .title {
   flex: 1;
-  font-size: 15px;
   font-weight: 500;
+  font-size: 15px;
   line-height: 21px;
 }
 
 .picture {
+  display: block;
+  flex-shrink: 0;
   width: 40px;
   height: 40px;
   margin-left: 20px;
-  display: block;
-  flex-shrink: 0;
 }
 
 .footer {
-  height: 28px;
-  align-items: center;
   display: flex;
-  font-size: 11px;
+  align-items: center;
+  height: 28px;
   color: #b2b3b2;
+  font-size: 11px;
   &::before {
+    display: block;
     width: 12px;
     height: 12px;
-    content: '';
+    margin-right: 4px;
     background: url('./images/icon-custom.svg') center no-repeat;
     background-size: contain;
-    display: block;
-    margin-right: 4px;
+    content: '';
   }
 }

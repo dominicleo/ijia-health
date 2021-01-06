@@ -5,7 +5,7 @@ import { Text, View } from 'remax/wechat';
 import SafeArea from '@/components/safe-area';
 
 import ChatingContext from '../context';
-import { CHATING_MEDIA_TYPE, MESSAGEBAR_ACTION_TYPE } from '../types.d';
+import { CHATING_ACTION_TYPE, CHATING_MEDIA_TYPE } from '../types.d';
 import s from './index.less';
 
 const MEDIA_ITEMS: Array<{ value: CHATING_MEDIA_TYPE; label: string }> = [
@@ -28,7 +28,7 @@ const MEDIA_ITEMS: Array<{ value: CHATING_MEDIA_TYPE; label: string }> = [
 ];
 
 const ChatingMedia: React.FC = () => {
-  const { messagebar$ } = React.useContext(ChatingContext);
+  const { chating$ } = React.useContext(ChatingContext);
   return (
     <View className={s.wrapper}>
       <View className={s.items}>
@@ -36,9 +36,7 @@ const ChatingMedia: React.FC = () => {
           <View
             key={value}
             className={s.item}
-            onClick={() =>
-              messagebar$?.emit({ type: MESSAGEBAR_ACTION_TYPE.MEDIA, payload: value })
-            }
+            onClick={() => chating$?.emit({ type: CHATING_ACTION_TYPE.MEDIA, payload: value })}
             hoverClassName='clickable-opacity'
             hoverStayTime={0}
           >

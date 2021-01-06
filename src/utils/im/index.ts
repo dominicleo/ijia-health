@@ -3,13 +3,13 @@ import { hideLoading, showLoading } from 'remax/wechat';
 import { NIM_APPKEY } from '@/constants/common';
 import YunxinContainer from '@/containers/im';
 import { UserService } from '@/services';
-
 import { hasOwnProperty, JSONParse } from '@/utils';
+
+import date from '../date';
 import GlobalData from '../globalData';
 import Netcall from './library/netcall';
-import Nim, { NimMessage, NimRecord, NimSession, NimUser } from './library/nim';
-import { NIM_MESSAGE_TYPE } from './library/nim.d';
-import date from '../date';
+import Nim, { NimMessage, NimRecord, NimSession, NimUser, SendMessageOptions } from './library/nim';
+import { NIM_MESSAGE_FLOW, NIM_MESSAGE_STATUS, NIM_MESSAGE_TYPE } from './library/nim.d';
 
 export * from './library/nim.d';
 export * from './library/netcall.d';
@@ -33,6 +33,11 @@ const DEBUG = false;
 
 // 消息间隔时间
 const MESSAGE_INTERVAL_TIME = 60 * 1000 * 2;
+
+/** 我的医生消息自定义键 */
+export const LEGAL_MESSAGE_KEY = 'IM_MESSAGE_TYPE';
+/** 我的医生消息自定义值 */
+export const LEGAL_MESSAGE_VALUE = 'MY_DOCTOR';
 
 class Yunxin {
   constructor(options: YunxinOptions) {
@@ -83,9 +88,10 @@ class Yunxin {
     });
     YunxinContainer.setSessions(sessions);
   }
+
   static async init(loading = true) {
     if (GlobalData.nim) return Promise.resolve();
-    loading && showLoading({ title: '', mask: true });
+    loading && showLoading({ title: '正在获取数据', mask: true });
 
     const { account, token } = await UserService.getYunxinConfig().catch((error) => {
       hideLoading();
@@ -170,6 +176,7 @@ class Yunxin {
         content: JSONParse(message.content),
         user: users[message.from],
         displayTime: Yunxin.getMessageRecordDisplayTime(records, message.time),
+        originalMessage: message,
       });
     });
 
@@ -182,10 +189,10 @@ class Yunxin {
     if (lastMessageRecord) {
       const delta: number = timestamp - lastMessageRecord.time;
       if (delta > MESSAGE_INTERVAL_TIME) {
-        displayTime = date(timestamp).calendar(undefined, { sameElse: 'L LTS' });
+        displayTime = date(timestamp).calendar(undefined);
       }
     } else {
-      displayTime = date(timestamp).calendar(undefined, { sameElse: 'L LTS' });
+      displayTime = date(timestamp).calendar(undefined);
     }
     return displayTime;
   }
@@ -210,10 +217,67 @@ class Yunxin {
     }
 
     // 非我的医生消息
-    if (!(hasOwnProperty(custom, 'IM_MESSAGE_TYPE') && custom.IM_MESSAGE_TYPE === 'MY_DOCTOR')) {
+    if (
+      !(
+        hasOwnProperty(custom, LEGAL_MESSAGE_KEY) &&
+        custom[LEGAL_MESSAGE_KEY] === LEGAL_MESSAGE_VALUE
+      )
+    ) {
       return false;
     }
     return true;
+  }
+
+  /** 发送消息 */
+
+  static sendMessage(options: SendMessageOptions): Promise<NimMessage> {
+    return new Promise((resolve, reject) => {
+      const { done } = options;
+      options.done = (error, message) => {
+        done && done(error, message);
+        error && reject(error);
+        resolve(message);
+      };
+
+      switch (options.type) {
+        case NIM_MESSAGE_TYPE.TEXT:
+          GlobalData.nim?.sendText(options);
+          break;
+        case NIM_MESSAGE_TYPE.CUSTOM:
+          GlobalData.nim?.sendCustomMsg(options);
+          break;
+        case NIM_MESSAGE_TYPE.IMAGE:
+        case NIM_MESSAGE_TYPE.AUDIO:
+        case NIM_MESSAGE_TYPE.VIDEO:
+          GlobalData.nim?.sendFile(options);
+          break;
+        default:
+          reject(new YunxinError('sendMessage 未知发送类型'));
+      }
+    });
+  }
+
+  /** 获取发送消息数据 */
+  static getSendMessage<T extends SendMessageOptions>(options: T): NimMessage {
+    const custom = {
+      [LEGAL_MESSAGE_KEY]: LEGAL_MESSAGE_VALUE,
+    };
+
+    const time = Date.now();
+    const config: any = {
+      idClient: time,
+      content: '',
+      target: options.to,
+      flow: NIM_MESSAGE_FLOW.OUT,
+      status: NIM_MESSAGE_STATUS.SENDING,
+      time,
+      from: GlobalData.nim?.account,
+      ...options,
+    };
+
+    config.custom = JSON.stringify(custom);
+
+    return config;
   }
 }
 

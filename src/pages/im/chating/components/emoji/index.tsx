@@ -4,12 +4,12 @@ import { Image, ScrollView, View } from 'remax/wechat';
 import SafeArea from '@/components/safe-area';
 
 import ChatingContext from '../context';
-import { MESSAGEBAR_ACTION_TYPE } from '../types.d';
+import { CHATING_ACTION_TYPE, MESSAGEBAR_ACTION_TYPE } from '../types.d';
 import EMOJI_CONFIG from './data';
 import s from './index.less';
 
 const ChatingEmoji: React.FC = () => {
-  const { messagebar$ } = React.useContext(ChatingContext);
+  const { chating$ } = React.useContext(ChatingContext);
   return (
     <ScrollView className={s.wrapper} scrollY>
       <View className={s.items}>
@@ -18,9 +18,9 @@ const ChatingEmoji: React.FC = () => {
             key={item.name}
             className={s.item}
             onClick={() =>
-              messagebar$?.emit({
-                type: MESSAGEBAR_ACTION_TYPE.SEND,
-                payload: { type: 'emoji', payload: item },
+              chating$?.emit({
+                type: CHATING_ACTION_TYPE.SEND,
+                payload: { type: MESSAGEBAR_ACTION_TYPE.EMOJI, payload: item },
               })
             }
             hoverClassName='clickable-opacity'

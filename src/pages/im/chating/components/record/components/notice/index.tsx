@@ -9,9 +9,8 @@ import ChatingRecordWrapper from '../wrapper';
 import s from './index.less';
 import { MESSAGE_RECORD_CUSTOM_TYPE } from '../types.d';
 
-const ChatingRecordNotice: React.FC<Pick<NimRecord, 'content'>> = React.memo((props) => {
+const ChatingRecordNotice: React.FC<Pick<NimRecord, 'content'>> = React.memo(({ content }) => {
   const { messagebar$ } = React.useContext(ChatingContext);
-  const { content } = props;
   const data = content?.data || {};
 
   const onClick = () => {

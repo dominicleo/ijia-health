@@ -1,5 +1,5 @@
 import Yunxin, { NimMessage, NimSession, NimUser } from '@/utils/im';
-import Container from '@/utils/unstated/container';
+import { Container } from 'unstated';
 
 interface YunxinContainerState {
   /** 当前会话 ID */
