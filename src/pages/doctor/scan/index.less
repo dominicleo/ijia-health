@@ -1,0 +1,63 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px 16px;
+  --skeleton-padding: 0;
+}
+
+.content {
+  display: flex;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  position: relative;
+  .hairline('bottom');
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 4px;
+  background-color: @skeleton-color;
+  margin-right: 12px;
+}
+
+.title {
+  margin-top: 4px;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.subtitle {
+  margin-top: 4px;
+}
+
+.field {
+  + .field {
+    margin-top: 16px;
+  }
+  text {
+    color: #999;
+    min-width: 60px;
+    margin-right: 12px;
+    display: inline-block;
+  }
+}
+
+.submit {
+  margin-top: 12px;
+}
+
+.loader {
+  .content {
+    display: block;
+  }
+}

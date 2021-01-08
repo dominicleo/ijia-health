@@ -103,7 +103,7 @@ export default () => {
           return;
         }
 
-        history.push(PAGE.SEARCH, { doctorId });
+        history.push(PAGE.DOCTOR_SCAN, { doctorId });
       })
       .catch((error) => {
         if (isNativeCancel(error)) return;
@@ -255,7 +255,7 @@ export default () => {
     <View className={s.wrapper}>
       <Toast.Component />
       <View className={s.header}>
-        <View className={s.search} onClick={() => history.push(PAGE.SEARCH)}>
+        <View className={s.search} onClick={() => history.push(PAGE.DOCTOR_SEARCH)}>
           {DOCTOR_SEARCH_PLACEHOLDER}
         </View>
         <View

@@ -9,8 +9,8 @@ enum PAGE {
   ME = '/pages/me/index',
   /** 个人资料 */
   PROFILE = '/pages/settings/profile/index',
-  /** 搜索页 */
-  SEARCH = '/pages/search/index',
+  /** 个人资料 */
+  CERTIFICATION = '/pages/settings/certification/index',
   /** 授权页面 */
   AUTHORIZE = '/pages/authorize/index',
   /** 支付中心 */
@@ -21,6 +21,10 @@ enum PAGE {
   DOCTOR = '/pages/doctor/index',
   /** 我的医生 */
   MY_DOCTOR = '/pages/doctor/my-doctor/index',
+  /** 搜索页 */
+  DOCTOR_SEARCH = '/pages/doctor/search/index',
+  /** 二维码结果页 */
+  DOCTOR_SCAN = '/pages/doctor/scan/index',
   /** 医生关注列表 */
   DOCTOR_FOLLOW_LIST = '/pages/doctor/follow/index',
   /** 文章详情 */

@@ -21,3 +21,8 @@ export async function getYunxinConfig() {
   const response = await fetch.get('/api/user/im');
   return UserMapper.getYunxinConfig(response.data);
 }
+
+export async function isRealname(): Promise<boolean> {
+  const response = await fetch.post('/api/api/userInfo/isRealName');
+  return !!response?.data;
+}

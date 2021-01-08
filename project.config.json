@@ -115,13 +115,13 @@
         {
           "name": "视频聊天",
           "pathName": "pages/im/videocall/index",
-          "query": "type=video",
+          "query": "type=video&account=yunxin_dev_z1nzez1jkq6mt8mm",
           "scene": null
         },
         {
           "name": "聊天室",
           "pathName": "pages/im/chating/index",
-          "query": "sessionId=p2p-yunxin_ht_m654r8orxld4az0&account=yunxin_ht_m654r8orxld4az0&scene=p2p",
+          "query": "sessionId=p2p-yunxin_dev_z1nzez1jkq6mt8mm&account=yunxin_dev_z1nzez1jkq6mt8mm&scene=p2p",
           "scene": null
         },
         {
@@ -131,39 +131,15 @@
           "scene": null
         },
         {
-          "name": "\b帮助中心",
-          "pathName": "pages/help/list/index",
+          "name": "我的医生",
+          "pathName": "pages/doctor/my-doctor/index",
           "query": "",
           "scene": null
         },
         {
-          "name": "问题详情",
-          "pathName": "pages/help/index",
-          "query": "id=1&title=如何注册爱加健康账号？",
-          "scene": null
-        },
-        {
-          "name": "关于我们",
-          "pathName": "pages/settings/about/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "搜索",
-          "pathName": "pages/search/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "我的收藏",
-          "pathName": "pages/article/bookmark/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "个人资料",
-          "pathName": "pages/settings/profile/index",
-          "query": "",
+          "name": "pages/doctor/scan/index",
+          "pathName": "pages/doctor/scan/index",
+          "query": "doctorId=pg6r4pmg",
           "scene": null
         }
       ]

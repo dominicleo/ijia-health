@@ -24,10 +24,10 @@ const SessionItemWrapper: React.FC<{
   user: NimUser;
 }> = React.memo(({ data, user }) => {
   const { id, scene, to, lastMsg, unread, updateTime } = data;
-  const onClick = () => {
-    Promise.all([YunxinContainer.setSessionId(id), Yunxin.resetSessionUnread(data)]).finally(() => {
-      history.push(PAGE.CHATING, { sessionId: id, account: to, scene });
-    });
+  const onClick = async () => {
+    // 设置当前会话
+    YunxinContainer.setSessionId(id);
+    history.push(PAGE.CHATING, { sessionId: id, account: to, scene });
   };
 
   const content = Yunxin.getSessionMessage(lastMsg);

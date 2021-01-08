@@ -41,9 +41,10 @@ export default () => {
     },
     {
       manual: true,
-      onSuccess({ channels }) {
+      onSuccess({ channels, loaded }) {
         const firstChannel = first(channels);
         firstChannel && setChannel(firstChannel.code);
+        loaded && getSubscribeMessageTemplateList();
       },
       initialData: {
         amount: 0,
@@ -56,7 +57,7 @@ export default () => {
   );
 
   // 获取订阅消息模板
-  const { data: templateIds } = useRequest(
+  const { data: templateIds, run: getSubscribeMessageTemplateList } = useRequest(
     () => (subscribeKey ? SubscribeService.query(subscribeKey) : Promise.resolve()),
     {
       onError: noop,

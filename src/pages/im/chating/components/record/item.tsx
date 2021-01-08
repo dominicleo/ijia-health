@@ -10,13 +10,15 @@ import ChatingRecordNotice from './components/notice';
 import ChatingRecordPatientInfo from './components/patient-info';
 import ChatingRecordPrescription from './components/prescription';
 import ChatingRecordText from './components/text';
+import ChatingRecordNetcall from './components/netcall';
 import { MESSAGE_RECORD_CUSTOM_TYPE } from './components/types.d';
 import ChatingRecordVideo from './components/video';
 import s from './item.less';
 
 const ChatingRecordItem: React.FC<NimRecord> = React.memo((props) => {
-  const { type } = props;
+  const { type, attach } = props;
   const isCustomMessage = type === NIM_MESSAGE_TYPE.CUSTOM;
+  const isNotificationMessage = type === NIM_MESSAGE_TYPE.NOTIFICATION;
   const customType = props?.content?.type;
 
   if (type === NIM_MESSAGE_TYPE.TEXT) {
@@ -48,6 +50,10 @@ const ChatingRecordItem: React.FC<NimRecord> = React.memo((props) => {
 
   if (isCustomMessage && customType === MESSAGE_RECORD_CUSTOM_TYPE.PRESCRIBE) {
     return <ChatingRecordPrescription {...props} />;
+  }
+
+  if (isNotificationMessage && /netcallMiss|netcallBill/.test(attach?.type || '')) {
+    return <ChatingRecordNetcall {...props} />;
   }
 
   // 自定义推送消息

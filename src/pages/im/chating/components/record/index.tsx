@@ -26,14 +26,20 @@ const ChatingRecord: React.FC<ChatingRecordProps> = React.memo(({ messages }) =>
     let current = 0;
     const sources = messages.filter(isPreviewRecord).map((message, index) => {
       message.idClient === idClient && (current = index);
-      return { url: message.file?.name };
+      return { url: message.file?.url, type: message.type };
     });
 
     wx.previewMedia({ sources, current }, true);
   });
 
+  const scrollBottom = () => nextTick(() => setScrollIntoView(id));
+
+  React.useEffect(() => {
+    nextTick(scrollBottom);
+  }, []);
+
   useUpdateEffect(() => {
-    nextTick(() => setScrollIntoView(id));
+    nextTick(scrollBottom);
   }, [messages]);
 
   return (

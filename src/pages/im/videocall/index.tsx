@@ -1,7 +1,11 @@
+import { useRequest } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
+import GlobalData from '@/utils/globalData';
+import history from '@/utils/history';
+import Yunxin from '@/utils/im';
 import * as React from 'react';
 import { useQuery } from 'remax/runtime';
-import { Map, nextTick, vibrateLong, View } from 'remax/wechat';
+import { Map, nextTick, setKeepScreenOn, vibrateLong, View } from 'remax/wechat';
 import Control from './components/control';
 import { CALL_TYPE, CALL_TYPE_VALUE } from './components/types.d';
 import UserInfo from './components/userinfo';
@@ -34,7 +38,6 @@ const userinfo = {
 
 export default () => {
   const query = useQuery<{ type: CALL_TYPE; becalling?: any }>();
-
   const becalling = React.useRef('becalling' in query);
   const vibrateTimer = React.useRef<NodeJS.Timeout>();
   const [state, setState] = useSetState<State>({
@@ -44,6 +47,19 @@ export default () => {
     handsfree: false,
     loading: true,
   });
+
+  const init = () => {
+    if (!GlobalData.netcall) return;
+    // 设置屏幕常亮
+    setKeepScreenOn({ keepScreenOn: true });
+    if (!becalling.current) {
+      GlobalData.netcall.call({});
+    }
+  };
+
+  useRequest(Yunxin.init, { onSuccess: init });
+
+  React.useEffect(() => nextTick(init), []);
 
   // 被叫等待接听中设置震动
   // React.useEffect(() => {
@@ -69,7 +85,7 @@ export default () => {
 
   // 挂断
   const onHangup = React.useCallback(() => {
-    setState({ loading: true });
+    history.back();
   }, []);
 
   // 切换到语音
@@ -113,7 +129,6 @@ export default () => {
         onSwitchCamera={onSwitchCamera}
         onSwitchVoice={onSwitchVoice}
       />
-      {/* </Map> */}
     </View>
   );
 };

@@ -20,7 +20,7 @@ type Item = {
 const SERVICES: Item[] = [
   {
     key: 'prescription',
-    title: '处方',
+    title: '我的处方',
     url: PAGE.PRESCRIBE_LIST,
   },
 ];

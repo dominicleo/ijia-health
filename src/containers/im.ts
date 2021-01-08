@@ -1,3 +1,4 @@
+import GlobalData from '@/utils/globalData';
 import Yunxin, { NimMessage, NimSession, NimUser } from '@/utils/im';
 import { Container } from 'unstated';
 
@@ -14,6 +15,8 @@ interface YunxinContainerState {
   messages: Record<string, Record<number, NimMessage>>;
   /** 同步完成状态 */
   synced: boolean;
+  /** 重置会话已读队列 */
+  resetSessionUnreadQueue: string[];
 }
 
 const INITIAL_STATE: YunxinContainerState = {
@@ -22,13 +25,19 @@ const INITIAL_STATE: YunxinContainerState = {
   sessions: {},
   messages: {},
   synced: false,
+  resetSessionUnreadQueue: [],
 };
 
 class container extends Container<YunxinContainerState> {
   state = INITIAL_STATE;
 
   setSessionId(sessionId: string) {
-    return this.setState({ sessionId });
+    return new Promise((resolve) => {
+      this.resetSessionUnread(sessionId).finally(async () => {
+        await this.setState({ sessionId });
+        return resolve(undefined);
+      });
+    });
   }
 
   setUsers(users: NimUser[]) {
@@ -67,14 +76,49 @@ class container extends Container<YunxinContainerState> {
 
     // 正在当前会话则发送已读回执、清空未读数
     if (this.state.sessionId === message.sessionId) {
-      Yunxin.resetSessionUnread({ id: message.sessionId, lastMsg: message });
+      this.resetSessionUnread(message.sessionId);
     }
 
     this.setMessages([message]);
   }
 
+  /** 标记已读并发送消息已读回执 */
+  async resetSessionUnread(sessionId: string) {
+    if (!GlobalData.nim) return Promise.reject(new Error('未初始化完成'));
+    if (!sessionId) return Promise.reject(new Error('会话id为空'));
+
+    // 未同步完成，加入队列处理
+    if (this.state.synced) {
+      this.setState({
+        resetSessionUnreadQueue: this.state.resetSessionUnreadQueue.concat(sessionId),
+      });
+      return;
+    }
+
+    GlobalData.nim.resetSessionUnread(sessionId);
+
+    const lastMessage = this.state.sessions[sessionId]?.lastMsg;
+
+    if (lastMessage) {
+      return new Promise((resolve, reject) => {
+        GlobalData.nim?.sendMsgReceipt({
+          msg: lastMessage,
+          done(error) {
+            return error ? reject(new Error(`发送消息已读回执失败\n${error}`)) : resolve(undefined);
+          },
+        });
+      });
+    }
+  }
+
+  execResetSessionUnread() {
+    const { resetSessionUnreadQueue: queue } = this.state;
+    queue.length &&
+      queue.filter(Boolean).forEach((sessionId) => this.resetSessionUnread(sessionId));
+  }
+
   synced() {
-    return this.setState({ synced: true });
+    return this.setState({ synced: true }, () => this.execResetSessionUnread());
   }
 
   reset() {

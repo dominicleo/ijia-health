@@ -1,0 +1,131 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 12px 16px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 0 16px;
+  + .card {
+    margin-top: 12px;
+  }
+}
+
+.header,
+.footer {
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+}
+
+.header {
+  height: 48px;
+}
+
+.footer {
+  height: 52px;
+  --button-small-min-width: 78px;
+  --button-small-height: 28px;
+  --button-small-font-size: 13px;
+}
+
+.body {
+  padding: 16px 0;
+  position: relative;
+
+  display: flex;
+  .hairline('top');
+  .hairline('bottom');
+}
+
+.hospitalName {
+  color: #fff;
+
+  font-size: 11px;
+  font-weight: 500;
+  background: @linear-gradient-primary;
+  transform: translateX(-18px);
+
+  height: 20px;
+  padding: 0 12px 0 10px;
+
+  border-radius: 2px 10px 10px 2px;
+  align-items: center;
+  display: flex;
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 4px;
+  background-color: @skeleton-color;
+  margin-right: 12px;
+}
+
+.name {
+  font-weight: 500;
+}
+
+.details {
+  font-size: 13px;
+  margin-top: 4px;
+  text + text {
+    margin-left: 8px;
+  }
+}
+
+.address {
+  font-size: 13px;
+  color: #b3b3b3;
+  margin-top: 4px;
+}
+
+.date {
+  color: #b3b3b3;
+  font-size: 13px;
+}
+
+.trash {
+  width: 16px;
+  height: 16px;
+  background: url('./images/icon-trash.svg') center no-repeat;
+  background-size: contain;
+  position: relative;
+  &::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    bottom: -5px;
+    right: -5px;
+    left: -5px;
+  }
+}
+
+.loadable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 50px;
+  color: #999;
+  font-size: 14px;
+
+  --loading-text-color: #999;
+  --loading-spinner-color: #999;
+}
+
+.loader {
+  --skeleton-padding: 0;
+  .header > view,
+  .body > view,
+  .footer > view {
+    width: 100%;
+  }
+}

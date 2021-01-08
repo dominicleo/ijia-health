@@ -159,6 +159,8 @@ export type NimMessage<F = NimFile> = {
   custom: any;
   /** 自定义消息的消息内容 */
   content?: any;
+  /** 附加信息 */
+  attach?: Record<any, string>;
   /** 文本消息的文本内容 */
   text?: string;
   /** 文件消息的文件对象 */

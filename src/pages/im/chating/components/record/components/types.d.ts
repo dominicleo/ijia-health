@@ -15,9 +15,9 @@ export enum MESSAGE_RECORD_CUSTOM_TYPE {
   MULTIRETWEET = 15,
   /** 患者资料 */
   PATIENTINFO = 16,
-  /** 自定义tips纯文本消息 */
+  /** 患者支付结果通知 */
   PAYRESULT = 101,
-  /** 自定义tips富文本消息 */
+  /** 绑定病例 */
   SETMEAL = 102,
   /** 处方 */
   PRESCRIBE = 103,

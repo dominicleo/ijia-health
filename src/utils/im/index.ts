@@ -3,13 +3,14 @@ import { hideLoading, showLoading } from 'remax/wechat';
 import { NIM_APPKEY } from '@/constants/common';
 import YunxinContainer from '@/containers/im';
 import { UserService } from '@/services';
-import { hasOwnProperty, JSONParse } from '@/utils';
+import { hasOwnProperty, isString, JSONParse } from '@/utils';
 
 import date from '../date';
 import GlobalData from '../globalData';
 import Netcall from './library/netcall';
 import Nim, { NimMessage, NimRecord, NimSession, NimUser, SendMessageOptions } from './library/nim';
 import { NIM_MESSAGE_FLOW, NIM_MESSAGE_STATUS, NIM_MESSAGE_TYPE } from './library/nim.d';
+import { MESSAGE_RECORD_CUSTOM_TYPE } from '@/pages/im/chating/components/record/components/types.d';
 
 export * from './library/nim.d';
 export * from './library/netcall.d';
@@ -59,9 +60,12 @@ class Yunxin {
       onupdatemyinfo: (user) => YunxinContainer.setUsers([user]),
       onsessions: this.onSessions,
       onupdatesession: (session) => YunxinContainer.setSessions([session]),
-      onroamingmsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
+      onroamingmsgs: ({ msgs }) => {
+        console.log(msgs);
+        YunxinContainer.setMessages(msgs);
+      },
       onofflinemsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
-      onmsg: (message) => YunxinContainer.setMessages([message]),
+      onmsg: (message) => YunxinContainer.updateMessage(message),
       onsyncdone: () => YunxinContainer.synced(),
     });
   }
@@ -113,27 +117,11 @@ class Yunxin {
     } catch (error) {}
   }
 
-  static resetSessionUnread(session: Pick<NimSession, 'id' | 'lastMsg'>) {
-    if (!GlobalData.nim) return Promise.reject(new YunxinError('resetSessionUnread: 未初始化完成'));
-    if (!session) return Promise.reject(new YunxinError('resetSessionUnread: 会话数据为空'));
-    GlobalData.nim.resetSessionUnread(session.id);
-    return new Promise((resolve, reject) => {
-      GlobalData.nim?.sendMsgReceipt({
-        msg: session.lastMsg,
-        done(error) {
-          return error
-            ? reject(new YunxinError(`resetSessionUnread: 发送消息已读回执失败\n${error}`))
-            : resolve(undefined);
-        },
-      });
-    });
-  }
-
   static getSessionMessage(message: NimMessage) {
     if (!message) return '';
     switch (message.type) {
       case NIM_MESSAGE_TYPE.TEXT:
-        return message.text;
+        return message.text || '';
       case NIM_MESSAGE_TYPE.IMAGE:
         return '[图片]';
       case NIM_MESSAGE_TYPE.AUDIO:
@@ -203,16 +191,27 @@ class Yunxin {
     const content = JSONParse(message.content);
     const isCustomMessage = NIM_MESSAGE_TYPE.CUSTOM;
 
-    // 对方自定义消息
-    if (isCustomMessage && custom?.target === message.target) {
+    // 用户支付结果通知
+    if (
+      isCustomMessage &&
+      content.type === MESSAGE_RECORD_CUSTOM_TYPE.PAYRESULT &&
+      custom.target === message.target
+    ) {
       return false;
     }
+
+    // 系统通知
+    if (isCustomMessage && content.type === MESSAGE_RECORD_CUSTOM_TYPE.SYSTEM) {
+      return false;
+    }
+
+    // 自定义消息 (绑定病例)
+    if (isCustomMessage && content.type === MESSAGE_RECORD_CUSTOM_TYPE.SETMEAL) {
+      return false;
+    }
+
     // 自定义消息 (订单评价)
     if (isCustomMessage && content?.data?.code === '5') {
-      return false;
-    }
-    // 自定义消息 (绑定病例)
-    if (isCustomMessage && content?.data?.infoType === '0') {
       return false;
     }
 

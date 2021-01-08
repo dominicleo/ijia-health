@@ -10,10 +10,12 @@ import s from './index.less';
 const ChatingRecordPatientInfo: React.FC<NimRecord> = React.memo(({ content }) => {
   const { name, sex, age } = content?.data || {};
   return (
-    <ChatingRecordBubble className={s.patientinfo}>
-      <View className={s.name}>{name}</View>
-      {sex && <Text>{sex}</Text>}
-      {age && <Text>{age}</Text>}
+    <ChatingRecordBubble>
+      <View className={s.patientinfo}>
+        <View className={s.name}>{name}</View>
+        {sex && <Text>{sex}</Text>}
+        {age && <Text>{age}</Text>}
+      </View>
     </ChatingRecordBubble>
   );
 });

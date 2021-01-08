@@ -32,6 +32,16 @@ const config: AppConfig = {
       root: 'pages/article',
       pages: ['index', 'list/index', 'bookmark/index'],
     },
+    {
+      name: 'doctor',
+      root: 'pages/doctor',
+      pages: ['index', 'search/index', 'scan/index', 'follow/index', 'my-doctor/index'],
+    },
+    // {
+    //   name: 'article',
+    //   root: 'pages/article',
+    //   pages: ['index', 'list/index'],
+    // },
     // {
     //   name: 'reward',
     //   root: 'pages/reward',
