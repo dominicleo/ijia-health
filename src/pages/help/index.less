@@ -1,0 +1,43 @@
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 12px 16px;
+}
+
+.title {
+  padding: 12px 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.content {
+  font-size: 15px;
+  line-height: 28px;
+  word-wrap: break-word;
+  word-break: normal;
+
+  --skeleton-padding: 0;
+  :global {
+    .node-p,
+    .node-img {
+      + .node-p,
+      + .node-img {
+        margin-top: 24px;
+      }
+    }
+
+    .node-img {
+      max-width: 100%;
+    }
+
+    .van-skeleton__row {
+      --skeleton-row-height: 20px;
+      &:nth-child(5) {
+        height: 280px;
+      }
+    }
+  }
+}

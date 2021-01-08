@@ -13,6 +13,7 @@ import { Provider } from 'unstated';
 
 import { UseRequestProvider } from './hooks/useRequest';
 import { handleError } from './utils/error';
+import { requestUpdate } from './utils/update';
 
 loadFontFace({
   global: true,
@@ -40,6 +41,11 @@ function memoryWarning(result: WechatMiniprogram.OnMemoryWarningCallbackResult) 
 
 const App: React.FC = (props) => {
   const { platform } = getSystemInfoSync();
+
+  useAppEvent('onLaunch', () => {
+    requestUpdate();
+  });
+
   useAppEvent('onShow', () => {
     onMemoryWarning(memoryWarning);
 

@@ -1,0 +1,96 @@
+@import '~@/components/style/index.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 56px 16px 12px;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
+  background: url('https://m.ijia120.com/miniprograms/logo.png') center no-repeat;
+  background-size: contain;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 500;
+  margin-top: 16px;
+  text-align: center;
+}
+
+.version {
+  font-size: 13px;
+  color: #b3b3b3;
+  margin-top: 2px;
+  text-align: center;
+  text + text {
+    margin-left: 8px;
+  }
+}
+
+.content {
+  margin-top: 32px;
+}
+
+.list {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 12px 0;
+  + .list {
+    margin-top: 12px;
+  }
+}
+
+.item {
+  padding: 16px;
+  font-weight: 500;
+  justify-content: space-between;
+  align-items: center;
+  display: flex;
+  position: relative;
+}
+
+.arrow {
+  &::after {
+    width: 5px;
+    height: 10px;
+    background: url('./images/icon-arrow-right.svg') center no-repeat;
+    background-size: contain;
+    content: '';
+    display: block;
+    margin-left: 6px;
+  }
+}
+
+.extra {
+  color: #b3b3b3;
+  flex: 1;
+  justify-content: flex-end;
+  display: flex;
+  &.active {
+    color: @primary-color;
+  }
+}
+
+.officialAccount {
+  .item {
+    text {
+      color: #b3b3b3;
+      font-size: 13px;
+      margin-left: 12px;
+    }
+  }
+}
+
+.copy {
+  background: #f0f0f0;
+  border-radius: 2px;
+  padding: 3px 4px;
+  font-size: 10px;
+  font-weight: 500;
+}

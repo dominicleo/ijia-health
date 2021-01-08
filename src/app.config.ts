@@ -3,30 +3,35 @@ import { AppConfig } from 'remax/wechat';
 import { COMMON, TABBAR } from './constants';
 
 const config: AppConfig = {
-  // tabBar: {
-  //   color: '#666',
-  //   selectedColor: '#0A95FF',
-  //   backgroundColor: '#fff',
-  //   list: TABBAR.LIST,
-  // },
+  tabBar: {
+    color: '#666',
+    selectedColor: '#0A95FF',
+    backgroundColor: '#fff',
+    list: TABBAR.LIST,
+  },
   pages: [
     'pages/index/index',
-    // 'pages/archives/index',
+    'pages/archives/index',
     'pages/message/index',
-    // 'pages/me/index',
+    'pages/me/index',
     'pages/authorize/index',
   ],
   subpackages: [
+    {
+      name: 'webview',
+      root: 'pages/webview',
+      pages: ['index'],
+    },
     // {
     //   name: 'search',
     //   root: 'pages/search',
     //   pages: ['index'],
     // },
-    // {
-    //   name: 'article',
-    //   root: 'pages/article',
-    //   pages: ['index', 'list/index'],
-    // },
+    {
+      name: 'article',
+      root: 'pages/article',
+      pages: ['index', 'list/index'],
+    },
     // {
     //   name: 'reward',
     //   root: 'pages/reward',
@@ -41,6 +46,16 @@ const config: AppConfig = {
       name: 'im',
       root: 'pages/im',
       pages: ['chating/index', 'videocall/index'],
+    },
+    {
+      name: 'help',
+      root: 'pages/help',
+      pages: ['index', 'list/index'],
+    },
+    {
+      name: 'settings',
+      root: 'pages/settings',
+      pages: ['about/index', 'profile/index'],
     },
   ],
   window: {

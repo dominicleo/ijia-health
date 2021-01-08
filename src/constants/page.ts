@@ -30,9 +30,9 @@ enum PAGE {
   /** 文章收藏列表 */
   ARTICLE_BOOKMARK_LIST = '/pages/article/bookmark/index',
   /** 帮助中心 */
-  HELP_CENTER = '/pages/settings/help/index',
+  HELP_CENTER = '/pages/help/list/index',
   /** 帮助详情 */
-  HELP_DETAILS = '/pages/settings/help/details/index',
+  HELP = '/pages/help/index',
   /** 关于我们 */
   ABOUT = '/pages/settings/about/index',
   /** WEBVIEW */

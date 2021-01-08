@@ -29,7 +29,7 @@ const TOOLS: Item[] = [
   {
     key: 'help',
     title: '帮助中心',
-    url: PAGE.ABOUT,
+    url: PAGE.HELP_CENTER,
   },
   {
     key: 'about',

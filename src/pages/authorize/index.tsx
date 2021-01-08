@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useQuery } from 'remax';
 import { useNativeEffect } from 'remax/runtime';
 import { GenericEvent, login, removeStorage, setStorage, View } from 'remax/wechat';
 
@@ -11,7 +12,6 @@ import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 
 import s from './index.less';
-import { useQuery } from 'remax';
 
 const AUTHORIZE_ERROR_TEXT = '授权信息获取失败，请重试';
 

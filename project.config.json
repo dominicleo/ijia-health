@@ -129,6 +129,24 @@
           "pathName": "pages/example/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "\b帮助中心",
+          "pathName": "pages/help/list/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "问题详情",
+          "pathName": "pages/help/index",
+          "query": "id=1&title=如何注册爱加健康账号？",
+          "scene": null
+        },
+        {
+          "name": "关于我们",
+          "pathName": "pages/settings/about/index",
+          "query": "",
+          "scene": null
         }
       ]
     }
