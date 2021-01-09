@@ -147,6 +147,18 @@
           "pathName": "pages/settings/about/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "搜索",
+          "pathName": "pages/search/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的收藏",
+          "pathName": "pages/article/bookmark/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

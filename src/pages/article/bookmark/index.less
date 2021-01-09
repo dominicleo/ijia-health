@@ -1,0 +1,116 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+.wrapper {
+  &.editable {
+    .edit {
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .toolbar {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .article {
+      transform: translateX(48px);
+      :global {
+        .article-item {
+          pointer-events: none;
+        }
+      }
+
+      &::before {
+        opacity: 1;
+        pointer-events: all;
+      }
+    }
+  }
+}
+
+.edit,
+.toolbar {
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 45px;
+  z-index: 10;
+  opacity: 0.8;
+  transition: 0.2s ease-out 0s;
+  :global {
+    .van-button {
+      font-weight: 500;
+    }
+  }
+}
+
+.edit {
+  width: 100px;
+  left: auto;
+  --button-default-height: 40px;
+  --button-round-border-radius: 99px 0 0 99px;
+}
+
+.toolbar {
+  padding: 0 16px;
+  align-items: center;
+  display: flex;
+  pointer-events: none;
+  transform: translateY(100%);
+  opacity: 0;
+  .cancel {
+    width: 132px;
+    margin-right: 12px;
+  }
+
+  .delete {
+    width: 199px;
+  }
+}
+
+.article {
+  position: relative;
+  transition: 0.2s ease-out 0s;
+  &:not(:last-child) {
+    .hairline('bottom', @color-divider-line, 16px, 16px);
+  }
+
+  &::before {
+    width: 32px;
+    height: 32px;
+    border-radius: 32px;
+    content: '';
+    background: center no-repeat;
+    background-size: contain;
+    border: 1px solid #b3b3b3;
+    position: absolute;
+    left: -32px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: 0.07s ease-out 0s;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  &.selected::before {
+    border-color: transparent;
+    background-image: url('./images/icon-check.svg');
+  }
+}
+
+.loadable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 50px;
+  color: #999;
+  font-size: 14px;
+
+  --loading-text-color: #999;
+  --loading-spinner-color: #999;
+}

@@ -38,6 +38,18 @@ export const getList = async (params?: ArticleGetListParams) => {
   return ArticleMapper.getList(response.data);
 };
 
+export const getBookmarkList = async (params?: ArticleGetListParams) => {
+  const response = await fetch.get('/api/article/bookmark', {
+    params: { ...GET_LIST_DEFAULT_PARAMS, ...params },
+  });
+
+  return ArticleMapper.getList(response.data);
+};
+
+export async function removeBookmarkList(ids: ArticleId[]) {
+  return fetch.delete('/api/article', { data: ids });
+}
+
 export const getSpecialList = async (params?: ArticleGetListParams) => {
   const response = await fetch.get(`/api/article/special`, {
     params: { ...GET_LIST_DEFAULT_PARAMS, ...params },

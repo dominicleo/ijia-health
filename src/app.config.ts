@@ -22,15 +22,15 @@ const config: AppConfig = {
       root: 'pages/webview',
       pages: ['index'],
     },
-    // {
-    //   name: 'search',
-    //   root: 'pages/search',
-    //   pages: ['index'],
-    // },
+    {
+      name: 'search',
+      root: 'pages/search',
+      pages: ['index'],
+    },
     {
       name: 'article',
       root: 'pages/article',
-      pages: ['index', 'list/index'],
+      pages: ['index', 'list/index', 'bookmark/index'],
     },
     // {
     //   name: 'reward',

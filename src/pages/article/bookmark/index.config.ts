@@ -1,6 +1,5 @@
 import { PageConfig } from 'remax/wechat';
 
 export default {
-  navigationBarTitleText: '',
-  disableScroll: true,
+  navigationBarTitleText: '我的收藏',
 } as PageConfig;

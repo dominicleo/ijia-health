@@ -14,7 +14,7 @@ import {
 } from 'remax/wechat';
 
 import ArticleItem from '@/components/article-item';
-import { ARTICLE_SEARCH_PLACEHOLDER } from '@/constants/message';
+import { ARTICLE_SEARCH_PLACEHOLDER, GETTING_DATA, NO_MORE } from '@/constants/message';
 import PAGE from '@/constants/page';
 import { useRequest, useShareMessage, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
@@ -288,9 +288,9 @@ const CustomList = () => {
                       ))}
                       <View className={s.loadable}>
                         {state[id]?.completed ? (
-                          <>没有更多了</>
+                          <>{NO_MORE}</>
                         ) : (
-                          <Loading size={14}>正在获取数据</Loading>
+                          <Loading size={14}>{GETTING_DATA}</Loading>
                         )}
                       </View>
                       <SafeArea />
@@ -300,7 +300,7 @@ const CustomList = () => {
                       image='record'
                       description={
                         fetches[id]?.loading ? (
-                          <Loading size={14}>正在获取数据</Loading>
+                          <Loading size={14}>{GETTING_DATA}</Loading>
                         ) : state[id]?.keyword ? (
                           `未找到“${state[id]?.keyword}”的相关文章`
                         ) : (
@@ -469,7 +469,7 @@ const SpecialList = () => {
               ))}
 
               <View className={s.loadable}>
-                {completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
+                {completed ? <>{NO_MORE}</> : <Loading size={14}>{GETTING_DATA}</Loading>}
               </View>
               <SafeArea />
             </>
@@ -478,7 +478,7 @@ const SpecialList = () => {
               image='record'
               description={
                 loading ? (
-                  <Loading size={14}>正在获取数据</Loading>
+                  <Loading size={14}>{GETTING_DATA}</Loading>
                 ) : data?.keyword ? (
                   `未找到“${data?.keyword}”的相关文章`
                 ) : (
