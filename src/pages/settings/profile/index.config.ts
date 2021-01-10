@@ -1,3 +1,5 @@
 import { PageConfig } from 'remax/wechat';
 
-export default {} as PageConfig;
+export default {
+  navigationBarTitleText: '个人资料',
+} as PageConfig;

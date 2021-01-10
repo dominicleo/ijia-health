@@ -8,6 +8,11 @@ export const authorize = async (params: AuthorizeParams) => {
   return UserMapper.authorize(response.data);
 };
 
+export const userinfo = async () => {
+  const response = await fetch.post('/api/api/userInfo/getUserInfoByWeApp');
+  return response.data;
+};
+
 export function checkAuthorize() {
   return fetch.post('/api/api/app/isLogin');
 }

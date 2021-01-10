@@ -1,6 +1,6 @@
 import createMapper from 'map-factory';
 
-import { Authorize, YunxinConfig } from './index.types';
+import { Authorize, UserInfo, YunxinConfig } from './index.types';
 
 function authorize(source = {}): Authorize {
   const mapper = createMapper();
@@ -8,6 +8,14 @@ function authorize(source = {}): Authorize {
   mapper.map('token').map('mobile');
 
   return mapper.execute(source);
+}
+
+export function userinfo(data = {}): UserInfo {
+  const mapper = createMapper();
+
+  mapper.map('name').map('idCard').to('idCardNumber').map('phone').to('phoneNumber');
+
+  return mapper.execute(data);
 }
 
 function getYunxinConfig(source = {}): YunxinConfig {

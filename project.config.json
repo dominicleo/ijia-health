@@ -159,6 +159,12 @@
           "pathName": "pages/article/bookmark/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "个人资料",
+          "pathName": "pages/settings/profile/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

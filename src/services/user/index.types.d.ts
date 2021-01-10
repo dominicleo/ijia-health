@@ -14,6 +14,15 @@ export interface AuthorizeParams {
   iv: string;
 }
 
+export interface UserInfo {
+  /** 姓名 */
+  name: string;
+  /** 身份证号 */
+  idCardNumber: string;
+  /** 手机号 */
+  phoneNumber: string;
+}
+
 export interface YunxinConfig {
   account: string;
   token: string;
