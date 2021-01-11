@@ -9,8 +9,8 @@ export const authorize = async (params: AuthorizeParams) => {
 };
 
 export const userinfo = async () => {
-  const response = await fetch.post('/api/api/userInfo/getUserInfoByWeApp');
-  return response.data;
+  const response = await fetch.post('/api/api/userInfo/getUserInfoByWeApp', {});
+  return UserMapper.userinfo(response.data);
 };
 
 export function checkAuthorize() {

@@ -10,8 +10,8 @@ declare const getCurrentPages: any;
 // declare module '@vant/weapp/lib/*';
 
 declare module 'axios/lib/*';
+
 declare module 'axios/dist/axios' {
   import axios from 'axios';
-
   export default axios;
 }

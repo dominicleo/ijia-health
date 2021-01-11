@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'remax/wechat';
+import { chooseImage, View } from 'remax/wechat';
 import classnames from 'classnames';
 
 import s from './index.less';
@@ -13,34 +13,45 @@ import Skeleton from '@vant/weapp/lib/skeleton';
 
 const CERTIFICATION_TEXT = '去认证';
 
+const ViewHoverProps = {
+  hoverClassName: 'clickable',
+  hoverStayTime: 0,
+};
+
 export default () => {
   const { data, loading, error, run } = useRequest(
     async () => {
-      const [userinfo, { avatar }] = await Promise.all([
+      const [userinfo, isRealname, { avatar }] = await Promise.all([
         UserService.userinfo(),
+        UserService.isRealname(),
         MinepageService.query(),
       ]);
 
-      return { ...userinfo, avatar, loaded: true };
+      return { ...userinfo, isRealname, avatar, loaded: true };
     },
     { manual: true },
   );
 
-  // usePageEvent('onShow', run);
+  usePageEvent('onShow', run);
+
+  const onClickUploadAvatar = async () => {
+    const a = await chooseImage({ sourceType: ['album', 'camera'] });
+    console.log(a);
+  };
 
   let content;
 
   if (data?.loaded) {
-    const { name, idCardNumber, phoneNumber, avatar } = data || {};
+    const { name, idCardNumber, phoneNumber, isRealname, avatar } = data || {};
     const avatarStyle: React.CSSProperties = avatar ? { backgroundImage: `url(${avatar})` } : {};
 
     content = (
       <>
         <View className={s.list}>
           <View
+            {...ViewHoverProps}
             className={classnames(s.item, s.arrow)}
-            hoverClassName='clickable'
-            hoverStayTime={0}
+            onClick={onClickUploadAvatar}
           >
             头像
             <View className={s.extra}>
@@ -49,22 +60,28 @@ export default () => {
           </View>
         </View>
         <View className={s.list}>
-          <View className={classnames(s.item, s.arrow)}>手机号</View>
-          <View
-            className={classnames(s.item, s.arrow)}
-            hoverClassName='clickable'
-            hoverStayTime={0}
-          >
-            姓名
-            <View className={classnames(s.extra, { [s.active]: true })}>去认证</View>
+          <View className={s.item}>
+            手机号
+            <View className={s.extra}>{phoneNumber}</View>
           </View>
           <View
-            className={classnames(s.item, s.arrow)}
-            hoverClassName='clickable'
-            hoverStayTime={0}
+            {...(isRealname ? {} : ViewHoverProps)}
+            className={classnames(s.item, { [s.arrow]: !isRealname })}
+          >
+            姓名
+            <View className={classnames(s.extra, { [s.active]: !isRealname })}>
+              {isRealname && <View className={s.realname} />}
+              {isRealname ? name : CERTIFICATION_TEXT}
+            </View>
+          </View>
+          <View
+            {...(isRealname ? {} : ViewHoverProps)}
+            className={classnames(s.item, { [s.arrow]: !isRealname })}
           >
             身份证号
-            <View className={classnames(s.extra, { [s.active]: true })}>去认证</View>
+            <View className={classnames(s.extra, { [s.active]: !isRealname })}>
+              {isRealname ? idCardNumber : CERTIFICATION_TEXT}
+            </View>
           </View>
         </View>
       </>

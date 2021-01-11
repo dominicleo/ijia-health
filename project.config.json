@@ -141,6 +141,12 @@
           "pathName": "pages/doctor/scan/index",
           "query": "doctorId=pg6r4pmg",
           "scene": null
+        },
+        {
+          "name": "个人资料",
+          "pathName": "pages/settings/profile/index",
+          "query": "",
+          "scene": null
         }
       ]
     }

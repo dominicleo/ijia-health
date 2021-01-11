@@ -28,6 +28,7 @@ function getYunxinConfig(source = {}): YunxinConfig {
 
 const UserMapper = {
   authorize,
+  userinfo,
   getYunxinConfig,
 };
 
