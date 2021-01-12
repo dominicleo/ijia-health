@@ -1,3 +1,4 @@
+import '@/utils/uma';
 import './app.less';
 
 import * as React from 'react';

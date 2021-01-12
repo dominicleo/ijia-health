@@ -10,6 +10,10 @@ import Empty from '@/components/empty';
 import { MESSAGE } from '@/constants';
 import Button from '@vant/weapp/lib/button';
 import Skeleton from '@vant/weapp/lib/skeleton';
+import { isNativeCancel } from '@/utils';
+import Toast from '@/components/toast';
+import history from '@/utils/history';
+import PAGE from '@/constants/page';
 
 const CERTIFICATION_TEXT = '去认证';
 
@@ -19,7 +23,7 @@ const ViewHoverProps = {
 };
 
 export default () => {
-  const { data, loading, error, run } = useRequest(
+  const { data, loading, error, run, mutate } = useRequest(
     async () => {
       const [userinfo, isRealname, { avatar }] = await Promise.all([
         UserService.userinfo(),
@@ -32,21 +36,50 @@ export default () => {
     { manual: true },
   );
 
+  const { loading: uploading, run: upload } = useRequest(UserService.uploadAvatar, {
+    onSuccess(response, [params]) {
+      if (response) {
+        mutate((next) => ({ ...next, avatar: params }));
+      }
+    },
+    manual: true,
+  });
+
   usePageEvent('onShow', run);
 
+  React.useEffect(() => {
+    uploading ? Toast.loading({ duration: 0 }) : Toast.clear();
+    return () => {
+      Toast.clear();
+    };
+  }, [uploading]);
+
+  const { name, idCardNumber, phoneNumber, isRealname, avatar } = data || {};
+
+  const onClick = () => {
+    if (!data?.loaded || loading) return;
+    history.push(PAGE.CERTIFICATION);
+  };
+
   const onClickUploadAvatar = async () => {
-    const a = await chooseImage({ sourceType: ['album', 'camera'] });
-    console.log(a);
+    try {
+      const { tempFilePaths } = await chooseImage({ sourceType: ['album', 'camera'] });
+      const [file] = tempFilePaths;
+      upload(file);
+    } catch (error) {
+      if (isNativeCancel(error)) return;
+      Toast('拨打客服热线失败，请重试');
+    }
   };
 
   let content;
 
   if (data?.loaded) {
-    const { name, idCardNumber, phoneNumber, isRealname, avatar } = data || {};
     const avatarStyle: React.CSSProperties = avatar ? { backgroundImage: `url(${avatar})` } : {};
 
     content = (
       <>
+        <Toast.Component />
         <View className={s.list}>
           <View
             {...ViewHoverProps}
@@ -67,6 +100,7 @@ export default () => {
           <View
             {...(isRealname ? {} : ViewHoverProps)}
             className={classnames(s.item, { [s.arrow]: !isRealname })}
+            onClick={onClick}
           >
             姓名
             <View className={classnames(s.extra, { [s.active]: !isRealname })}>
@@ -77,6 +111,7 @@ export default () => {
           <View
             {...(isRealname ? {} : ViewHoverProps)}
             className={classnames(s.item, { [s.arrow]: !isRealname })}
+            onClick={onClick}
           >
             身份证号
             <View className={classnames(s.extra, { [s.active]: !isRealname })}>

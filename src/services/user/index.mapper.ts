@@ -1,6 +1,6 @@
 import createMapper from 'map-factory';
 
-import { Authorize, UserInfo, YunxinConfig } from './index.types';
+import { Authorize, UserInfo, IdentityCard, YunxinConfig } from './index.types';
 
 function authorize(source = {}): Authorize {
   const mapper = createMapper();
@@ -18,6 +18,21 @@ export function userinfo(data = {}): UserInfo {
   return mapper.execute(data);
 }
 
+export function identityCard(data = {}): IdentityCard {
+  const mapper = createMapper();
+
+  mapper
+    .map('name')
+    .map('address')
+    .map('birth')
+    .to('birthday')
+    .map('idNum')
+    .to('idCardNumber')
+    .map('sex');
+
+  return mapper.execute(data);
+}
+
 function getYunxinConfig(source = {}): YunxinConfig {
   const mapper = createMapper();
 
@@ -29,6 +44,7 @@ function getYunxinConfig(source = {}): YunxinConfig {
 const UserMapper = {
   authorize,
   userinfo,
+  identityCard,
   getYunxinConfig,
 };
 

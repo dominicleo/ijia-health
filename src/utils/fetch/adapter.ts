@@ -3,12 +3,14 @@ import buildFullPath from 'axios/lib/core/buildFullPath';
 import settle from 'axios/lib/core/settle';
 import buildURL from 'axios/lib/helpers/buildURL';
 
-import { encode, getRequest, isJSONString, transformError, transformResponse } from './utils';
+import { hasOwnProperty, isPlainObject } from '../';
+import { encode, isJSONString, transformError, transformResponse } from './utils';
+
+export const UPLOAD_FILE_FLAG = 'UPLOAD_FILE_FLAG';
 
 const adapter: AxiosAdapter = (config) => {
-  const request = getRequest();
-  return new Promise(function (resolve, reject) {
-    let task: WechatMiniprogram.RequestTask | void;
+  return new Promise((resolve, reject) => {
+    let task: WechatMiniprogram.RequestTask | WechatMiniprogram.UploadTask | void;
 
     const method = ((config.method && config.method.toUpperCase()) ||
       'GET') as WechatMiniprogram.RequestOption['method'];
@@ -71,7 +73,22 @@ const adapter: AxiosAdapter = (config) => {
       options.data = data;
     }
 
-    task = request(options);
+    if (
+      method === 'POST' &&
+      isPlainObject(options.data) &&
+      hasOwnProperty(options.data, UPLOAD_FILE_FLAG)
+    ) {
+      const { data, ...restOptions } = options;
+      const { UPLOAD_FILE_FLAG, name, filePath, ...restData } = data;
+      task = wx.uploadFile({
+        ...restOptions,
+        name: name || 'file',
+        filePath,
+        formData: restData,
+      });
+    } else {
+      task = wx.request(options);
+    }
   });
 };
 

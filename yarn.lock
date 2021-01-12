@@ -1677,6 +1677,11 @@
   dependencies:
     source-map "^0.6.1"
 
+"@types/umtrack-wx@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.npm.taobao.org/@types/umtrack-wx/download/@types/umtrack-wx-2.3.0.tgz#dacc897acdf7ef46cd11f21679f39c26602b0c23"
+  integrity sha1-2syJes3370bNEfIWefOcJmArDCM=
+
 "@types/unist@*", "@types/unist@^2.0.0", "@types/unist@^2.0.2":
   version "2.0.3"
   resolved "https://registry.npm.taobao.org/@types/unist/download/@types/unist-2.0.3.tgz?cache=0&sync_timestamp=1605057594755&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Funist%2Fdownload%2F%40types%2Funist-2.0.3.tgz#9c088679876f374eb5983f150d4787aa6fb32d7e"
@@ -10000,6 +10005,11 @@ umi-hd@^5.0.1:
   version "5.0.1"
   resolved "https://registry.npm.taobao.org/umi-hd/download/umi-hd-5.0.1.tgz#59061d3f4aad70491b7c853525aced91afbe1e21"
   integrity sha1-WQYdP0qtcEkbfIU1Jaztka++HiE=
+
+umtrack-wx@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.npm.taobao.org/umtrack-wx/download/umtrack-wx-2.5.2.tgz?cache=0&sync_timestamp=1610349201728&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fumtrack-wx%2Fdownload%2Fumtrack-wx-2.5.2.tgz#fc0a112345e6ca4d78deac34bdff0f3ba7c7295b"
+  integrity sha1-/AoRI0Xmyk143qw0vf8PO6fHKVs=
 
 unherit@^1.0.4:
   version "1.1.3"

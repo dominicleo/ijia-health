@@ -23,7 +23,29 @@ export interface UserInfo {
   phoneNumber: string;
 }
 
+export interface IdentityCard {
+  /** 姓名 */
+  name: string;
+  /** 身份证号 */
+  idCardNumber: string;
+  /** 生日 YYYY/MM/DD */
+  birthday: string;
+  /** 地址 */
+  address: string;
+  /** 性别 */
+  sex: string;
+}
+
 export interface YunxinConfig {
   account: string;
   token: string;
+}
+
+export enum IDENTITY_CARD_SIDE {
+  FRONT = 'FRONT',
+  BACK = 'BACK',
+}
+export interface UploadIdentityCardParams {
+  side: IDENTITY_CARD_SIDE;
+  filePath: string;
 }

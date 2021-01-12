@@ -147,6 +147,11 @@
           "pathName": "pages/settings/profile/index",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "实名认证",
+          "pathName": "pages/settings/certification/index",
+          "scene": null
         }
       ]
     }

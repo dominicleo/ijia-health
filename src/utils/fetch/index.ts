@@ -1,3 +1,4 @@
+import { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import axios from 'axios/dist/axios';
 import { getStorageSync } from 'remax/wechat';
 
@@ -6,7 +7,7 @@ import { STORAGE } from '@/constants';
 import { isPlainObject, isRelease } from '../';
 import { SERVICE_URL } from '../baseURL';
 import { AuthorizeError, NetworkError, ServerError, ServiceError } from '../error';
-import adapter from './adapter';
+import adapter, { UPLOAD_FILE_FLAG } from './adapter';
 
 const headers = {
   'Content-Type': 'application/json;charset=UTF-8',
@@ -62,5 +63,15 @@ fetch.interceptors.response.use(
     return Promise.reject(new ServerError(message, status));
   },
 );
+
+interface UploadFileData extends Record<string, any> {
+  filePath: WechatMiniprogram.UploadFileOption['filePath'];
+}
+
+export const upload = <T = any, R = AxiosResponse<T>>(
+  url: string,
+  data: UploadFileData,
+  config?: AxiosRequestConfig,
+): Promise<R> => fetch.post(url, Object.assign({}, data, { UPLOAD_FILE_FLAG }), config);
 
 export default fetch;

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useQuery } from 'remax';
 import { useNativeEffect } from 'remax/runtime';
 import { GenericEvent, login, removeStorage, setStorage, View } from 'remax/wechat';
+import uma from 'umtrack-wx';
 
 import Toast from '@/components/toast';
 import { COMMON, STORAGE, THEME } from '@/constants';
@@ -35,6 +36,7 @@ export default () => {
             history.back();
           },
         });
+        uma.trackEvent('authorize');
       } catch (error) {
         Toast(AUTHORIZE_ERROR_TEXT);
       }

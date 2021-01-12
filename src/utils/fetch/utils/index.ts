@@ -40,11 +40,6 @@ export const isJSONString = (value: string) => {
   }
 };
 
-export function getRequest() {
-  return (config: WechatMiniprogram.RequestOption): WechatMiniprogram.RequestTask =>
-    wx.request(config);
-}
-
 interface Reponse extends AxiosResponse {
   header: object;
   status: number;

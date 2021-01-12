@@ -65,7 +65,7 @@ const config: AppConfig = {
     {
       name: 'settings',
       root: 'pages/settings',
-      pages: ['about/index', 'profile/index'],
+      pages: ['about/index', 'profile/index', 'certification/index'],
     },
   ],
   window: {
