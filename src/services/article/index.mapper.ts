@@ -85,6 +85,14 @@ function articleMapper() {
   return mapper;
 }
 
+function articles(source = []): Article[] {
+  const mapper = createMapper();
+
+  mapper.map('[]').to('[]', articleMapper().each, []);
+
+  return mapper.execute(source);
+}
+
 function query(source = {}): Article {
   const mapper = createMapper();
 
@@ -128,10 +136,11 @@ function homepage(source = []): HomepageArticleList[] {
   return mapper.execute(source);
 }
 
-const DoctorMapper = {
+const ArticleMapper = {
+  articles,
   query,
   getList,
   homepage,
 };
 
-export default DoctorMapper;
+export default ArticleMapper;

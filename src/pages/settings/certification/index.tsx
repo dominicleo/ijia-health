@@ -115,7 +115,7 @@ export default () => {
             <View className={s.header}>
               为了给你提供更好的服务，根据相关政策，需进行实名认证，您的信息我们将严格保密
             </View>
-            <View className={s.content}>
+            <View>
               {items.map((item) => (
                 <View key={item.key} className={s.item}>
                   <View>

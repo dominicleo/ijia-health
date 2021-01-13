@@ -17,16 +17,16 @@ page {
 }
 
 .name {
-  font-size: 17px;
-  font-weight: 500;
   margin-top: 16px;
+  font-weight: 500;
+  font-size: 17px;
   text-align: center;
 }
 
 .version {
-  font-size: 13px;
-  color: #b3b3b3;
   margin-top: 2px;
+  color: #b3b3b3;
+  font-size: 13px;
   text-align: center;
   text + text {
     margin-left: 8px;
@@ -38,40 +38,40 @@ page {
 }
 
 .list {
+  padding: 12px 0;
   background-color: #fff;
   border-radius: 8px;
-  padding: 12px 0;
   + .list {
     margin-top: 12px;
   }
 }
 
 .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px;
   font-weight: 500;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-  position: relative;
 }
 
 .arrow {
   &::after {
+    display: block;
     width: 5px;
     height: 10px;
+    margin-left: 6px;
     background: url('./images/icon-arrow-right.svg') center no-repeat;
     background-size: contain;
     content: '';
-    display: block;
-    margin-left: 6px;
   }
 }
 
 .extra {
-  color: #b3b3b3;
+  display: flex;
   flex: 1;
   justify-content: flex-end;
-  display: flex;
+  color: #b3b3b3;
   &.active {
     color: @primary-color;
   }
@@ -80,17 +80,17 @@ page {
 .officialAccount {
   .item {
     text {
+      margin-left: 12px;
       color: #b3b3b3;
       font-size: 13px;
-      margin-left: 12px;
     }
   }
 }
 
 .copy {
+  padding: 3px 4px;
+  font-weight: 500;
+  font-size: 10px;
   background: #f0f0f0;
   border-radius: 2px;
-  padding: 3px 4px;
-  font-size: 10px;
-  font-weight: 500;
 }

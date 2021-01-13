@@ -1,10 +1,10 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { usePageEvent } from 'remax/macro';
-import { unstable_batchedUpdates } from 'remax/runtime';
 import { Image, showModal, Text, View } from 'remax/wechat';
 
 import Empty from '@/components/empty';
+import Loadable from '@/components/loadable';
 import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
 import PAGE from '@/constants/page';
@@ -18,7 +18,6 @@ import { AuthorizeError } from '@/utils/error';
 import history from '@/utils/history';
 import Yunxin, { NIM_SCENE } from '@/utils/im';
 import Button from '@vant/weapp/lib/button';
-import Loading from '@vant/weapp/lib/loading';
 import Skeleton from '@vant/weapp/lib/skeleton';
 
 import s from './index.less';
@@ -27,34 +26,30 @@ const DEFAULT_SIZE = 10;
 
 export default () => {
   const [list, setList] = React.useState<Doctor[]>([]);
-  const [completed, setCompleted] = React.useState(false);
   const { data, error, loading, run, params } = useRequest(
     async (params?) => {
       const response = await DoctorService.getMyDoctorList(params);
-      unstable_batchedUpdates(() => {
-        response?.length < DEFAULT_SIZE && setCompleted(true);
-        !params?.page || params?.page === 1 ? setList(response) : setList(list.concat(response));
-      });
-      return { loaded: true };
+      !params?.page || params?.page === 1 ? setList(response) : setList(list.concat(response));
+      return { loaded: true, completed: response?.length < DEFAULT_SIZE };
     },
     { manual: true },
   );
+
+  const query = () => run({ page: 1 });
 
   const { run: remove, fetches } = useRequest(DoctorService.removeMyDoctor, {
     manual: true,
     fetchKey: (id) => String(id),
     onSuccess() {
       Toast.success('移除成功');
-      run({ page: 1 });
+      query();
     },
   });
 
-  React.useEffect(() => {
-    run({ page: 1 });
-  }, []);
+  usePageEvent('onShow', query);
 
   usePageEvent('onReachBottom', () => {
-    if (!data?.loaded || loading || completed) return;
+    if (!data?.loaded || loading || data?.completed) return;
     const [p = {}] = params || [];
     const page = p.page || 1;
     run({ page: page + 1 });
@@ -182,9 +177,7 @@ export default () => {
             ),
           )}
         </View>
-        <View className={s.loadable}>
-          {completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
-        </View>
+        <Loadable loading={!data?.completed} />
       </>
     ) : (
       <Empty

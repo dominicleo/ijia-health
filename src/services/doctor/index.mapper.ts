@@ -1,7 +1,8 @@
 import date from '@/utils/date';
 import createMapper from 'map-factory';
+import ArticleMapper from '../article/index.mapper';
 
-import { Doctor } from './index.types';
+import { Doctor, DoctorList } from './index.types';
 
 function doctorMapper() {
   const mapper = createMapper();
@@ -35,7 +36,11 @@ function doctorMapper() {
     .map('areaName')
     .to('address')
     .map('createTime')
-    .to('createdAt', (value: string) => date(value).valueOf());
+    .to('createdAt', (value: string) => date(value).valueOf())
+    .map('specialty')
+    .map('introduce')
+    .map('articles')
+    .to('articles', ArticleMapper.articles);
 
   return mapper;
 }
@@ -60,7 +65,23 @@ function follow(source = {}) {
   return mapper.execute(source);
 }
 
-function getMyDoctorList(source = []): Doctor[] {
+function getList(source = {}): DoctorList {
+  const mapper = createMapper();
+
+  mapper
+    .map('doctorList')
+    .to('list', doctorMapper().each, [])
+    .map('page')
+    .to('pagination.current')
+    .map('size')
+    .to('pagination.pageSize')
+    .map('total')
+    .to('pagination.total');
+
+  return mapper.execute(source);
+}
+
+function doctors(source = []): Doctor[] {
   const mapper = createMapper();
 
   mapper.map('[]').to('[]', doctorMapper().each, []);
@@ -68,10 +89,20 @@ function getMyDoctorList(source = []): Doctor[] {
   return mapper.execute(source);
 }
 
+function keywords(source = []): string[] {
+  const mapper = createMapper();
+
+  mapper.map('[].content').to('[]');
+
+  return mapper.execute(source);
+}
+
 const DoctorMapper = {
   query,
   follow,
-  getMyDoctorList,
+  getList,
+  doctors,
+  keywords,
 };
 
 export default DoctorMapper;

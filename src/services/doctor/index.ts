@@ -1,7 +1,7 @@
 import fetch from '@/utils/fetch';
 
 import DoctorMapper from './index.mapper';
-import { Doctor, GetMyDoctorListParams } from './index.types';
+import { Doctor, GetListParams } from './index.types';
 
 export const query = async (doctorId: string) => {
   const response = await fetch.get(`/api/doctor/${doctorId}/vo`);
@@ -30,7 +30,22 @@ export function unfollow(doctorId: string) {
 
 const GET_LIST_DEFAULT_PARAMS = { page: 1, size: 10 };
 
-export async function getMyDoctorList(params: GetMyDoctorListParams) {
+export async function getList(params: GetListParams) {
+  const { page, size, ...rest } = { ...GET_LIST_DEFAULT_PARAMS, ...params };
+  const response = await fetch.post('/api/doctor', rest, { params: { page, size } });
+  return DoctorMapper.getList(response.data);
+}
+
+export async function getFollowList(params: GetListParams) {
+  const { page, size } = { ...GET_LIST_DEFAULT_PARAMS, ...params };
+  const response = await fetch.post('/api/api/userDoctor/getUserDoctors', {
+    pageNum: page,
+    pageSize: size,
+  });
+  return DoctorMapper.doctors(response.data);
+}
+
+export async function getMyDoctorList(params: GetListParams) {
   const { page, size } = { ...GET_LIST_DEFAULT_PARAMS, ...params };
   const response = await fetch.post('/api/api/myDoctor/getMyDoctors', {
     pageNum: page,
@@ -38,7 +53,7 @@ export async function getMyDoctorList(params: GetMyDoctorListParams) {
     doctorRelationShip: 1,
   });
 
-  return DoctorMapper.getMyDoctorList(response.data);
+  return DoctorMapper.doctors(response.data);
 }
 
 export async function addMyDoctor(
@@ -54,9 +69,14 @@ export async function addMyDoctor(
     | 'departmentName'
   >,
 ) {
-  return fetch.post('/api/api/myDoctor/deleteMyDoctorById', DoctorMapper.follow(doctor));
+  return fetch.post('/api/api/myDoctor/addMyDoctor', DoctorMapper.follow(doctor));
 }
 
 export async function removeMyDoctor(id: number) {
   return fetch.post('/api/api/myDoctor/deleteMyDoctorById', {}, { params: { id } });
+}
+
+export async function keywords() {
+  const response = await fetch.get('/api/hotwords');
+  return DoctorMapper.keywords(response.data);
 }

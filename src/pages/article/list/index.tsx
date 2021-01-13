@@ -14,7 +14,12 @@ import {
 } from 'remax/wechat';
 
 import ArticleItem from '@/components/article-item';
-import { ARTICLE_SEARCH_PLACEHOLDER, GETTING_DATA, NO_MORE } from '@/constants/message';
+import ChunkList from '@/components/chunk-list';
+import Empty from '@/components/empty';
+import Loadable from '@/components/loadable';
+import Popover from '@/components/popover';
+import SafeArea from '@/components/safe-area';
+import { ARTICLE_SEARCH_PLACEHOLDER, GETTING_DATA } from '@/constants/message';
 import PAGE from '@/constants/page';
 import { useRequest, useShareMessage, useUpdateEffect } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
@@ -24,11 +29,26 @@ import { isArray, isDefine } from '@/utils';
 import history, { createURL } from '@/utils/history';
 import Loading from '@vant/weapp/lib/loading';
 import Skeleton from '@vant/weapp/lib/skeleton';
-import Empty from '@/components/empty';
+
 import s from './index.less';
-import Popover from '@/components/popover';
-import SafeArea from '@/components/safe-area';
-import ChunkList from '@/components/chunk-list';
+
+const PageEmpty: React.FC<{ loading?: boolean; keyword?: string }> = ({ loading, keyword }) => {
+  return (
+    <Empty
+      image='record'
+      description={
+        loading ? (
+          <Loading size={14}>{GETTING_DATA}</Loading>
+        ) : keyword ? (
+          `未找到“${keyword}”的相关文章`
+        ) : (
+          '暂无文章'
+        )
+      }
+      local
+    />
+  );
+};
 
 interface HeaderProps {
   className?: string;
@@ -286,29 +306,11 @@ const CustomList = () => {
                           ))}
                         </ChunkList>
                       ))}
-                      <View className={s.loadable}>
-                        {state[id]?.completed ? (
-                          <>{NO_MORE}</>
-                        ) : (
-                          <Loading size={14}>{GETTING_DATA}</Loading>
-                        )}
-                      </View>
+                      <Loadable loading={!state[id]?.completed} />
                       <SafeArea />
                     </View>
                   ) : (
-                    <Empty
-                      image='record'
-                      description={
-                        fetches[id]?.loading ? (
-                          <Loading size={14}>{GETTING_DATA}</Loading>
-                        ) : state[id]?.keyword ? (
-                          `未找到“${state[id]?.keyword}”的相关文章`
-                        ) : (
-                          '暂无文章'
-                        )
-                      }
-                      local
-                    />
+                    <PageEmpty loading={fetches[id]?.loading} keyword={state[id]?.keyword} />
                   )}
                 </ScrollView>
               ) : (
@@ -467,26 +469,11 @@ const SpecialList = () => {
               {articles.map((article, index) => (
                 <ArticleItemComponent key={`${index}_${article.id}`} data={article} showType />
               ))}
-
-              <View className={s.loadable}>
-                {completed ? <>{NO_MORE}</> : <Loading size={14}>{GETTING_DATA}</Loading>}
-              </View>
+              <Loadable loading={!completed} />
               <SafeArea />
             </>
           ) : (
-            <Empty
-              image='record'
-              description={
-                loading ? (
-                  <Loading size={14}>{GETTING_DATA}</Loading>
-                ) : data?.keyword ? (
-                  `未找到“${data?.keyword}”的相关文章`
-                ) : (
-                  '暂无文章'
-                )
-              }
-              local
-            />
+            <PageEmpty loading={loading} keyword={data?.keyword} />
           )}
         </ScrollView>
       </View>

@@ -1,3 +1,5 @@
+import { Article } from '../article/index.types';
+
 export interface Doctor {
   /** 数据 ID */
   sourceId: number;
@@ -27,11 +29,31 @@ export interface Doctor {
   createdAt: number;
   /** 云信账号 */
   account: string;
+  /** 擅长学科 */
+  specialty?: string;
+  /** 医生介绍 */
+  introduce?: string;
+  /** 医生专栏 */
+  articles?: Article[];
 }
 
-export interface GetMyDoctorListParams {
+export interface DoctorList {
+  list: Doctor[];
+  pagination: {
+    /** 当前页码 */
+    current: number;
+    /** 每页数量 */
+    pageSize: number;
+    /** 总条数 */
+    total: number;
+  };
+}
+
+export interface GetListParams {
   /** (default: 1) 页码 */
   page?: number;
   /** (default: 10) 每页数量 */
   size?: number;
+  /** 搜索关键字 */
+  keyword?: string;
 }

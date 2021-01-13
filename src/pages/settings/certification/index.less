@@ -6,54 +6,48 @@ page {
 }
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
   min-height: 100vh;
   padding: 12px 16px 34px;
-  justify-content: space-between;
-  flex-direction: column;
-  display: flex;
-  box-sizing: border-box;
 }
 
 .main {
-  background-color: #fff;
-
-  border-radius: 8px;
   padding: 0 16px;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
 .header {
-  color: #666;
-  background-color: #fcfcfc;
   padding: 16px 0;
-
-  font-size: 13px;
   color: #666;
+  font-size: 13px;
   line-height: 18px;
-}
-
-.content {
+  background-color: #fcfcfc;
 }
 
 .item {
-  height: 164px;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 164px;
   + .item {
     .hairline('top');
   }
 }
 
 .title {
-  font-size: 16px;
   font-weight: 500;
+  font-size: 16px;
 }
 
 .subtitle {
-  font-size: 13px;
-  color: #b3b3b3;
   margin-top: 4px;
+  color: #b3b3b3;
+  font-size: 13px;
 }
 
 .picture {
@@ -71,25 +65,26 @@ page {
 
 .upload {
   margin-top: 16px;
+
   --button-small-min-width: 80px;
   --button-small-height: 24px;
   --button-small-font-size: 13px;
 }
 
 .security {
-  color: #999;
-  justify-content: center;
-  align-items: center;
   display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 24px;
+  color: #999;
   &::before {
+    display: block;
     width: 14px;
     height: 14px;
-    content: '';
+    margin-right: 4px;
     background: url('./images/icon-shield.svg') center no-repeat;
     background-size: contain;
-    display: block;
-    margin-right: 4px;
+    content: '';
   }
 }
 
@@ -103,9 +98,9 @@ page {
 }
 
 .message {
-  font-size: 13px;
-  color: #b3b3b3;
   margin-top: 12px;
+  color: #b3b3b3;
+  font-size: 13px;
   text-align: center;
 }
 

@@ -1,24 +1,24 @@
+import classnames from 'classnames';
+import * as React from 'react';
+import { usePageEvent } from 'remax/macro';
+import { unstable_batchedUpdates } from 'remax/runtime';
+import { hideShareMenu, showModal, Text, View } from 'remax/wechat';
+
 import ArticleItem from '@/components/article-item';
 import Empty from '@/components/empty';
+import Loadable from '@/components/loadable';
 import SafeArea from '@/components/safe-area';
 import { MESSAGE } from '@/constants';
-import { GETTING_DATA, NO_MORE } from '@/constants/message';
 import PAGE from '@/constants/page';
 import { LINEAR_GRADIENT_PRIMARY, LINEAR_GRADIENT_WARNING } from '@/constants/theme';
 import { useRequest, useShareMessage } from '@/hooks';
 import { ArticleService } from '@/services';
 import { Article, ArticleId } from '@/services/article/index.types';
+import { uniqueBySet } from '@/utils';
 import history, { createURL } from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
-import Loading from '@vant/weapp/lib/loading';
-import * as React from 'react';
-import { usePageEvent } from 'remax/macro';
-import { hideShareMenu, showModal, Text, View } from 'remax/wechat';
-import classnames from 'classnames';
 
 import s from './index.less';
-import { uniqueBySet } from '@/utils';
-import { unstable_batchedUpdates } from 'remax/runtime';
 
 const PAGE_SIZE = 10;
 
@@ -159,10 +159,7 @@ export default () => {
                 </View>
               ),
             )}
-            <View className={s.loadable}>
-              {data.completed ? <>{NO_MORE}</> : <Loading size={14}>{GETTING_DATA}</Loading>}
-            </View>
-
+            <Loadable loading={!data.completed} />
             <SafeArea />
           </>
         ) : (

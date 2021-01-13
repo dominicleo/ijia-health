@@ -1,11 +1,12 @@
+import { AxiosResponse } from 'axios';
 import CustomError from './custom';
 
 export default class ServerError extends CustomError {
   name = 'ServerError';
-  status: number;
-  constructor(message: string, status: number) {
+  response: AxiosResponse;
+  constructor(message: string, response: AxiosResponse) {
     super(message);
-    this.status = status;
+    this.response = response;
   }
 
   static is(error: any): error is ServerError {

@@ -8,3 +8,4 @@ export const AUTHORIZED_LOGIN = '授权登录';
 export const REQUEST_FAILED = '数据获取失败';
 export const NO_MORE = '没有更多了';
 export const GETTING_DATA = '正在获取数据';
+export const CONFIRM_UNFOLLOW = '确认不再关注?';

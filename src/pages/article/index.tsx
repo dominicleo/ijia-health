@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useQuery } from 'remax';
 import {
   hideShareMenu,
   nextTick,
@@ -10,30 +11,31 @@ import {
   View,
 } from 'remax/wechat';
 
+import Empty from '@/components/empty';
 import Toast from '@/components/toast';
 import { MESSAGE, STORAGE } from '@/constants';
 import PAGE from '@/constants/page';
 import { useEventEmitter, useRequest, useShareMessage, useStorageState } from '@/hooks';
 import { ArticleService } from '@/services';
+import { ARTICLE_TYPE } from '@/services/article/index.types.d';
 import { noop } from '@/utils';
+import { ServerError } from '@/utils/error';
 import history, { createURL } from '@/utils/history';
 import html2json from '@/utils/html2json';
+import Button from '@vant/weapp/lib/button';
+import Skeleton from '@vant/weapp/lib/skeleton';
 
 import ArticleBookmark from './components/bookmark';
+import ArticleComment from './components/comment';
 import ArticleContext, { CommentEventAction } from './components/context';
 import ArticleDoctorCard from './components/doctor-card';
+import ArticleFile from './components/file';
 import ArticleHeader from './components/header';
 import LaunchApp from './components/launch-app';
-import ArticleRecommend from './components/recommend';
-import s from './index.less';
 import ArticleLike from './components/like';
+import ArticleRecommend from './components/recommend';
 import ArticleToolbar from './components/toolbar';
-import ArticleComment from './components/comment';
-import Skeleton from '@vant/weapp/lib/skeleton';
-import Empty from '@/components/empty';
-import Button from '@vant/weapp/lib/button';
-import { ServiceError } from '@/utils/error';
-import { useQuery } from 'remax';
+import s from './index.less';
 
 const CONTAINER_ELEMENT_ID = 'main';
 const OBSERVER_ELEMENT_ID = 'doctorcard';
@@ -50,10 +52,8 @@ export default () => {
 
   const { data, loading, error, run, mutate } = useRequest(
     async (params) => {
-      const [response] = await Promise.all([
-        ArticleService.query(params),
-        ArticleService.read(params).catch(noop),
-      ]);
+      const response = await ArticleService.query(params);
+      await ArticleService.read(params).catch(noop);
 
       return { ...response, loaded: true };
     },
@@ -119,6 +119,7 @@ export default () => {
   if (data?.loaded) {
     const {
       id,
+      type,
       title,
       date,
       reads,
@@ -128,6 +129,7 @@ export default () => {
       like,
       likes,
       reward,
+      file,
       loaded,
     } = data;
     content = (
@@ -146,7 +148,11 @@ export default () => {
                 <ArticleBookmark id={id} value={!!bookmark} />
               </View>
               {doctor && <ArticleDoctorCard id={OBSERVER_ELEMENT_ID} data={doctor} />}
-              <ArticleContent content={data.content} />
+              {type === ARTICLE_TYPE.PAPER ? (
+                <ArticleFile id={id} file={file} />
+              ) : (
+                <ArticleContent content={data.content} />
+              )}
               <ArticleLike id={id} like={like!} likes={likes} />
             </View>
             <ArticleComment id={id} />
@@ -172,7 +178,7 @@ export default () => {
       </ArticleContext.Provider>
     );
   } else if (error) {
-    const isDeleted = ServiceError.is(error) && error.code === DELETED_CODE;
+    const isDeleted = ServerError.is(error) && error.response?.data?.code === DELETED_CODE;
     const message = isDeleted ? '该文章已被作者删除' : error.message;
     const buttonText = isDeleted ? '知道啦' : '重新加载';
     content = (

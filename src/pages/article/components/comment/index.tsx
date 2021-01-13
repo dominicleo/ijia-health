@@ -17,6 +17,7 @@ import ArticleCommentItem from './item';
 import ActionSheet from '@vant/weapp/lib/action-sheet';
 import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
+import Loadable from '@/components/loadable';
 
 const PREVIEW_SIZE = 3;
 
@@ -146,9 +147,8 @@ const ArticleComment: React.FC<{ id: ArticleId }> = ({ id }) => {
             />
             <ScrollView className={s.container} onScrollToLower={onScrollToLower} scrollY>
               <View>{visible.render && comments.length > 0 && comments.map(renderItem)}</View>
-              <View className={s.loadable}>
-                {data.completed ? <>没有更多了</> : <Loading size={14}>正在获取数据</Loading>}
-              </View>
+              <Loadable loading={!data.completed} />
+
               <SafeArea />
             </ScrollView>
           </View>

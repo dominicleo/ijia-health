@@ -1,6 +1,5 @@
 import './loader.less';
 
-import classnames from 'classnames';
 import * as React from 'react';
 import { View } from 'remax/wechat';
 
@@ -14,7 +13,7 @@ export interface ArticleItemLoaderProps {
 
 const ArticleItemLoader: React.FC<ArticleItemLoaderProps> = ({ prefixCls, size }) => {
   const Item = () => (
-    <View className={classnames(prefixCls)}>
+    <View className={prefixCls}>
       <View className={`${prefixCls}-content`}>
         <View className={`${prefixCls}-left`}>
           <View className={`${prefixCls}-title`}>

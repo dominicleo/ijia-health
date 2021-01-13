@@ -34,7 +34,7 @@ const ArticleDoctorCard: React.FC<{ id?: string; data: Doctor }> = React.memo(({
     if (follow) {
       const { cancel } = await showModal({
         title: MESSAGE.SYSTEM_PROMPT,
-        content: '确认不再关注?',
+        content: MESSAGE.CONFIRM_UNFOLLOW,
       });
       if (cancel) return;
     }
@@ -56,6 +56,7 @@ const ArticleDoctorCard: React.FC<{ id?: string; data: Doctor }> = React.memo(({
           type={follow ? 'default' : 'primary'}
           size='small'
           loading={loading}
+          loadingSize='10px'
           disabled={loading}
           round
         >

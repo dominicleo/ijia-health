@@ -31,13 +31,13 @@
 
 .edit,
 .toolbar {
-  padding-bottom: constant(safe-area-inset-bottom);
-  padding-bottom: env(safe-area-inset-bottom);
   position: fixed;
-  left: 0;
   right: 0;
   bottom: 45px;
+  left: 0;
   z-index: 10;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
   opacity: 0.8;
   transition: 0.2s ease-out 0s;
   :global {
@@ -48,19 +48,20 @@
 }
 
 .edit {
-  width: 100px;
   left: auto;
+  width: 100px;
+
   --button-default-height: 40px;
   --button-round-border-radius: 99px 0 0 99px;
 }
 
 .toolbar {
-  padding: 0 16px;
-  align-items: center;
   display: flex;
-  pointer-events: none;
+  align-items: center;
+  padding: 0 16px;
   transform: translateY(100%);
   opacity: 0;
+  pointer-events: none;
   .cancel {
     width: 132px;
     margin-right: 12px;
@@ -79,26 +80,26 @@
   }
 
   &::before {
+    position: absolute;
+    top: 50%;
+    left: -32px;
+    z-index: 5;
     width: 32px;
     height: 32px;
-    border-radius: 32px;
-    content: '';
     background: center no-repeat;
     background-size: contain;
     border: 1px solid #b3b3b3;
-    position: absolute;
-    left: -32px;
-    top: 50%;
+    border-radius: 32px;
     transform: translateY(-50%);
     opacity: 0;
     transition: 0.07s ease-out 0s;
+    content: '';
     pointer-events: none;
-    z-index: 5;
   }
 
   &.selected::before {
-    border-color: transparent;
     background-image: url('./images/icon-check.svg');
+    border-color: transparent;
   }
 }
 

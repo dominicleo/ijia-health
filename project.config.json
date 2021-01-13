@@ -85,7 +85,7 @@
         {
           "name": "文章",
           "pathName": "pages/article/index",
-          "query": "articleId=211",
+          "query": "articleId=210",
           "scene": null
         },
         {
@@ -137,7 +137,7 @@
           "scene": null
         },
         {
-          "name": "pages/doctor/scan/index",
+          "name": "扫一扫结果页",
           "pathName": "pages/doctor/scan/index",
           "query": "doctorId=pg6r4pmg",
           "scene": null
@@ -151,6 +151,31 @@
         {
           "name": "实名认证",
           "pathName": "pages/settings/certification/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "我的关注",
+          "pathName": "pages/doctor/follow/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "搜索",
+          "pathName": "pages/doctor/search/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "医生详情",
+          "pathName": "pages/doctor/index",
+          "query": "doctorId=6gl1vlpw",
+          "scene": null
+        },
+        {
+          "name": "文章专栏",
+          "pathName": "pages/article/column/index",
+          "query": "doctorId=6gl1vlpw",
           "scene": null
         }
       ]

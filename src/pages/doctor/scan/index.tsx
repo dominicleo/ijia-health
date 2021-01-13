@@ -1,21 +1,28 @@
+import classnames from 'classnames';
 import qs from 'qs';
+import * as React from 'react';
+import { useQuery } from 'remax';
+import { usePageEvent } from 'remax/macro';
+import { Image, requestSubscribeMessage, showModal, Text, View } from 'remax/wechat';
+
+import Empty from '@/components/empty';
+import Toast from '@/components/toast';
+import { MESSAGE } from '@/constants';
+import PAGE from '@/constants/page';
 import { LINEAR_GRADIENT_PRIMARY } from '@/constants/theme';
 import { useRequest } from '@/hooks';
 import { DoctorService, SubscribeService } from '@/services';
+import { SUBSCRIBE_MESSAGE_TEMPLATE_TYPE } from '@/services/subscribe/index.types.d';
+import { isPlainObject, isString, noop } from '@/utils';
+import { AuthorizeError, ServerError } from '@/utils/error';
+import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
-import * as React from 'react';
-import { useQuery } from 'remax';
-import { Image, nextTick, Text, View } from 'remax/wechat';
+import Skeleton from '@vant/weapp/lib/skeleton';
 
 import s from './index.less';
-import { isString, noop } from '@/utils';
-import { MESSAGE } from '@/constants';
-import Empty from '@/components/empty';
-import { SUBSCRIBE_MESSAGE_TEMPLATE_TYPE } from '@/services/subscribe/index.types.d';
-import { usePageEvent } from 'remax/macro';
-import { ServerError, ServiceError } from '@/utils/error';
-import Skeleton from '@vant/weapp/lib/skeleton';
-import classnames from 'classnames';
+
+const ADDED_ERROR_CODE = 5118672;
+const SERVER_ERRO_CODE = 51186003;
 
 export default () => {
   // 页面数据加载状态
@@ -39,6 +46,48 @@ export default () => {
     },
   });
 
+  // 订阅消息
+  const handleSubscribeMessage = React.useCallback(async () => {
+    if (!templateIds) return;
+
+    return requestSubscribeMessage({
+      tmplIds: templateIds,
+    }).catch(noop);
+  }, [templateIds]);
+
+  const { run: submit, loading: submitting } = useRequest(
+    (params) => DoctorService.addMyDoctor(params),
+    {
+      manual: true,
+      async onSuccess() {
+        Toast.success('添加成功');
+        await handleSubscribeMessage();
+        history.push(PAGE.MY_DOCTOR);
+      },
+      onError(error: any) {
+        if (AuthorizeError.is(error)) {
+          return history.push(PAGE.AUTHORIZE);
+        }
+
+        if (ServerError.is(error) && error.response?.data?.code === ADDED_ERROR_CODE) {
+          Toast.clear();
+          showModal({
+            content: `已添加过该医生，请至我的医生查看并进行沟通`,
+            showCancel: true,
+            confirmText: '去查看',
+            cancelText: '知道了',
+            success: async ({ confirm }) => {
+              confirm && history.push(PAGE.MY_DOCTOR);
+            },
+          });
+
+          return;
+        }
+        Toast(error.message);
+      },
+    },
+  );
+
   const init = () => {
     let id = query.doctorId;
     if (query.q) {
@@ -57,8 +106,9 @@ export default () => {
   usePageEvent('onShow', getSubscribeMessageTemplateList);
 
   if (loaded) {
-    return (
+    return isPlainObject(data) ? (
       <>
+        <Toast.Component />
         <View className={s.card}>
           <View className={s.content}>
             <Image className={s.avatar} src={data?.avatar} lazyLoad />
@@ -82,12 +132,31 @@ export default () => {
             </View>
           </View>
         </View>
-        <Button color={LINEAR_GRADIENT_PRIMARY} customClass={s.submit} round block>
+        <Button
+          color={LINEAR_GRADIENT_PRIMARY}
+          customClass={s.submit}
+          loading={submitting}
+          disabled={submitting}
+          bindclick={() => submit(data)}
+          round
+          block
+        >
           添加为我的医生
         </Button>
       </>
+    ) : (
+      <Empty
+        image='scan'
+        description={
+          <>
+            <View>该二维码无法识别</View>
+            <View>请扫描医生提供的二维码</View>
+          </>
+        }
+        local
+      />
     );
-  } else if (error && ServiceError.is(error) && error.code === 51186003) {
+  } else if (error && ServerError.is(error) && error.response?.data?.code === SERVER_ERRO_CODE) {
     return (
       <Empty
         image='record'

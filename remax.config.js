@@ -10,5 +10,8 @@ module.exports = {
   plugins: [less()],
   configWebpack({ config }) {
     config.module.rule('js').exclude.add(NIM_PATH).add(NIM_NETCALL_PATH).end();
+    config
+      .plugin('mini-css-extract-plugin')
+      .tap(([options]) => [{ ...options, ignoreOrder: true }]);
   },
 };

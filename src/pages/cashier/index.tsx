@@ -64,7 +64,7 @@ export default () => {
     },
   );
 
-  // 获取订阅消息模板
+  // 订阅消息
   const handleSubscribeMessage = async () => {
     if (!templateIds) return;
 
@@ -73,7 +73,7 @@ export default () => {
     }).catch(noop);
   };
 
-  // 获取微信支付参数
+  // 发起支付
   const handleRequestPayment = async (params: CashierSubmitParams) => {
     const response = await CashierService.submit(params);
     return requestPayment(response.params)

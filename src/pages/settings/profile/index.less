@@ -6,6 +6,7 @@ page {
 
 .wrapper {
   padding: 12px 16px;
+
   --skeleton-padding: 0;
   :global {
     .van-skeleton {
@@ -31,9 +32,9 @@ page {
 }
 
 .list {
+  padding: 12px 0;
   background-color: #fff;
   border-radius: 8px;
-  padding: 12px 0;
   &:first-child {
     padding: 0;
   }
@@ -43,32 +44,32 @@ page {
 }
 
 .item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px;
   font-weight: 500;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
-  position: relative;
 }
 
 .arrow {
   &::after {
+    display: block;
     width: 5px;
     height: 10px;
+    margin-left: 6px;
     background: url('./images/icon-arrow-right.svg') center no-repeat;
     background-size: contain;
     content: '';
-    display: block;
-    margin-left: 6px;
   }
 }
 
 .extra {
-  color: #b3b3b3;
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
   display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  color: #b3b3b3;
   &.active {
     color: @primary-color;
   }

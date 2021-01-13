@@ -23,14 +23,9 @@ const config: AppConfig = {
       pages: ['index'],
     },
     {
-      name: 'search',
-      root: 'pages/search',
-      pages: ['index'],
-    },
-    {
       name: 'article',
       root: 'pages/article',
-      pages: ['index', 'list/index', 'bookmark/index'],
+      pages: ['index', 'list/index', 'bookmark/index', 'column/index'],
     },
     {
       name: 'doctor',
@@ -57,16 +52,16 @@ const config: AppConfig = {
       root: 'pages/im',
       pages: ['chating/index', 'videocall/index'],
     },
-    {
-      name: 'help',
-      root: 'pages/help',
-      pages: ['index', 'list/index'],
-    },
-    {
-      name: 'settings',
-      root: 'pages/settings',
-      pages: ['about/index', 'profile/index', 'certification/index'],
-    },
+    // {
+    //   name: 'help',
+    //   root: 'pages/help',
+    //   pages: ['index', 'list/index'],
+    // },
+    // {
+    //   name: 'settings',
+    //   root: 'pages/settings',
+    //   pages: ['about/index', 'profile/index', 'certification/index'],
+    // },
   ],
   window: {
     navigationBarBackgroundColor: '#fff',

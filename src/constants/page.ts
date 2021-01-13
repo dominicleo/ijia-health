@@ -33,6 +33,8 @@ enum PAGE {
   ARTICLE_LIST = '/pages/article/list/index',
   /** 文章收藏列表 */
   ARTICLE_BOOKMARK_LIST = '/pages/article/bookmark/index',
+  /** 专栏文章列表 */
+  ARTICLE_COLUMN__LIST = '/pages/article/column/index',
   /** 帮助中心 */
   HELP_CENTER = '/pages/help/list/index',
   /** 帮助详情 */

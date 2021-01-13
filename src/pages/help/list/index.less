@@ -9,15 +9,15 @@ page {
 }
 
 .card {
+  padding-top: 28px;
   background-color: #fff;
   border-radius: 8px;
-  padding-top: 28px;
 }
 
 .title {
-  font-size: 20px;
-  font-weight: 500;
   padding: 0 16px;
+  font-weight: 500;
+  font-size: 20px;
 }
 
 .list {
@@ -28,6 +28,7 @@ page {
   :global {
     .van-skeleton__row {
       margin-top: 16px;
+
       --skeleton-row-margin-top: 16px;
       --skeleton-row-height: 20px;
       &:not(:last-child) {
@@ -38,28 +39,28 @@ page {
 }
 
 .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px;
   font-weight: 500;
-  justify-content: space-between;
-  align-items: center;
-  display: flex;
   &::after {
+    display: block;
     width: 5px;
     height: 10px;
+    margin-left: 12px;
     background: url('./images/icon-arrow-right.svg') center no-repeat;
     background-size: contain;
     content: '';
-    display: block;
-    margin-left: 12px;
   }
 }
 
 .toolbar {
-  padding: 0 16px 34px;
   position: fixed;
+  right: 0;
   bottom: 0;
   left: 0;
-  right: 0;
+  padding: 0 16px 34px;
 
   --button-default-color: rgba(@primary-color, 0.95);
   --button-default-border-color: rgba(@primary-color, 0.95);

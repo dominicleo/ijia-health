@@ -1,28 +1,28 @@
 .wrapper {
-  height: 100vh;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  height: 100vh;
   overflow: hidden;
 }
 
 .header {
-  height: 44px;
-  align-items: center;
   display: flex;
-  padding-left: 16px;
   flex-shrink: 0;
+  align-items: center;
+  height: 44px;
+  padding-left: 16px;
 }
 
 .search {
+  position: relative;
+  display: flex;
   flex: 1;
+  align-items: center;
   height: 34px;
   padding: 0 12px;
-  color: #a2a3a6;
   font-size: 13px;
   background-color: #f6f6f6;
   border-radius: 17px;
-  display: flex;
-  align-items: center;
   &::before {
     display: block;
     width: 18px;
@@ -33,22 +33,115 @@
     content: '';
   }
   input {
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
   }
 }
 
 .cancel {
+  display: flex;
+  align-items: center;
   height: 100%;
   padding: 0 16px;
   color: #666;
-  font-size: 15px;
   font-weight: 500;
-  align-items: center;
-  display: flex;
+  font-size: 15px;
 }
 
 .content {
+  position: relative;
   flex: 1;
+  overflow: hidden;
+}
+
+.container {
+  height: 100%;
+}
+
+.placeholder {
+  color: #a2a3a6;
+}
+
+.searching {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+}
+
+.record {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  padding: 25px 16px;
+  background-color: #fff;
+  transition: 0.2s ease-out 0s;
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #999;
+  font-weight: 500;
+}
+
+.clear {
+  width: 16px;
+  height: 16px;
+  background: url('./images/icon-trash.svg') center no-repeat;
+  background-size: contain;
+}
+
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 -6px;
+  + .title {
+    margin-top: 38px;
+  }
+}
+
+.keyword {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 50px;
+  height: 32px;
+  margin: 12px 6px 0;
+  padding: 0 12px;
+  color: #666;
+  font-size: 12px;
+  text-align: center;
+  background-color: #f0f0f0;
+  border-radius: 16px;
+  transition: 200ms;
+}
+
+.clickable {
+  background-color: #ddd;
+  transition: 0.2s ease-out 0s;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 50px;
+  color: #999;
+  font-size: 14px;
+
+  --loading-text-color: #999;
+  --loading-spinner-color: #999;
 }

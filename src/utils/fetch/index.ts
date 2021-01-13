@@ -42,7 +42,7 @@ fetch.interceptors.response.use(
     return { code, message, data };
   },
   (error) => {
-    const { data, status = 0 } = error.response || {};
+    const { data } = error.response || {};
     const response = isPlainObject(data) ? data : {};
     const message = response?.message || response?.msg || error.message;
 
@@ -60,7 +60,7 @@ fetch.interceptors.response.use(
       return Promise.reject(new AuthorizeError(message));
     }
 
-    return Promise.reject(new ServerError(message, status));
+    return Promise.reject(new ServerError(message, error.response));
   },
 );
 
