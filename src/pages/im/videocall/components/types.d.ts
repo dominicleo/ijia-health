@@ -12,13 +12,6 @@ export enum CALL_TYPE {
   VIDEO = 'video',
 }
 
-export enum CALL_TYPE_VALUE {
-  /** 音频 */
-  VOICE = 1,
-  /** 视频 */
-  VIDEO = 2,
-}
-
 export enum CONTROL_TYPE {
   /** 语音接听 */
   ANSWER = 'answer',

@@ -2,12 +2,12 @@ import { useRequest } from '@/hooks';
 import useSetState from '@/hooks/useSetState';
 import GlobalData from '@/utils/globalData';
 import history from '@/utils/history';
-import Yunxin from '@/utils/im';
+import Yunxin, { LEGAL_MESSAGE_KEY, LEGAL_MESSAGE_VALUE, NETCALL_TYPE } from '@/utils/im';
 import * as React from 'react';
 import { useQuery } from 'remax/runtime';
-import { Map, nextTick, setKeepScreenOn, vibrateLong, View } from 'remax/wechat';
+import { nextTick, setKeepScreenOn, showToast, vibrateLong, View } from 'remax/wechat';
 import Control from './components/control';
-import { CALL_TYPE, CALL_TYPE_VALUE } from './components/types.d';
+import { CALL_TYPE } from './components/types.d';
 import UserInfo from './components/userinfo';
 
 import s from './index.less';
@@ -37,9 +37,10 @@ const userinfo = {
 };
 
 export default () => {
-  const query = useQuery<{ type: CALL_TYPE; becalling?: any }>();
+  const query = useQuery<{ type: CALL_TYPE; account: string; becalling?: any }>();
   const becalling = React.useRef('becalling' in query);
   const vibrateTimer = React.useRef<NodeJS.Timeout>();
+  const waitingAnsweredTimer = React.useRef<NodeJS.Timeout>();
   const [state, setState] = useSetState<State>({
     type: query.type || CALL_TYPE.VOICE,
     userinfo,
@@ -52,12 +53,39 @@ export default () => {
     if (!GlobalData.netcall) return;
     // 设置屏幕常亮
     setKeepScreenOn({ keepScreenOn: true });
-    if (!becalling.current) {
-      GlobalData.netcall.call({});
-    }
+    if (becalling.current) return;
+    GlobalData.netcall
+      .call({
+        type: CALL_TYPE.VOICE === query.type ? NETCALL_TYPE.AUDIO : NETCALL_TYPE.VIDEO,
+        callee: query.account,
+        forceKeepCalling: true,
+        pushConfig: {
+          custom: JSON.stringify({ [LEGAL_MESSAGE_KEY]: LEGAL_MESSAGE_VALUE }),
+        },
+      })
+      .catch(() => {
+        showToast({ title: '呼叫失败,请重试', onClose: onHangup });
+      });
+
+    waitingAnsweredTimer.current = setTimeout(() => {
+      showToast({ title: '无人接听', onClose: onHangup });
+    }, 30 * 1000);
   };
 
+  // 停止推流
+  const stop = () => {};
+
+  // 重连
+  const reconnect = () => {};
+
   useRequest(Yunxin.init, { onSuccess: init });
+
+  React.useEffect(
+    () => () => {
+      waitingAnsweredTimer.current && clearTimeout(waitingAnsweredTimer.current);
+    },
+    [],
+  );
 
   React.useEffect(() => nextTick(init), []);
 

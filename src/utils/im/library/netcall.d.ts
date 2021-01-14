@@ -63,7 +63,7 @@ export type NetcallInstance = {
     accepted: boolean;
     cid: string;
   }) => Promise<any>;
-  call: (options: CallOptions) => void;
+  call: (options: CallOptions) => Promise<any>;
   control: (options: { command: Number }) => Promise<any>;
   hangup: () => Promise<any>;
   on: (event: string, callback: Callback) => void;
