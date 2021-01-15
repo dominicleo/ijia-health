@@ -1,0 +1,148 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  position: relative;
+  padding: 10px 15px;
+}
+
+.card {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 12px 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  + .card {
+    margin-top: 10px;
+  }
+}
+
+.pharmacy {
+  .title {
+    color: #b3b3b3;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .address {
+    margin-top: 12px;
+  }
+  .detailed {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .contact {
+    margin-top: 8px;
+    color: #666;
+    font-size: 13px;
+    text + text {
+      margin-left: 12px;
+    }
+  }
+}
+
+.pharmacyName {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 12.5px 0 8.5px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  background: linear-gradient(to right, #0b90ff 0%, #00d7ff 100%);
+  border-top-left-radius: 1px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 1px;
+  transform: translateX(-17px);
+}
+.distance {
+  display: inline-flex;
+  color: #666;
+  font-size: 12px;
+}
+
+.prescriptionList {
+  padding-top: 7px;
+}
+
+.prescriptionItem {
+  display: flex;
+  margin-top: 8px;
+
+  --button-small-min-width: 78px;
+  --button-small-height: 28px;
+  > view:last-child {
+    flex: 1;
+  }
+  .picture {
+    width: 63px;
+    height: 63px;
+    margin-right: 10.5px;
+    background: @skeleton-color url('https://m.ijia120.com/miniprograms/default-drug.png') center
+      no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 16px;
+    text {
+      font-size: 12px;
+    }
+    .amount {
+      color: #999;
+      font-size: 12px;
+    }
+  }
+
+  .brief {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    text {
+      // padding-left: 12px;
+      color: #666;
+      font-size: 12px;
+    }
+  }
+  .container {
+    height: 100vh;
+  }
+}
+.toolbar {
+  position: fixed;
+  right: 5px;
+  bottom: 0;
+  left: 5px;
+  box-sizing: border-box;
+  height: 71px;
+  padding: 13.5px 11px 13.5px 10.5px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 39px;
+  text-align: center;
+  background: url('https://m.ijia120.com/miniprograms/button-bg.png') center no-repeat;
+  background-size: contain;
+}
+.remark {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 12px;
+}
+.flexBox {
+  display: flex;
+  justify-content: space-between;
+}
+.rightContent {
+  text-align: right;
+}

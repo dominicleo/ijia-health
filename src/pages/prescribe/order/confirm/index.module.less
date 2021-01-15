@@ -1,0 +1,228 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  --tabs-nav-background-color: #f5f5f5;
+  --tabs-height: 50px;
+  --tabs-line-height: 50px;
+  :global {
+    .van-tab--active {
+      view {
+        transform: scale(1.28);
+        transform-origin: center;
+        transition: 200ms;
+      }
+    }
+  }
+}
+
+.card {
+  position: relative;
+  margin: 10px 20px 0;
+  padding: 12px 15px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.pharmacy {
+  .title {
+    color: #b3b3b3;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .address {
+    flex: 1;
+    margin-top: 12px;
+    margin-right: 10px;
+  }
+  .detailed {
+    font-weight: 700;
+    font-size: 16px;
+  }
+  .contact {
+    margin-top: 8px;
+    color: #666;
+    font-size: 13px;
+    text + text {
+      margin-left: 12px;
+    }
+  }
+  .details {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.pharmacyName {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 12.5px 0 8.5px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  background: linear-gradient(to right, #0b90ff 0%, #00d7ff 100%);
+  border-top-left-radius: 1px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 1px;
+  transform: translateX(-17px);
+}
+
+.prescriptionList {
+  padding-top: 7px;
+}
+
+.prescriptionItem {
+  display: flex;
+  margin-top: 8px;
+  > view:last-child {
+    flex: 1;
+  }
+  .picture {
+    width: 63px;
+    height: 63px;
+    margin-right: 10.5px;
+    background: @skeleton-color url('https://m.ijia120.com/miniprograms/default-drug.png') center
+      no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+  }
+
+  .name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 16px;
+    text + text {
+      padding-left: 12px;
+      font-size: 12px;
+    }
+
+    .amount {
+      font-weight: 600;
+      font-size: 17px;
+    }
+  }
+
+  .brief {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    text:first-child {
+      color: #b3b3b3;
+    }
+    text:last-child {
+      padding-left: 12px;
+      color: #666;
+    }
+  }
+}
+
+.toolbar {
+  --button-small-min-width: 144px;
+  --button-small-font-size: 16px;
+  --button-small-height: 40px;
+  :global {
+    .van-button {
+      font-weight: 700;
+    }
+  }
+  .toolbarInner {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 16px;
+    background-color: #fff;
+  }
+  .amount {
+    display: flex;
+    align-items: center;
+    transform: translateX(-4px);
+
+    .value {
+      color: #ff5040;
+      font-weight: 700;
+      font-size: 15px;
+      font-family: DIN;
+    }
+
+    .unit {
+      margin-left: 2px;
+      color: #999;
+      font-size: 10px;
+      transform: translateY(3px);
+    }
+  }
+  .quantity {
+    font-weight: 700;
+    font-size: 11px;
+    transform: translateY(-4px);
+  }
+  .united {
+    margin-top: 8px;
+    margin-left: 1px;
+    color: #999;
+    font-size: 12px;
+  }
+  .quantityed {
+    font-size: 15px;
+  }
+  .btn {
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+  }
+}
+.articles {
+  min-height: 485px;
+  margin-top: 28px;
+
+  --tab-text-color: #666;
+  --tab-active-text-color: #333;
+  --tabs-bottom-bar-height: 3px;
+  :global {
+    .van-tab {
+      font-weight: 500;
+      > view {
+        transition: 200ms;
+      }
+    }
+    .van-tabs__wrap {
+      padding: 0 12px;
+    }
+    .van-tab--active {
+      font-weight: 700;
+      > view {
+        transform: scale(1.4285);
+        transform-origin: center;
+      }
+    }
+
+    .van-tabs__line {
+      bottom: -2.5px;
+    }
+    .article {
+      padding: 20px;
+      &:first-child {
+        margin-top: -18px;
+      }
+    }
+    .van-tab__pane::after {
+      display: block;
+      height: 46px;
+      content: '';
+    }
+  }
+}

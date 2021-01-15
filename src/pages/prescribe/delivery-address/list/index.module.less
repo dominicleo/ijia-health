@@ -1,0 +1,69 @@
+@import '~@/components/style/index.less';
+
+.header {
+  height: 100vh;
+  .toolbarInner {
+    display: flex;
+  }
+  .toolbarBlank {
+    height: 71px;
+  }
+
+  .adressList {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0 0 15px;
+    color: #242424;
+    font-size: 14px;
+    border-bottom: 1px solid #ebebeb;
+    .adressTitle {
+      padding-bottom: 10.5px;
+      font-weight: 500;
+      .userName {
+        margin-right: 25px;
+      }
+    }
+    .adressDefault {
+      margin-left: 5px;
+      padding: 1px 3px;
+      color: #fff;
+      font-size: 10px;
+      background-color: #f62015;
+      border-radius: 2px;
+    }
+    .address {
+      display: flex;
+      justify-content: space-between;
+      padding-left: 1px;
+    }
+  }
+  .selectAdre {
+    flex: 1;
+    padding-bottom: 15px;
+  }
+  .backimg {
+    padding: 15px;
+    padding-top: 30px;
+  }
+  .adressEditor {
+    width: 12px;
+    height: 12px;
+    background: url('../images/icon-editor.png');
+    background-size: contain;
+  }
+  .adres {
+    color: #666;
+    font-size: 13px;
+  }
+  .button {
+    position: fixed;
+    right: 16px;
+    bottom: 0;
+    left: 16px;
+    height: 71px;
+    padding-top: 13.5px;
+    .btn {
+      height: 44px;
+    }
+  }
+}

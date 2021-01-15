@@ -8,3 +8,8 @@ export const ARTICLE_LIKE_CACHE_PREFIX = 'ARTICLE_LIKE_CACHE_';
 export const ARTICLE_SHARE_CACHE_PREFIX = 'ARTICLE_SHARE_CACHE_';
 /** 历史搜索关键字 */
 export const HISTORY_SEARCH_KEYWORD = 'HISTORY_SEARCH_KEYWORD';
+
+/** 收货地址 */
+export const SHIPPING_ADDRESS = 'SHIPPING_ADDRESS';
+/** 选择药店 */
+export const PHARMACY = 'PHARMACY';

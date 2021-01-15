@@ -1,0 +1,290 @@
+@import '~@/components/style/mixins.less';
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.container {
+  flex: 1;
+  overflow: hidden;
+}
+
+.main {
+  padding: 10px 10px;
+}
+
+.filter {
+  .hairline('top');
+  .hairline('bottom');
+}
+
+.item {
+  padding: 10px 10px 7px;
+  background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 19.5px 0 rgba(119, 134, 134, 0.1);
+  + .item {
+    margin-top: 10px;
+  }
+
+  .picture {
+    width: 59px;
+    height: 59px;
+    margin-right: 13px;
+    background: #e5e5e5 url('https://m.ijia120.com/miniprograms/default-drug.png') center no-repeat;
+    background-size: cover;
+    border-radius: 2px;
+  }
+
+  .content {
+    display: flex;
+  }
+
+  .details {
+    flex: 1;
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .name {
+    font-weight: 500;
+    font-size: 16px;
+  }
+
+  .distance {
+    color: #666;
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .score {
+    margin-top: 3px;
+  }
+}
+
+.tags {
+  margin-top: 4px;
+  font-weight: 500;
+  font-size: 12px;
+
+  --tag-default-color: #666;
+  :global {
+    .van-tag--plain::before {
+      height: 16px;
+      border: 1px solid #ededed;
+      border-radius: 1px;
+    }
+  }
+}
+
+.tag {
+  + .tag {
+    margin-left: 3px;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 7px;
+
+  --button-small-min-width: 78px;
+  --button-small-height: 28px;
+}
+
+.tips {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 11px 0 6px;
+  font-weight: 500;
+  font-size: 12px;
+  border-radius: 11px;
+  :global {
+    .van-icon {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+  }
+  &.primary {
+    color: #0a95ff;
+    background-color: #edf4fa;
+  }
+  &.warning {
+    color: #ff6a4d;
+    background-color: #f9efed;
+  }
+}
+
+.toolbar {
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+  left: 5.5px;
+  box-sizing: border-box;
+  height: 71px;
+  padding: 13.5px 11px 13.5px 10.5px;
+  background: url('https://m.ijia120.com/miniprograms/button-bg.png') center no-repeat;
+  background-size: contain;
+}
+
+.toolbarInner {
+  display: flex;
+}
+
+.toolbarBlank {
+  height: 71px;
+}
+
+.left {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  box-sizing: border-box;
+  // width: 114px;
+  height: 44px;
+  padding-right: 12px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.right {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  padding-left: 12px;
+  .text {
+    display: flex;
+    align-items: center;
+    color: #ced7e5;
+    font-weight: 500;
+    font-size: 14px;
+    :global {
+      .van-icon {
+        width: 8px;
+      }
+    }
+    text {
+      margin-left: 12px;
+    }
+  }
+  .total {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
+    text {
+      position: relative;
+      display: block;
+    }
+  }
+  .value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 15px;
+    height: 15px;
+    margin-left: 8px;
+    color: #6f86ad;
+    font-weight: 500;
+    font-size: 12px;
+    background: #fff;
+    border-radius: 15px;
+    &:not(.digit) {
+      padding: 0 3px;
+    }
+    &.digit {
+      width: 15px;
+    }
+  }
+}
+
+.selection {
+  padding: 28.5px 15px 20px;
+}
+
+.selectionHeader {
+  .title {
+    color: #000;
+    font-weight: 700;
+    font-size: 21px;
+    text-align: center;
+  }
+  .subtitle {
+    margin-top: 8px;
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+.confirmCard {
+  margin-top: 22px;
+  padding: 10px;
+  background-color: #f3f3f3;
+  border-radius: 5px;
+}
+
+.hospitalTitle {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  margin-bottom: 19px;
+  padding: 0 12.5px 0 8.5px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  background: linear-gradient(to right, #0b90ff 0%, #00d7ff 100%);
+  border-top-left-radius: 1px;
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  border-bottom-left-radius: 1px;
+  transform: translateX(-10px);
+}
+
+.drug {
+  display: flex;
+  + .drug {
+    margin-top: 8px;
+  }
+  .picture {
+    width: 63px;
+    height: 63px;
+    margin-right: 10px;
+    background: #ddd url('https://m.ijia120.com/miniprograms/default-drug.png') center no-repeat;
+    background-size: cover;
+    border-radius: 5px;
+  }
+  .details {
+    flex: 1;
+  }
+  .name {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 15px;
+  }
+  .total {
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .subtitle {
+    margin-top: 9.5px;
+    color: #999;
+    font-size: 12px;
+  }
+}

@@ -103,7 +103,7 @@ const Header: React.FC<HeaderProps> = ({
             onClick={handleClear}
           />
         )}
-        {loading && <Loading customClass={s.searching} size={14} />}
+        {loading && <Loading customClass={s.searching} type='circular' size={14} />}
       </View>
       {children}
     </View>

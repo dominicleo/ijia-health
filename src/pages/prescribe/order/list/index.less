@@ -1,0 +1,173 @@
+@import '~@/components/style/index.less';
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  height: 100vh;
+  flex-direction: column;
+  display: flex;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  height: 40px;
+  padding-top: 8px;
+  background-color: #fff;
+}
+
+.tab {
+  position: relative;
+  display: flex;
+  flex: 1;
+  justify-content: center;
+
+  &::after {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: @primary-color;
+    border-radius: 2px;
+    transform: translate3d(-50%, 0, 0);
+    transform-origin: center;
+    opacity: 0;
+    transition: 0.2s linear 0s;
+    content: '';
+  }
+  > view {
+    color: #999;
+    transform-origin: center;
+    transition: 0.2s linear 0s;
+  }
+  &.active {
+    &::after {
+      width: 12px;
+      opacity: 1;
+    }
+    > view {
+      color: @text-color;
+    }
+  }
+}
+
+.content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.container {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px;
+  --skeleton-padding: 0;
+  --padding-xs: 0;
+}
+
+.card {
+  box-sizing: border-box;
+  padding: 16px;
+  background-color: #fff;
+  border-radius: 8px;
+  + .card {
+    margin-top: 12px;
+  }
+}
+
+.header {
+  display: flex;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  border-radius: 4px;
+}
+
+.right {
+  flex: 1;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #b3b3b3;
+  font-size: 12px;
+  text + text {
+    margin-left: 10px;
+  }
+}
+
+.name {
+  width: 120px;
+  overflow: hidden;
+  font-weight: 500;
+  font-size: 15px;
+  white-space: nowrap;
+}
+
+.extra {
+  color: #b3b3b3;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.fields {
+  margin-top: 12px;
+  padding-top: 12px;
+  position: relative;
+  .hairline('top');
+}
+
+.field {
+  display: flex;
+  font-size: 13px;
+  + .field {
+    margin-top: 12px;
+  }
+
+  text {
+    &:first-child {
+      margin-right: 10px;
+      color: #999;
+    }
+
+    &:last-child {
+      font-weight: 500;
+    }
+  }
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+
+  --button-small-min-width: 78px;
+  --button-small-height: 28px;
+
+  :global {
+    .van-button {
+      margin-left: 12px;
+    }
+  }
+}
+
+.primary {
+  color: @primary-color;
+}
+
+.warning {
+  color: @warning-color;
+}

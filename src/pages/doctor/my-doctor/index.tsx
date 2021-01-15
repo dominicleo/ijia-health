@@ -66,9 +66,6 @@ export default () => {
   };
 
   const onClickConsult = async (account: string) => {
-    // @ts-ignore
-    event.stopPropagation();
-
     try {
       Toast.loading({ duration: 0 });
       const isRealname = await UserService.isRealname();

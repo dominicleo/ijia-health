@@ -17,26 +17,21 @@ const config: AppConfig = {
     'pages/authorize/index',
   ],
   subpackages: [
-    {
-      name: 'webview',
-      root: 'pages/webview',
-      pages: ['index'],
-    },
-    {
-      name: 'article',
-      root: 'pages/article',
-      pages: ['index', 'list/index', 'bookmark/index', 'column/index'],
-    },
+    // {
+    //   name: 'webview',
+    //   root: 'pages/webview',
+    //   pages: ['index'],
+    // },
+    // {
+    //   name: 'article',
+    //   root: 'pages/article',
+    //   pages: ['index', 'list/index', 'bookmark/index', 'column/index'],
+    // },
     {
       name: 'doctor',
       root: 'pages/doctor',
       pages: ['index', 'search/index', 'scan/index', 'follow/index', 'my-doctor/index'],
     },
-    // {
-    //   name: 'article',
-    //   root: 'pages/article',
-    //   pages: ['index', 'list/index'],
-    // },
     // {
     //   name: 'reward',
     //   root: 'pages/reward',
@@ -61,6 +56,38 @@ const config: AppConfig = {
     //   name: 'settings',
     //   root: 'pages/settings',
     //   pages: ['about/index', 'profile/index', 'certification/index'],
+    // },
+    // {
+    //   name: 'prescription',
+    //   root: 'pages/prescription/',
+    //   pages: [
+    //     'index',
+    //     'details/index',
+    //     'order/details/index',
+    //     'order/confirm/index',
+    //     'payment/index',
+    //     'payment/result/index',
+    //     'information/index',
+    //     'information/confirm/index',
+    //   ],
+    // },
+    // {
+    //   name: 'prescribe',
+    //   root: 'pages/prescribe',
+    //   pages: [
+    //     'index',
+    //     'details/index',
+    //     'logistics/index',
+    //     'delivery-address/index',
+    //     'delivery-address/list/index',
+    //     'order/list/index',
+    //     'order/confirm/index',
+    //     'order/details/index',
+    //     'pharmacy/list/index',
+    //     'pharmacy/recommend/index',
+    //     'payment/index',
+    //     'payment/result/index',
+    //   ],
     // },
   ],
   window: {

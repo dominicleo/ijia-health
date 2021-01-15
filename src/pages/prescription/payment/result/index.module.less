@@ -1,0 +1,142 @@
+@import '~@/components/style/mixins.less';
+
+@success-ripples-color: #04e683;
+@fail-ripples-color: #ff9675;
+@ripples-opacity: 0.13;
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 12px 14px;
+}
+
+.main {
+  padding: 34px 0 35px;
+  font-weight: 500;
+  text-align: center;
+  background-color: #fff;
+  border-radius: 8px;
+  .title {
+    margin-top: 14px;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 1px;
+  }
+  .message {
+    margin-top: 7px;
+    padding: 0 20px;
+    color: #a7a7a7;
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}
+
+.statusWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 106px;
+  height: 106px;
+  margin: 0 auto;
+  .status {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    border-radius: 58px;
+    animation: 0.7s linear infinite;
+    &::before {
+      position: relative;
+      z-index: 10;
+      display: block;
+      width: 100%;
+      height: 100%;
+      background: center no-repeat;
+      background-size: contain;
+      border-radius: 100%;
+      content: '';
+    }
+    &.success {
+      background: radial-gradient(#00db94, #04e683);
+      animation-name: success-ripples;
+      &::before {
+        background-image: url('./images/icon-success.png');
+      }
+    }
+    &.fail {
+      background: radial-gradient(#fc6d51, #ff8e6b);
+      animation-name: fail-ripples;
+      &::before {
+        background-image: url('./images/icon-fail.png');
+      }
+    }
+  }
+}
+
+@keyframes success-ripples {
+  0% {
+    box-shadow: 0 0 0 0 rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 12px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@success-ripples-color, @ripples-opacity);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@success-ripples-color, @ripples-opacity),
+      0 0 0 36px rgba(@success-ripples-color, 0);
+  }
+}
+
+@keyframes fail-ripples {
+  0% {
+    box-shadow: 0 0 0 0 rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 12px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@fail-ripples-color, @ripples-opacity);
+  }
+  100% {
+    box-shadow: 0 0 0 12px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 24px rgba(@fail-ripples-color, @ripples-opacity),
+      0 0 0 36px rgba(@fail-ripples-color, 0);
+  }
+}
+
+.list {
+  margin-top: 12px;
+  padding: 14px 0;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  font-weight: 500;
+}
+
+.content {
+  flex: 1;
+}
+
+.action {
+  padding: 24px 24.5px 0;
+  .button {
+    --button-default-color: #0a95ff;
+    --button-default-border-color: transparent;
+    --button-default-height: 44px;
+    --button-line-height: 44px;
+    --button-default-font-size: 16px;
+
+    + .button {
+      margin-top: 16px;
+    }
+  }
+}
+
+.btn {
+  --count-down-text-color: #fff;
+
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+}

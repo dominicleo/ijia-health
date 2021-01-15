@@ -73,3 +73,16 @@ export const JSONParse = <T = Record<string, any>>(value: string) => {
     return {} as T;
   }
 };
+
+export const isJSONString = (value: string) => {
+  try {
+    return (
+      isString(value) &&
+      value.length &&
+      (value = JSON.parse(value)) &&
+      (isArray(value) || isPlainObject(value))
+    );
+  } catch (error) {
+    return false;
+  }
+};

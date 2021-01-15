@@ -1,7 +1,7 @@
 const baseURL = 'https://oss-img.ijia120.com/static/img';
 const thumbURL = `${baseURL}/ajmd_s_pressed.png`;
 const EMOJI_PREFIX = 'ajmd';
-const EMOJI_SIZE = 21;
+const EMOJI_SIZE = 33;
 const EMOJI_EXTNAME = 'gif';
 
 const EMOJI_MAP = new Map();

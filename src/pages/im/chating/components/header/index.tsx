@@ -13,26 +13,28 @@ interface ChatingHeaderProps {
   onBack?: (event: TouchEvent) => void;
 }
 
-const ChatingHeader: React.FC<ChatingHeaderProps> = ({ title, subtitle, loading, onBack }) => {
-  return (
-    <View className={s.navbar}>
-      <Navbar border={false}>
-        <View slot='left'>
-          <View className={s.back} onClick={onBack} />
-        </View>
-        <View slot='title' className={s.header}>
-          {loading ? (
-            <Loading type='spinner' size={20} />
-          ) : (
-            <>
-              <View className={s.title}>{title}</View>
-              {subtitle && <View className={s.subtitle}>{subtitle}</View>}
-            </>
-          )}
-        </View>
-      </Navbar>
-    </View>
-  );
-};
+const ChatingHeader: React.FC<ChatingHeaderProps> = React.memo(
+  ({ title, subtitle, loading, onBack }) => {
+    return (
+      <View className={s.navbar}>
+        <Navbar border={false}>
+          <View slot='left'>
+            <View className={s.back} onClick={onBack} />
+          </View>
+          <View slot='title' className={s.header}>
+            {loading ? (
+              <Loading type='spinner' size={20} />
+            ) : (
+              <>
+                <View className={s.title}>{title}</View>
+                {subtitle && <View className={s.subtitle}>{subtitle}</View>}
+              </>
+            )}
+          </View>
+        </Navbar>
+      </View>
+    );
+  },
+);
 
 export default ChatingHeader;

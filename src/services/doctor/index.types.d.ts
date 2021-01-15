@@ -35,6 +35,8 @@ export interface Doctor {
   introduce?: string;
   /** 医生专栏 */
   articles?: Article[];
+  /** 在线状态 */
+  online: boolean;
 }
 
 export interface DoctorList {

@@ -1,0 +1,215 @@
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.wrapper {
+  padding: 10px 7.5px;
+}
+
+.loader {
+  padding: 12.5px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.prescription {
+  padding: 12.5px;
+  background-color: #fff;
+  border-radius: 5px;
+  &.invalid {
+    &::after {
+      position: absolute;
+      top: 34px;
+      right: 13px;
+      z-index: 5;
+      width: 90px;
+      height: 90px;
+      background: url('./images/seal.png') center no-repeat;
+      background-size: contain;
+      content: '';
+    }
+  }
+}
+
+.hospitalName {
+  margin-top: 5.5px;
+  font-weight: 500;
+  font-size: 24px;
+  text-align: center;
+}
+
+.categoryName {
+  margin-top: 10px;
+  font-weight: 500;
+  font-size: 15px;
+  text-align: center;
+}
+
+.prescriptionNo {
+  margin-top: 22px;
+  color: #1ebab8;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.code {
+  margin-top: 8px;
+  color: #666;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.userinfo {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 11px 0 17.5px 0;
+  padding-bottom: 20px;
+  .hairline('bottom', #c5c5c5);
+}
+
+.userinfoItem {
+  display: flex;
+  box-sizing: border-box;
+  width: 33.3333%;
+  margin-top: 13px;
+  font-weight: 500;
+  font-size: 15px;
+  > view:first-child::after {
+    position: relative;
+    top: -1px;
+    margin-right: 4px;
+    content: ':';
+  }
+}
+
+.appealConclusion {
+  font-weight: 500;
+  + .appealConclusion {
+    margin-top: 30px;
+  }
+  .title {
+    font-size: 18px;
+  }
+  .content {
+    margin-top: 14.5px;
+    font-size: 15px;
+    line-height: 24px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+}
+
+.prescriptionList {
+  margin-top: 30px;
+  .title {
+    margin-bottom: 12.5px;
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+
+.prescriptioItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+  + .prescriptioItem {
+    margin-top: 16.5px;
+  }
+  .name {
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  text {
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .amount {
+    font-size: 15px;
+  }
+}
+
+.pharmacist {
+  position: relative;
+  margin-top: 5px;
+  padding: 12.5px;
+  background-color: #fff;
+  border-radius: 5px;
+  &.invalid {
+    &::after {
+      display: block;
+      padding: 17px 0 4.5px;
+      color: #df2020;
+      font-weight: 500;
+      font-size: 16px;
+      content: '处方状态：已失效';
+    }
+  }
+  .date {
+    margin-top: 25.5px;
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+  }
+  .tips {
+    margin-top: 16.5px;
+    padding: 10.5px 13.5px 14.5px;
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 24px;
+    white-space: pre-wrap;
+    word-break: break-all;
+    background-color: #f8f8f8;
+    border-radius: 1px;
+  }
+}
+
+.officialSeal {
+  position: absolute;
+  top: 17px;
+  right: 13px;
+  width: 105px;
+  height: 105px;
+  background: center no-repeat;
+  background-size: cover;
+}
+
+.pharmacistList {
+  padding: 7px 0;
+}
+
+.pharmacistItem {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  padding: 5px 0;
+  > view:first-child::after {
+    position: relative;
+    top: -1px;
+    margin-right: 10px;
+    content: ':';
+  }
+  .autograph {
+    width: 80px;
+    height: 30px;
+    background: center no-repeat;
+    background-size: contain;
+  }
+}
+
+.toolbar {
+  height: 56.5px;
+}
+
+.toolbarInner {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 12.5px;
+}

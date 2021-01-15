@@ -1,4 +1,4 @@
-import { CUSTOMER_SERVICE_TELEPHONE } from '@/constants/common';
+import { APP_NAME, CUSTOMER_SERVICE_TELEPHONE } from '@/constants/common';
 import PAGE from '@/constants/page';
 import { useRequest, useShareMessage } from '@/hooks';
 import { MinepageService } from '@/services';
@@ -39,6 +39,11 @@ const TOOLS: Item[] = [
   {
     key: 'share',
     title: '分享',
+  },
+  {
+    key: 'download',
+    title: `下载${APP_NAME}`,
+    url: PAGE.ARCHIVES,
   },
 ];
 

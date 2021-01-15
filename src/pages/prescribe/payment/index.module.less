@@ -1,0 +1,116 @@
+@import '~@/components/style/mixins.less';
+
+page {
+  background-color: #f5f5f5;
+}
+
+.amount {
+  font-family: DIN;
+}
+
+.wrapper {
+  box-sizing: border-box;
+  height: 100vh;
+  padding: 12px 16px;
+  overflow: hidden;
+  transition: 200ms linear;
+  &.hidden {
+    filter: blur(10px);
+    pointer-events: none;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  padding: 33px 0 29px;
+  background-color: #fff;
+  border-radius: 8px;
+
+  .amount {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 34px;
+    .unit {
+      position: relative;
+      top: -1px;
+      font-size: 20px;
+    }
+  }
+}
+
+.list {
+  margin-top: 12px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  font-weight: 500;
+  background-color: #fff;
+
+  &:first-child {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  &:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+}
+
+.content {
+  flex: 1;
+  text {
+    margin-left: 12px;
+    color: #b3b3b3;
+    font-size: 13px;
+  }
+}
+
+.checkbox {
+  --checkbox-checked-icon-color: rgb(4, 192, 255);
+  --checkbox-border-color: #a9d2ff;
+  :global {
+    .van-checkbox__icon:not(.van-checkbox__icon--checked) {
+      background-color: #e4f3ff;
+    }
+  }
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 18px;
+  background: center no-repeat;
+  background-size: contain;
+}
+
+.toolbar {
+  --button-default-height: 44px;
+  --button-line-height: 44px;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 0 32px 35px;
+  .amountText {
+    display: inline-block;
+    margin-right: 16px;
+    text {
+      display: inline-block;
+      transform: translateX(2px);
+    }
+  }
+
+  :global {
+    .van-button {
+      font-weight: 700;
+    }
+  }
+}

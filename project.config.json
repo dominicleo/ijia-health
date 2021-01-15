@@ -121,7 +121,7 @@
         {
           "name": "聊天室",
           "pathName": "pages/im/chating/index",
-          "query": "sessionId=p2p-yunxin_dev_z1nzez1jkq6mt8mm&account=yunxin_dev_z1nzez1jkq6mt8mm&scene=p2p",
+          "query": "sessionId=p2p-yunxin_ht_m654r8orxld4az0&account=yunxin_ht_m654r8orxld4az0&scene=p2p",
           "scene": null
         },
         {
@@ -176,6 +176,12 @@
           "name": "文章专栏",
           "pathName": "pages/article/column/index",
           "query": "doctorId=6gl1vlpw",
+          "scene": null
+        },
+        {
+          "name": "我的处方",
+          "pathName": "pages/prescribe/order/list/index",
+          "query": "",
           "scene": null
         }
       ]

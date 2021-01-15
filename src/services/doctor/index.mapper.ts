@@ -40,13 +40,21 @@ function doctorMapper() {
     .map('specialty')
     .map('introduce')
     .map('articles')
-    .to('articles', ArticleMapper.articles);
+    .to('articles', ArticleMapper.articles)
+    .map('exclusiveOpened')
+    .to('online');
 
   return mapper;
 }
 
 function query(source = {}): Doctor {
   return doctorMapper().execute(source);
+}
+
+function status(source = {}): Pick<Doctor, 'online'> {
+  const mapper = createMapper();
+  mapper.map('online');
+  return mapper.execute(source);
 }
 
 function follow(source = {}) {
@@ -99,6 +107,7 @@ function keywords(source = []): string[] {
 
 const DoctorMapper = {
   query,
+  status,
   follow,
   getList,
   doctors,

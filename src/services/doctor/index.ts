@@ -8,6 +8,13 @@ export const query = async (doctorId: string) => {
   return DoctorMapper.query(response.data);
 };
 
+export const queryByAccount = async (account: string) => {
+  const response = await fetch.get(`/api/doctor/accid/${account}/mydoctor`);
+  const { doctor, ...rest } = response.data || {};
+  const original = Object.assign({}, doctor, rest);
+  return DoctorMapper.query(original);
+};
+
 export function follow(
   doctor: Pick<
     Doctor,
@@ -79,4 +86,9 @@ export async function removeMyDoctor(id: number) {
 export async function keywords() {
   const response = await fetch.get('/api/hotwords');
   return DoctorMapper.keywords(response.data);
+}
+
+export async function status(doctorId?: string) {
+  const response = await fetch.get(`/api/doctor/${doctorId}/status`);
+  return DoctorMapper.status(response.data);
 }

@@ -21,7 +21,7 @@ interface EmptyProps {
   /** 根节点样式 */
   className?: string;
   /** (default: default) 图片类型 */
-  image?: 'default' | 'network' | 'search' | 'record' | 'scan' | 'message' | string;
+  image?: 'default' | 'network' | 'search' | 'record' | 'scan' | 'message';
   /** 图片下方的描述文字 */
   description?: React.ReactNode;
   local?: boolean;

@@ -44,7 +44,7 @@ enum PAGE {
   /** WEBVIEW */
   WEBVIEW = '/pages/webview/index',
   /** 我的处方列表 **/
-  PRESCRIBE_LIST = '/pages/prescribe/order/index',
+  PRESCRIBE_LIST = '/pages/prescribe/order/list/index',
   /** 打赏 */
   REWARD = '/pages/reward/index',
   /** 聊天室 */
