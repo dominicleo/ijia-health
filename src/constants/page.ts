@@ -51,6 +51,11 @@ enum PAGE {
   CHATING = '/pages/im/chating/index',
   /** 视频聊天 */
   VIDEO_CALL = '/pages/im/videocall/index',
+
+  /** 支付中心(旧) */
+  PAYMENT = '/pages/payment/index',
+  /** 支付结果页(旧) */
+  PAYMENT_RESULT = '/pages/payment/result/index',
 }
 
 export default PAGE;

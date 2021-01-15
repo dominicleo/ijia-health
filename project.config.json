@@ -121,7 +121,7 @@
         {
           "name": "聊天室",
           "pathName": "pages/im/chating/index",
-          "query": "sessionId=p2p-yunxin_ht_m654r8orxld4az0&account=yunxin_ht_m654r8orxld4az0&scene=p2p",
+          "query": "sessionId=p2p-yunxin_dev_z1nzez1jkq6mt8mm&account=yunxin_dev_z1nzez1jkq6mt8mm&scene=p2p",
           "scene": null
         },
         {
@@ -139,7 +139,7 @@
         {
           "name": "扫一扫结果页",
           "pathName": "pages/doctor/scan/index",
-          "query": "doctorId=pg6r4pmg",
+          "query": "doctorId=rgde9l8w",
           "scene": null
         },
         {
@@ -182,6 +182,18 @@
           "name": "我的处方",
           "pathName": "pages/prescribe/order/list/index",
           "query": "",
+          "scene": null
+        },
+        {
+          "name": "支付中心",
+          "pathName": "pages/payment/index",
+          "query": "orderId=667265385891889152",
+          "scene": null
+        },
+        {
+          "name": "支付结果页",
+          "pathName": "pages/payment/result/index",
+          "query": "orderId=667310686535155712",
           "scene": null
         }
       ]

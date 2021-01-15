@@ -76,7 +76,7 @@ const App: React.FC = (props) => {
     <Provider>
       <UseRequestProvider
         value={{
-          // throwOnError: true,
+          throwOnError: true,
           onError: handleError,
         }}
       >

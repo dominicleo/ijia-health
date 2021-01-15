@@ -5,40 +5,43 @@ import { usePageEvent } from 'remax/runtime';
 import { chooseImage, chooseMedia, nextTick, showModal, View } from 'remax/wechat';
 import { Subscribe } from 'unstated';
 
+import Toast from '@/components/toast';
+import { MESSAGE } from '@/constants';
+import PAGE from '@/constants/page';
 import YunxinContainer from '@/containers/im';
 import { useEventEmitter, useRequest } from '@/hooks';
-import history from '@/utils/history';
-import Yunxin, { NIM_MESSAGE_TYPE, NIM_SCENE, SendMessageOptions } from '@/utils/im';
-
-import { toolbarState, valueState } from './components/atoms';
-import ChatingContainer from './components/container';
-import ChatingContext from './components/context';
-import ChatingHeader from './components/header';
-import ChatingRecord from './components/record';
-import { MESSAGE_RECORD_CUSTOM_TYPE } from './components/record/components/types.d';
-import ChatingToolbar from './components/toolbar';
-import {
-  CHATING_TOOLBAR,
-  MESSAGEBAR_ACTION_TYPE,
-  MessagebarSendAction,
-  ChatingAction,
-  CHATING_ACTION_TYPE,
-  CHATING_MEDIA_TYPE,
-} from './components/types.d';
-import s from './index.less';
-import PAGE from '@/constants/page';
-import { getCurrentPage, isBoolean, noop } from '@/utils';
-import { MESSAGE } from '@/constants';
 import { isFunction } from '@/hooks/utils';
-import { AuthorizeError } from '@/utils/error';
 import { DoctorService, OrderService } from '@/services';
-import Toast from '@/components/toast';
-import ChatingStatus from './components/status';
 import {
   ORDER_PAYMENT_STATUS,
   ORDER_PROCESS_STATUS,
   ORDER_STATUS,
 } from '@/services/order/index.types.d';
+import { getCurrentPage, isArray, isBoolean, JSONParse, noop } from '@/utils';
+import { AuthorizeError } from '@/utils/error';
+import GlobalData from '@/utils/globalData';
+import history from '@/utils/history';
+import Yunxin, { NIM_MESSAGE_TYPE, NIM_SCENE, NimMessage, SendMessageOptions } from '@/utils/im';
+import createSocket from '@/utils/socket';
+
+import { toolbarState, valueState } from './components/atoms';
+import ChatingContainer from './components/container';
+import ChatingContext from './components/context';
+import ChatingHeader from './components/header';
+import ChatingPayment from './components/payment';
+import ChatingRecord from './components/record';
+import { MESSAGE_RECORD_CUSTOM_TYPE } from './components/record/components/types.d';
+import ChatingStatus from './components/status';
+import ChatingToolbar from './components/toolbar';
+import {
+  CHATING_ACTION_TYPE,
+  CHATING_MEDIA_TYPE,
+  CHATING_TOOLBAR,
+  ChatingAction,
+  MESSAGEBAR_ACTION_TYPE,
+  MessagebarSendAction,
+} from './components/types.d';
+import s from './index.less';
 
 const handleError = (error: Error, cb?: () => void, cancel?: () => void) => {
   if (AuthorizeError.is(error)) {
@@ -55,6 +58,7 @@ const handleError = (error: Error, cb?: () => void, cancel?: () => void) => {
     success: ({ confirm }) => {
       if (confirm) {
         isFunction(cb) && cb();
+        return;
       }
       history.back();
     },
@@ -70,9 +74,10 @@ const Page = () => {
   const setValue = useSetRecoilState(valueState);
   const setToolbar = useSetRecoilState(toolbarState);
   const chating$ = useEventEmitter<ChatingAction>();
+  const socket = React.useRef<createSocket>();
 
   // 初始化云信/获取医生信息
-  const { data: doctor, loading, run: init, mutate } = useRequest(
+  const { data: doctor, loading, run, mutate } = useRequest(
     async () => {
       const response = await DoctorService.queryByAccount(account);
       await Yunxin.init();
@@ -84,18 +89,25 @@ const Page = () => {
         queryOrder(id);
         queryOnlineStatus(id);
       },
+      onError: (error) => {
+        handleError(error, init);
+      },
     },
   );
 
   // 轮询医生在线
-  const { run: queryOnlineStatus, cancel } = useRequest(DoctorService.status, {
+  const {
+    loading: onlineStatusLoading,
+    run: queryOnlineStatus,
+    cancel: cancelQueryOnlineStatus,
+  } = useRequest(DoctorService.status, {
     manual: true,
     pollingInterval: 5000,
     onSuccess: ({ online }) => {
       isBoolean(online) && mutate((state) => ({ ...state, online: online }));
     },
     onError: (error) => {
-      handleError(error, queryOnlineStatus, cancel);
+      handleError(error, queryOnlineStatus, cancelQueryOnlineStatus);
     },
   });
 
@@ -108,27 +120,39 @@ const Page = () => {
     cancel: cancelQueryOrder,
   } = useRequest(
     async (doctorId: string) => {
-      const response = await OrderService.query(doctorId);
+      const response = await OrderService.queryByDoctorId(doctorId);
       return { ...response, loaded: true };
     },
     {
       manual: true,
       onError: (error) => {
-        handleError(error, queryOnlineStatus, cancel);
+        handleError(error, queryOnlineStatus, cancelQueryOrder);
       },
     },
   );
 
-  React.useEffect(() => {
-    nextTick(init);
-  }, []);
-
-  const onFinish = () => {
-    updateOrder((state) => ({ ...state, expire: 0 }));
+  const init = () => {
+    nextTick(run);
+    if (socket.current) return;
+    socket.current = new createSocket((data: any) => {
+      const { tags } = data || {};
+      if (doctor && isArray(tags) && tags.includes('P2P_REFRESH_ORDER')) {
+        queryOrder(doctor.id);
+      }
+    });
   };
 
-  const onBack = () => {
-    history.back();
+  usePageEvent('onShow', init);
+
+  React.useEffect(() => {
+    GlobalData.event.on('onMessage', onMessage);
+    return destroy;
+  }, []);
+
+  const destroy = () => {
+    onlineStatusLoading && cancelQueryOnlineStatus();
+    orderLoading && cancelQueryOrder();
+    GlobalData.event.off('onMessage', onMessage);
   };
 
   const sendMessage = async (options: SendMessageOptions) => {
@@ -149,7 +173,7 @@ const Page = () => {
 
   // 检查订单
   const handleCheckOrder = () => {
-    if (loading) return Promise.reject(new Error('聊天室未初始化完成'));
+    if (!doctor?.loaded) return Promise.reject(new Error('聊天室未初始化完成'));
 
     // 已支付未接单
     if (
@@ -236,9 +260,36 @@ const Page = () => {
     }
   });
 
+  function onMessage(message: NimMessage) {
+    if (!(doctor && message && sessionId === message.sessionId)) return;
+    const { type, data } = JSONParse(message.content);
+    const { code } = data || {};
+    // 医生回复消息
+    const isStartTiming = type === MESSAGE_RECORD_CUSTOM_TYPE.SYSTEM && code === '3';
+    // 医生主动结束订单 / 服务时间过期
+    const isCloseOrder =
+      (type === MESSAGE_RECORD_CUSTOM_TYPE.PAYRESULT ||
+        type === MESSAGE_RECORD_CUSTOM_TYPE.SETMEAL) &&
+      code === '1';
+
+    isStartTiming || (isCloseOrder && queryOrder(doctor.id));
+  }
+
+  const onFinish = () => {
+    updateOrder((state) => ({ ...state, expire: 0 }));
+  };
+
+  const onBack = () => {
+    destroy();
+    YunxinContainer.resetSessionId();
+    socket.current && socket.current.destroy();
+    history.back();
+  };
+
   return (
-    <>
+    <ChatingContext.Provider value={{ chating$ }}>
       <Toast.Component />
+      {doctor && <ChatingPayment doctor={doctor} />}
       <View className={s.wrapper}>
         <ChatingHeader
           title={`医生：${doctor?.name}`}
@@ -247,23 +298,22 @@ const Page = () => {
           onBack={onBack}
         />
         <ChatingStatus data={order} loading={!order?.loaded || orderLoading} onFinish={onFinish} />
-        <ChatingContext.Provider value={{ chating$ }}>
-          <ChatingContainer>
-            <Subscribe to={[YunxinContainer]}>
-              {({ state }) => (
-                <ChatingRecord
-                  messages={Yunxin.formatMessageRecordList(
-                    state.messages[sessionId] || {},
-                    state.users,
-                  )}
-                />
-              )}
-            </Subscribe>
-            <ChatingToolbar />
-          </ChatingContainer>
-        </ChatingContext.Provider>
+
+        <ChatingContainer>
+          <Subscribe to={[YunxinContainer]}>
+            {({ state }) => (
+              <ChatingRecord
+                messages={Yunxin.formatMessageRecordList(
+                  state.messages[sessionId] || {},
+                  state.users,
+                )}
+              />
+            )}
+          </Subscribe>
+          <ChatingToolbar />
+        </ChatingContainer>
       </View>
-    </>
+    </ChatingContext.Provider>
   );
 };
 

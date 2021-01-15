@@ -8,6 +8,12 @@ export const query = async (doctorId: string) => {
   return DoctorMapper.query(response.data);
 };
 
+/** TODO 获取医生服务时长 */
+export async function getMyDoctor(doctorId?: string) {
+  const response = await fetch.get(`/api/doctor/${doctorId}/mydoctor`);
+  return response.data;
+}
+
 export const queryByAccount = async (account: string) => {
   const response = await fetch.get(`/api/doctor/accid/${account}/mydoctor`);
   const { doctor, ...rest } = response.data || {};

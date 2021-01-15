@@ -15,6 +15,7 @@ const config: AppConfig = {
     'pages/message/index',
     'pages/me/index',
     'pages/authorize/index',
+    'pages/example/index',
   ],
   subpackages: [
     // {
@@ -37,6 +38,11 @@ const config: AppConfig = {
     //   root: 'pages/reward',
     //   pages: ['index'],
     // },
+    {
+      name: 'payment',
+      root: 'pages/payment',
+      pages: ['index', 'result/index'],
+    },
     // {
     //   name: 'cashier',
     //   root: 'pages/cashier',

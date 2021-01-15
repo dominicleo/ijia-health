@@ -40,6 +40,10 @@ class container extends Container<YunxinContainerState> {
     });
   }
 
+  resetSessionId() {
+    return this.setState({ sessionId: undefined });
+  }
+
   setUsers(users: NimUser[]) {
     if (!users) return;
     users.forEach((user) => {

@@ -23,6 +23,6 @@ export enum MESSAGE_RECORD_CUSTOM_TYPE {
   PRESCRIBE = 103,
   /** 文章 */
   ARTICLE = 104,
-  /** 业务需要的一些系统消息 */
+  /** 系统消息 */
   SYSTEM = 105,
 }

@@ -62,7 +62,10 @@ class Yunxin {
       onupdatesession: (session) => YunxinContainer.setSessions([session]),
       onroamingmsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
       onofflinemsgs: ({ msgs }) => YunxinContainer.setMessages(msgs),
-      onmsg: (message) => YunxinContainer.updateMessage(message),
+      onmsg: (message) => {
+        YunxinContainer.updateMessage(message);
+        GlobalData.event.emit('onMessage', message);
+      },
       onsyncdone: () => YunxinContainer.synced(),
     });
   }
@@ -70,8 +73,6 @@ class Yunxin {
   onConnect() {
     if (!GlobalData.nim) return;
     GlobalData.netcall = Netcall.getInstance({ debug: DEBUG, nim: GlobalData.nim });
-    // console.log(GlobalData.nim);
-    // console.log(GlobalData.netcall);
   }
   onError() {
     GlobalData.nim?.disconnect();
