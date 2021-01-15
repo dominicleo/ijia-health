@@ -7,7 +7,7 @@ import Navbar from '@vant/weapp/lib/nav-bar';
 import s from './index.less';
 
 interface ChatingHeaderProps {
-  title: string;
+  title?: string;
   subtitle?: string;
   loading?: boolean;
   onBack?: (event: TouchEvent) => void;

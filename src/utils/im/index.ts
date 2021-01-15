@@ -1,16 +1,26 @@
-import { hideLoading, showLoading } from 'remax/wechat';
+import { hideLoading, showLoading, showModal, showToast } from 'remax/wechat';
 
 import { NIM_APPKEY } from '@/constants/common';
 import YunxinContainer from '@/containers/im';
 import { UserService } from '@/services';
-import { hasOwnProperty, isString, JSONParse } from '@/utils';
+import { getCurrentPage, hasOwnProperty, JSONParse } from '@/utils';
 
 import date from '../date';
 import GlobalData from '../globalData';
-import Netcall from './library/netcall';
-import Nim, { NimMessage, NimRecord, NimSession, NimUser, SendMessageOptions } from './library/nim';
+import Nim, {
+  NimDisconnectCallbackResponse,
+  NimMessage,
+  NimRecord,
+  NimSession,
+  NimUser,
+  SendMessageOptions,
+} from './library/nim';
 import { NIM_MESSAGE_FLOW, NIM_MESSAGE_STATUS, NIM_MESSAGE_TYPE } from './library/nim.d';
+import Netcall from './library/netcall';
+import { NETCALL_EVENT_NAME } from './library/netcall.d';
 import { MESSAGE_RECORD_CUSTOM_TYPE } from '@/pages/im/chating/components/record/components/types.d';
+import history from '../history';
+import PAGE from '@/constants/page';
 
 export * from './library/nim.d';
 export * from './library/netcall.d';
@@ -42,6 +52,7 @@ export const LEGAL_MESSAGE_VALUE = 'MY_DOCTOR';
 
 class Yunxin {
   constructor(options: YunxinOptions) {
+    // 注册 IM 实例
     GlobalData.nim = Nim.getInstance({
       debug: DEBUG,
       appKey: NIM_APPKEY,
@@ -56,6 +67,8 @@ class Yunxin {
         this.onError();
         options.onError && options.onError();
       },
+      onwillreconnect: this.onWillReconnect,
+      ondisconnect: this.onDisconnect,
       onmyinfo: (user) => YunxinContainer.setUsers([user]),
       onupdatemyinfo: (user) => YunxinContainer.setUsers([user]),
       onsessions: this.onSessions,
@@ -72,11 +85,49 @@ class Yunxin {
 
   onConnect() {
     if (!GlobalData.nim) return;
+
+    Nim.use(Netcall);
+    Netcall.destroy();
+
+    // 注册音视频实例
     GlobalData.netcall = Netcall.getInstance({ debug: DEBUG, nim: GlobalData.nim });
+    // 订阅音视频事件
+    this.registerNetcallEvents();
   }
+
   onError() {
-    GlobalData.nim?.disconnect();
-    GlobalData.nim?.connect();
+    if (!GlobalData.nim) return;
+    GlobalData.nim.disconnect();
+    GlobalData.nim.connect();
+  }
+
+  onWillReconnect() {
+    showToast({ title: '正在重新连接,请稍后', icon: 'none' });
+  }
+
+  async onDisconnect({ code }: NimDisconnectCallbackResponse) {
+    const page = getCurrentPage();
+    const isVideoPage = /videocall/.test(page.route);
+
+    if (code === 302) {
+      showModal({ content: '云信账号或密码错误', showCancel: false });
+      return;
+    }
+
+    if (code === 417) {
+      await showModal({ content: '已在其他端登录,请重新授权登录', showCancel: false });
+      isVideoPage ? history.replace(PAGE.AUTHORIZE) : history.push(PAGE.AUTHORIZE);
+      return;
+    }
+
+    if (code === 'kicked') {
+      await showModal({ content: '在其他客户端登录,已被强制下线', showCancel: false });
+
+      // 如果正在音视频挂断后销毁实例并回到首页
+      isVideoPage && GlobalData.netcall && (await GlobalData.netcall.hangup());
+      Yunxin.destroy();
+      history.push(PAGE.INDEX, { reLaunch: true });
+    }
   }
 
   onSessions(sessions: NimSession[]) {
@@ -89,6 +140,40 @@ class Yunxin {
       },
     });
     YunxinContainer.setSessions(sessions);
+  }
+
+  registerNetcallEvents() {
+    const { netcall, event } = GlobalData;
+    if (!netcall) return;
+
+    netcall.on('syncDone', (data) => event.emit(NETCALL_EVENT_NAME.SYNC_DONE, data));
+    netcall.on('clientJoin', (data) => event.emit(NETCALL_EVENT_NAME.CLIENT_JOIN, data));
+    netcall.on('clientLeave', (data) => event.emit(NETCALL_EVENT_NAME.CLIENT_LEAVE, data));
+    netcall.on('callAccepted', (data) => event.emit(NETCALL_EVENT_NAME.CALL_REJECTED, data));
+    netcall.on('callRejected', (data) => event.emit(NETCALL_EVENT_NAME.CALL_REJECTED, data));
+    netcall.on('callerAckSync', (data) => event.emit(NETCALL_EVENT_NAME.CALLER_ACK_SYNC, data));
+    netcall.on('hangup', (data) => event.emit(NETCALL_EVENT_NAME.HANGUP, data));
+    netcall.on('control', (data) => event.emit(NETCALL_EVENT_NAME.CONTROL, data));
+    netcall.on('willreconnect', (data) => event.emit(NETCALL_EVENT_NAME.WILL_RECONNECT, data));
+
+    // 被叫通话处理
+    netcall.on('beCalling', (data) => {
+      const custom = JSONParse(data.custom);
+
+      if (!Yunxin.isLegal(custom)) {
+        return;
+      }
+
+      const page = getCurrentPage();
+      const isVideoPage = /videocall/.test(page.route);
+
+      if (isVideoPage && GlobalData.isPushBeCallPage === false) {
+        GlobalData.isPushBeCallPage = true;
+        history.push(PAGE.VIDEO_CALL, { account: data.caller, type: data.type });
+      }
+
+      event.emit(NETCALL_EVENT_NAME.BE_CALLING, data);
+    });
   }
 
   static async init(loading = true) {
@@ -183,6 +268,12 @@ class Yunxin {
     return displayTime;
   }
 
+  static isLegal(data: Record<string, any>) {
+    return (
+      hasOwnProperty(data, LEGAL_MESSAGE_KEY) && data[LEGAL_MESSAGE_KEY] === LEGAL_MESSAGE_VALUE
+    );
+  }
+
   /** 校验消息是否合法 */
   static isLegalMessage(message: NimMessage) {
     const custom = JSONParse(message.custom);
@@ -214,19 +305,13 @@ class Yunxin {
     }
 
     // 非我的医生消息
-    if (
-      !(
-        hasOwnProperty(custom, LEGAL_MESSAGE_KEY) &&
-        custom[LEGAL_MESSAGE_KEY] === LEGAL_MESSAGE_VALUE
-      )
-    ) {
+    if (!Yunxin.isLegal(custom)) {
       return false;
     }
     return true;
   }
 
   /** 发送消息 */
-
   static sendMessage(options: SendMessageOptions): Promise<NimMessage> {
     return new Promise((resolve, reject) => {
       const { done } = options;

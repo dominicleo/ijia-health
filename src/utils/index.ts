@@ -14,7 +14,7 @@ export const isNumber = (value: any): value is number => /^\d+(\.\d+)?$/.test(va
 export const isBoolean = (value: any): value is boolean => typeof value === 'boolean';
 export const isDefine = <T>(value: T): value is Exclude<T, undefined | null> =>
   value !== undefined && value !== null;
-export const hasOwnProperty = (source: object, key: string) =>
+export const hasOwnProperty = <T>(source: T, key: string): source is T =>
   Object.prototype.hasOwnProperty.call(source, key);
 
 export function uniqueBySet(source: any[]) {

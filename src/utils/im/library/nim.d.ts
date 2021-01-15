@@ -1,4 +1,9 @@
-type Done<T, R = void> = (error: Error, data: T) => R;
+export interface NimError extends Error {
+  code: number;
+  event: { callFunc: string };
+}
+
+type Done<T, R = void> = (error: NimError, data: T) => R;
 
 type SendMessageBaseOptions = {
   /** 场景 */
@@ -211,11 +216,23 @@ export type NimReceiveMessage = {
   to: string;
 };
 
+export type NimDisconnectCallbackResponse =
+  | { code: 302 }
+  | { code: 417 }
+  | {
+      code: 'kicked';
+      reason: 'samePlatformKick' | 'serverKick' | 'otherPlatformKick';
+      message: string;
+      custom: any;
+      from: 'Android' | 'iOS' | 'PC' | 'Web' | 'Server' | 'Mac' | 'WindowsPhone';
+      customClientType: string;
+    };
+
 interface CallbackEvents {
   /** 连接成功 */
   onconnect?(): void;
   /** 断开连接 */
-  ondisconnect?(): void;
+  ondisconnect?(data: NimDisconnectCallbackResponse): void;
   /** 连接已端开,正在重连 */
   onwillreconnect?(): void;
   /** 同步登录用户名片的回调 */
@@ -235,7 +252,7 @@ interface CallbackEvents {
   /** 同步完成回调 */
   onsyncdone?(): void;
   /** 错误回调 */
-  onerror?(error: Error): void;
+  onerror?(error: NimError): void;
 }
 
 interface NimOptions extends CallbackEvents {
@@ -249,6 +266,7 @@ interface NimOptions extends CallbackEvents {
 
 declare class Nim {
   static getInstance(options: NimOptions): NimInstance;
+  static use(instance: any): void;
 }
 
 export default Nim;

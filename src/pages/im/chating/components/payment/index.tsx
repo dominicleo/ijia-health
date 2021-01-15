@@ -20,14 +20,17 @@ import Popup from '@vant/weapp/lib/popup';
 import Skeleton from '@vant/weapp/lib/skeleton';
 
 import ChatingContext from '../context';
-import { CHATING_ACTION_TYPE } from '../types.d';
+import { CHATING_ACTION_TYPE, CHATING_TOOLBAR } from '../types.d';
 import s from './index.less';
+import { useSetRecoilState } from 'recoil';
+import { toolbarState } from '../atoms';
 
 const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => {
   const { chating$ } = React.useContext(ChatingContext);
   const [visible, setVisible] = React.useState(false);
   const [active, setActive] = React.useState(0);
   const [loaded, setLoaded] = React.useState(false);
+  const setToolbar = useSetRecoilState(toolbarState);
   const { data, error, loading, run } = useRequest(
     (doctorId) => OrderService.getGoodsByDoctorId(doctorId),
     {
@@ -55,7 +58,9 @@ const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => 
     ) : null;
 
   chating$?.useSubscription((action) => {
-    action.type === CHATING_ACTION_TYPE.PAYMENT && setVisible(true);
+    if (action.type !== CHATING_ACTION_TYPE.PAYMENT) return;
+    setVisible(true);
+    setToolbar(CHATING_TOOLBAR.HIDDEN);
   });
 
   const init = () => {

@@ -4,7 +4,7 @@
     "urlCheck": false,
     "es6": true,
     "enhance": false,
-    "postcss": true,
+    "postcss": false,
     "preloadBackgroundData": false,
     "minified": true,
     "newFeature": true,
@@ -115,7 +115,7 @@
         {
           "name": "视频聊天",
           "pathName": "pages/im/videocall/index",
-          "query": "type=video&account=yunxin_dev_z1nzez1jkq6mt8mm",
+          "query": "type=voice&account=yunxin_dev_z1nzez1jkq6mt8mm",
           "scene": null
         },
         {

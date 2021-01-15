@@ -1,4 +1,4 @@
-import { NimInstance } from './nim';
+import { NimInstance } from './nim.d';
 
 export enum NETCALL_TYPE {
   /** 音频 */
@@ -18,7 +18,30 @@ export enum NETCALL_MODE {
   silence = 3,
 }
 
-type NETCALL_CONTROL_COMMAND = {
+export enum NETCALL_EVENT_NAME {
+  /** 同步成功 */
+  SYNC_DONE = 'onNetcallSyncDone',
+  /** 有人加入了 */
+  CLIENT_JOIN = 'onNetcallClientJoin',
+  /** 有人离开了 */
+  CLIENT_LEAVE = 'onNetcallClientLeave',
+  /** 对方接听了 */
+  CALL_ACCEPTED = 'onNetcallCallAccepted',
+  /** 对方拒绝了 */
+  CALL_REJECTED = 'onNetcallCallRejected',
+  /** 被呼叫 */
+  BE_CALLING = 'onNetcallBeCalling',
+  /** 本通通话在其他端已经处理了 */
+  CALLER_ACK_SYNC = 'onNetcallCallerAckSync',
+  /** 对端挂断了 */
+  HANGUP = 'onNetcallHangup',
+  /** 收到控制指令 */
+  CONTROL = 'onNetcallControl',
+  /** 连接已端开,正在重连 */
+  WILL_RECONNECT = 'onNetcallWillReconnect',
+}
+
+type NetcallControlCommand = {
   /** 通知对方自己打开了音频 */
   NETCALL_CONTROL_COMMAND_NOTIFY_AUDIO_ON: 1;
   /**  通知对方自己关闭了音频 */
@@ -54,7 +77,7 @@ type CallOptions = {
   pushConfig?: { custom: string };
 };
 
-export type NetcallInstance = {
+export interface NetcallInstance extends NetcallControlCommand, Record<string, any> {
   startRtc: (options: { mode: NETCALL_MODE }) => Promise<any>;
   switchMode: (options: { mode: NETCALL_MODE }) => Promise<any>;
   response: (options: {
@@ -69,7 +92,7 @@ export type NetcallInstance = {
   on: (event: string, callback: Callback) => void;
   /** 销毁实例 */
   destroy: () => void;
-} & NETCALL_CONTROL_COMMAND & { [key: string]: any };
+}
 
 interface NetcallOptions {
   debug?: boolean;
@@ -78,6 +101,7 @@ interface NetcallOptions {
 
 declare class Netcall {
   static getInstance(options: NetcallOptions): NetcallInstance;
+  static destroy(): void;
 }
 
 export default Netcall;

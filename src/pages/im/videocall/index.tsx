@@ -64,11 +64,11 @@ export default () => {
         },
       })
       .catch(() => {
-        showToast({ title: '呼叫失败,请重试', onClose: onHangup });
+        showToast({ title: '呼叫失败,请重试', icon: 'none', onClose: onHangup });
       });
 
     waitingAnsweredTimer.current = setTimeout(() => {
-      showToast({ title: '无人接听', onClose: onHangup });
+      showToast({ title: '无人接听', icon: 'none', onClose: onHangup });
     }, 30 * 1000);
   };
 
@@ -90,15 +90,15 @@ export default () => {
   React.useEffect(() => nextTick(init), []);
 
   // 被叫等待接听中设置震动
-  // React.useEffect(() => {
-  //   if (state.loading && becalling.current) {
-  //     vibrateTimer.current && clearInterval(vibrateTimer.current);
-  //     vibrateTimer.current = setInterval(() => nextTick(vibrateLong), 1500);
-  //   }
-  //   return () => {
-  //     vibrateTimer.current && clearInterval(vibrateTimer.current);
-  //   };
-  // }, [state.loading]);
+  React.useEffect(() => {
+    if (state.loading && becalling.current) {
+      vibrateTimer.current && clearInterval(vibrateTimer.current);
+      vibrateTimer.current = setInterval(() => nextTick(vibrateLong), 1500);
+    }
+    return () => {
+      vibrateTimer.current && clearInterval(vibrateTimer.current);
+    };
+  }, [state.loading]);
 
   const onSwitchType = React.useCallback(() => {
     setState({

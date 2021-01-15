@@ -15,6 +15,7 @@ import { Provider } from 'unstated';
 import { UseRequestProvider } from './hooks/useRequest';
 import { handleError } from './utils/error';
 import { requestUpdate } from './utils/update';
+import GlobalData from './utils/globalData';
 
 loadFontFace({
   global: true,
@@ -44,6 +45,7 @@ const App: React.FC = (props) => {
   const { platform } = getSystemInfoSync();
 
   useAppEvent('onLaunch', () => {
+    GlobalData.isPushBeCallPage = false;
     requestUpdate();
   });
 

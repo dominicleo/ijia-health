@@ -128,7 +128,7 @@ export default () => {
       articles,
       like,
       likes,
-      reward,
+      // reward,
       file,
       loaded,
     } = data;
@@ -160,7 +160,7 @@ export default () => {
             {loaded && (
               <ArticleToolbar id={id}>
                 <LaunchApp />
-                {reward && (
+                {/* {reward && (
                   <View
                     className={s.reward}
                     onClick={onClickReward}
@@ -170,7 +170,7 @@ export default () => {
                   >
                     打赏作者
                   </View>
-                )}
+                )} */}
               </ArticleToolbar>
             )}
           </View>

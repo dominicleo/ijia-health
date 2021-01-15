@@ -6,9 +6,9 @@ page {
 }
 
 .wrapper {
-  height: 100vh;
-  flex-direction: column;
   display: flex;
+  flex-direction: column;
+  height: 100vh;
 }
 
 .tabs {
@@ -62,9 +62,10 @@ page {
 }
 
 .container {
-  height: 100%;
   box-sizing: border-box;
+  height: 100%;
   padding: 12px 16px;
+
   --skeleton-padding: 0;
   --padding-xs: 0;
 }
@@ -124,9 +125,9 @@ page {
 }
 
 .fields {
+  position: relative;
   margin-top: 12px;
   padding-top: 12px;
-  position: relative;
   .hairline('top');
 }
 

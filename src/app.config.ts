@@ -15,19 +15,19 @@ const config: AppConfig = {
     'pages/message/index',
     'pages/me/index',
     'pages/authorize/index',
-    'pages/example/index',
+    // 'pages/example/index',
   ],
   subpackages: [
-    // {
-    //   name: 'webview',
-    //   root: 'pages/webview',
-    //   pages: ['index'],
-    // },
-    // {
-    //   name: 'article',
-    //   root: 'pages/article',
-    //   pages: ['index', 'list/index', 'bookmark/index', 'column/index'],
-    // },
+    {
+      name: 'webview',
+      root: 'pages/webview',
+      pages: ['index'],
+    },
+    {
+      name: 'article',
+      root: 'pages/article',
+      pages: ['index', 'list/index', 'bookmark/index', 'column/index'],
+    },
     {
       name: 'doctor',
       root: 'pages/doctor',
@@ -53,16 +53,16 @@ const config: AppConfig = {
       root: 'pages/im',
       pages: ['chating/index', 'videocall/index'],
     },
-    // {
-    //   name: 'help',
-    //   root: 'pages/help',
-    //   pages: ['index', 'list/index'],
-    // },
-    // {
-    //   name: 'settings',
-    //   root: 'pages/settings',
-    //   pages: ['about/index', 'profile/index', 'certification/index'],
-    // },
+    {
+      name: 'help',
+      root: 'pages/help',
+      pages: ['index', 'list/index'],
+    },
+    {
+      name: 'settings',
+      root: 'pages/settings',
+      pages: ['about/index', 'profile/index', 'certification/index'],
+    },
     // {
     //   name: 'prescription',
     //   root: 'pages/prescription/',

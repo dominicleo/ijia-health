@@ -77,7 +77,7 @@ const Page = () => {
   const socket = React.useRef<createSocket>();
 
   // 初始化云信/获取医生信息
-  const { data: doctor, loading, run, mutate } = useRequest(
+  const { data: doctor, run, mutate } = useRequest(
     async () => {
       const response = await DoctorService.queryByAccount(account);
       await Yunxin.init();
@@ -96,25 +96,23 @@ const Page = () => {
   );
 
   // 轮询医生在线
-  const {
-    loading: onlineStatusLoading,
-    run: queryOnlineStatus,
-    cancel: cancelQueryOnlineStatus,
-  } = useRequest(DoctorService.status, {
-    manual: true,
-    pollingInterval: 5000,
-    onSuccess: ({ online }) => {
-      isBoolean(online) && mutate((state) => ({ ...state, online: online }));
+  const { run: queryOnlineStatus, cancel: cancelQueryOnlineStatus } = useRequest(
+    DoctorService.status,
+    {
+      manual: true,
+      pollingInterval: 5000,
+      onSuccess: ({ online }) => {
+        isBoolean(online) && mutate((state) => ({ ...state, online: online }));
+      },
+      onError: (error) => {
+        handleError(error, queryOnlineStatus, cancelQueryOnlineStatus);
+      },
     },
-    onError: (error) => {
-      handleError(error, queryOnlineStatus, cancelQueryOnlineStatus);
-    },
-  });
+  );
 
   // 获取订单信息
   const {
     data: order,
-    loading: orderLoading,
     run: queryOrder,
     mutate: updateOrder,
     cancel: cancelQueryOrder,
@@ -143,15 +141,15 @@ const Page = () => {
   };
 
   usePageEvent('onShow', init);
+  usePageEvent('onHide', () => destroy());
 
   React.useEffect(() => {
     GlobalData.event.on('onMessage', onMessage);
-    return destroy;
   }, []);
 
   const destroy = () => {
-    onlineStatusLoading && cancelQueryOnlineStatus();
-    orderLoading && cancelQueryOrder();
+    cancelQueryOnlineStatus();
+    cancelQueryOrder();
     GlobalData.event.off('onMessage', onMessage);
   };
 
@@ -242,6 +240,8 @@ const Page = () => {
         history.push(PAGE.VIDEO_CALL, { type, account });
         break;
     }
+
+    setToolbar(CHATING_TOOLBAR.HIDDEN);
   };
 
   chating$.useSubscription(async (action) => {
@@ -292,12 +292,12 @@ const Page = () => {
       {doctor && <ChatingPayment doctor={doctor} />}
       <View className={s.wrapper}>
         <ChatingHeader
-          title={`医生：${doctor?.name}`}
+          title={doctor?.name && `医生：${doctor.name}`}
           subtitle={doctor?.online ? MESSAGE.ONLINE : MESSAGE.OFFLINE}
-          loading={!doctor?.loaded || loading}
+          loading={!doctor}
           onBack={onBack}
         />
-        <ChatingStatus data={order} loading={!order?.loaded || orderLoading} onFinish={onFinish} />
+        <ChatingStatus data={order} loading={!order?.loaded} onFinish={onFinish} />
 
         <ChatingContainer>
           <Subscribe to={[YunxinContainer]}>

@@ -1,9 +1,10 @@
+/* eslint-disable */
 // @ts-nocheck
 
 //浮点数转换为整数
 function toInt(num) {
-  var rel = {};
-  var str, pos, len, times;
+  const rel = {};
+  let str, pos, len, times;
   str = num < 0 ? -num + '' : num + '';
   pos = str.indexOf('.');
   len = str.substr(pos + 1).length;
@@ -15,10 +16,10 @@ function toInt(num) {
 
 //计算过程
 export function operate(a, b, op) {
-  var d1 = toInt(a);
-  var d2 = toInt(b);
-  var max = d1.times > d2.times ? d1.times : d2.times;
-  var rel;
+  const d1 = toInt(a);
+  const d2 = toInt(b);
+  const max = d1.times > d2.times ? d1.times : d2.times;
+  let rel;
   switch (op) {
     case '+':
       rel = (d1.num * max + d2.num * max) / max;
