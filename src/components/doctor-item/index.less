@@ -56,9 +56,9 @@
     margin-top: 4px;
     color: #b3b3b3;
     font-size: 13px;
-    white-space: nowrap;
+
     text {
-      display: inline-block;
+      display: inline;
       + text {
         position: relative;
         margin-left: 5px;
@@ -79,6 +79,7 @@
   }
 
   &-extra {
+    flex-shrink: 0;
     margin-left: 24px;
   }
 }

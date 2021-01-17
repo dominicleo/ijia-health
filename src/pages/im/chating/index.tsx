@@ -194,7 +194,7 @@ const Page = () => {
   };
 
   const handleSend = (action: MessagebarSendAction) => {
-    if (action.type === MESSAGEBAR_ACTION_TYPE.TEXT) {
+    if (action.type === MESSAGEBAR_ACTION_TYPE.TEXT && action.payload) {
       setValue('');
       sendMessage({ type: NIM_MESSAGE_TYPE.TEXT, text: action.payload });
     }

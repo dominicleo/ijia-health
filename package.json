@@ -14,7 +14,7 @@
     "fix-css": "yarn run lint-css --fix",
     "fix": "yarn run fix-js && yarn run fix-css",
     "dev": "remax build -t wechat -w --no-devtools",
-    "build": "cross-env NODE_ENV=production remax build -t wechat",
+    "build": "cross-env NODE_ENV=production remax build -t wechat -m",
     "start": "cross-env REMAX_APP_ENV=development yarn dev",
     "start:test": "cross-env REMAX_APP_ENV=test yarn dev",
     "start:prod": "cross-env REMAX_APP_ENV=production yarn dev",
@@ -44,7 +44,7 @@
     "qs": "^6.9.4",
     "react": "^17.0.1",
     "recoil": "^0.1.2",
-    "remax": "2.10.1",
+    "remax": "^2.11.3",
     "umtrack-wx": "^2.5.2",
     "unstated": "^2.1.1"
   },

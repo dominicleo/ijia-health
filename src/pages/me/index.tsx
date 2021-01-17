@@ -47,6 +47,11 @@ const TOOLS: Item[] = [
   },
 ];
 
+const ViewHoverProps = {
+  hoverClassName: 'clickable-opacity',
+  hoverStayTime: 0,
+};
+
 export default () => {
   const [mounted, setMounted] = React.useState(false);
   const { data, run } = useRequest(
@@ -128,25 +133,22 @@ export default () => {
         >
           <View>{userinfo}</View>
           <View
-            className={s.avatar}
+            {...ViewHoverProps}
+            className={classnames(s.avatar, { [s.editable]: data?.isAuthorize })}
             style={avatarStyle}
-            hoverClassName='clickable-opacity'
-            hoverStayTime={0}
           />
         </View>
         <View className={s.totals}>
           <View
             onClick={() => history.push({ pathname: PAGE.DOCTOR_FOLLOW_LIST, authorize: true })}
-            hoverClassName='clickable-opacity'
-            hoverStayTime={0}
+            {...ViewHoverProps}
           >
             <Text>关注</Text>
             <Text>{data?.followNumber || 0}</Text>
           </View>
           <View
+            {...ViewHoverProps}
             onTap={() => history.push({ pathname: PAGE.ARTICLE_BOOKMARK_LIST, authorize: true })}
-            hoverClassName='clickable-opacity'
-            hoverStayTime={0}
           >
             <Text>收藏</Text>
             <Text>{data?.bookmarkNumber || 0}</Text>

@@ -18,6 +18,7 @@ import Toast from '@/components/toast';
 import html2json from '@/utils/html2json';
 import ArticleItem from '@/components/article-item';
 import Empty from '@/components/empty';
+import SafeArea from '@/components/safe-area';
 
 const EMPTY_TAG_REG = /<([a-z]+?)(?:\s+?[^>]*?)?>\s*?<\/\1>/gi;
 const ARTICLE_MAX_SIZE = 3;
@@ -248,7 +249,8 @@ export default () => {
       </View>
       <View className={s.main}>{main}</View>
       <ScrollView className={s.content} scrollY>
-        {content}
+        <View className={s.container}>{content}</View>
+        <SafeArea />
       </ScrollView>
     </View>
   );

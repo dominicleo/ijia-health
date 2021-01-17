@@ -57,7 +57,7 @@ export default () => {
   const { name, idCardNumber, phoneNumber, isRealname, avatar } = data || {};
 
   const onClick = () => {
-    if (!data?.loaded || loading) return;
+    if (!data?.loaded || loading || isRealname) return;
     history.push(PAGE.CERTIFICATION);
   };
 
@@ -80,42 +80,44 @@ export default () => {
     content = (
       <>
         <Toast.Component />
-        <View className={s.list}>
-          <View
-            {...ViewHoverProps}
-            className={classnames(s.item, s.arrow)}
-            onClick={onClickUploadAvatar}
-          >
-            头像
-            <View className={s.extra}>
-              <View className={s.avatar} style={avatarStyle} />
+        <View>
+          <View className={s.list}>
+            <View
+              {...ViewHoverProps}
+              className={classnames(s.item, s.arrow)}
+              onClick={onClickUploadAvatar}
+            >
+              头像
+              <View className={s.extra}>
+                <View className={s.avatar} style={avatarStyle} />
+              </View>
             </View>
           </View>
-        </View>
-        <View className={s.list}>
-          <View className={s.item}>
-            手机号
-            <View className={s.extra}>{phoneNumber}</View>
-          </View>
-          <View
-            {...(isRealname ? {} : ViewHoverProps)}
-            className={classnames(s.item, { [s.arrow]: !isRealname })}
-            onClick={onClick}
-          >
-            姓名
-            <View className={classnames(s.extra, { [s.active]: !isRealname })}>
-              {isRealname && <View className={s.realname} />}
-              {isRealname ? name : CERTIFICATION_TEXT}
+          <View className={s.list}>
+            <View className={s.item}>
+              手机号
+              <View className={s.extra}>{phoneNumber}</View>
             </View>
-          </View>
-          <View
-            {...(isRealname ? {} : ViewHoverProps)}
-            className={classnames(s.item, { [s.arrow]: !isRealname })}
-            onClick={onClick}
-          >
-            身份证号
-            <View className={classnames(s.extra, { [s.active]: !isRealname })}>
-              {isRealname ? idCardNumber : CERTIFICATION_TEXT}
+            <View
+              {...(isRealname ? {} : ViewHoverProps)}
+              className={classnames(s.item, { [s.arrow]: !isRealname })}
+              onClick={onClick}
+            >
+              姓名
+              <View className={classnames(s.extra, { [s.active]: !isRealname })}>
+                {isRealname && <View className={s.realname} />}
+                {isRealname ? name : CERTIFICATION_TEXT}
+              </View>
+            </View>
+            <View
+              {...(isRealname ? {} : ViewHoverProps)}
+              className={classnames(s.item, { [s.arrow]: !isRealname })}
+              onClick={onClick}
+            >
+              身份证号
+              <View className={classnames(s.extra, { [s.active]: !isRealname })}>
+                {isRealname ? idCardNumber : CERTIFICATION_TEXT}
+              </View>
             </View>
           </View>
         </View>

@@ -68,6 +68,7 @@ page {
 }
 
 .avatar {
+  position: relative;
   width: 64px;
   height: 64px;
   background: #fff url('./images/avatar-default.svg') center no-repeat;
@@ -75,6 +76,22 @@ page {
   background-clip: padding-box;
   border: 5px solid rgba(#fff, 0.2);
   border-radius: 64px;
+  &.editable {
+    &::after {
+      position: absolute;
+      right: -5px;
+      bottom: -5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 15px;
+      font-size: 11px;
+      background: @linear-gradient-warning;
+      border-radius: 16px;
+      content: '编辑';
+    }
+  }
 }
 
 .totals {

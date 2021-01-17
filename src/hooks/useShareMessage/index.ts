@@ -2,7 +2,8 @@ import { usePageEvent } from 'remax/runtime';
 
 import { APP_NAME } from '@/constants/common';
 import PAGE from '@/constants/page';
-import { isFunction, isPlainObject } from '@/utils';
+import { getCurrentPage, isFunction, isPlainObject } from '@/utils';
+import GlobalData from '@/utils/globalData';
 
 type useShareMessageResult = {
   title?: string;
@@ -17,7 +18,7 @@ type useShareMessageCallbackParams = {
   webViewUrl: string;
 };
 
-const DEFAULTS: useShareMessageResult = {
+export const SHARE_MESSAGE_DEFAULT_PARAMS: useShareMessageResult = {
   title: APP_NAME,
   path: PAGE.INDEX,
   imageUrl: 'https://m.ijia120.com/miniprograms/share.png',
@@ -28,13 +29,15 @@ const useShareMessage = (
     | useShareMessageResult
     | ((params: useShareMessageCallbackParams) => useShareMessageResult),
 ) => {
+  const page = getCurrentPage();
+  page && (page.data.__SHARE_MESSAGE__ = true);
+
   usePageEvent('onShareAppMessage', async (params) => {
     const config = isFunction(options) ? await options(params) : options;
-
     return {
-      title: config?.title || DEFAULTS.title,
-      path: config?.path || DEFAULTS.path,
-      imageUrl: config?.imageUrl || DEFAULTS.imageUrl,
+      title: config?.title || SHARE_MESSAGE_DEFAULT_PARAMS.title,
+      path: config?.path || SHARE_MESSAGE_DEFAULT_PARAMS.path,
+      imageUrl: config?.imageUrl || SHARE_MESSAGE_DEFAULT_PARAMS.imageUrl,
     };
   });
 };
