@@ -1,0 +1,44 @@
+.wrapper {
+  position: fixed;
+  right: 30px;
+  bottom: 52.5px;
+  left: 30px;
+  z-index: 20;
+  color: #fff;
+}
+
+.duration {
+  width: 100%;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.flexWrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  &.center {
+    justify-content: center;
+  }
+}
+
+.action {
+  + .action {
+    margin-top: 30px;
+  }
+  .icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto;
+    border-radius: 60px;
+    transition: 200ms;
+    &:active {
+      opacity: 0.85;
+    }
+  }
+  .text {
+    margin-top: 12px;
+    font-size: 13px;
+    text-align: center;
+  }
+}

@@ -1,4 +1,4 @@
-import { NimAudioFile, NimFile, NimRecord } from '@/utils/im';
+import { NimAudioFile, NimRecord } from '@/utils/im';
 
 export enum CHATING_MEDIA_TYPE {
   /** 相册 */
@@ -8,14 +8,14 @@ export enum CHATING_MEDIA_TYPE {
   /** 视频 */
   VIDEO = 'video',
   /** 语音 */
-  VOICE = 'voice',
+  AUDIO = 'audio',
 }
 
 export enum CHATING_MESSAGEBAR {
   /** 键盘输入 */
   KEYBOARD = 'keyboard',
   /** 语音输入 */
-  VOICE = 'voice',
+  AUDIO = 'audio',
 }
 
 export enum CHATING_TOOLBAR {
@@ -40,6 +40,8 @@ export enum CHATING_ACTION_TYPE {
   PLAYAUDIO = 'playaudio',
   /** 预览图片/视频 */
   PREVIEW = 'preview',
+  /** 刷新订单 */
+  REFRESH_ORDER = 'refreshorder',
 }
 
 export type EmojiItem = {
@@ -86,6 +88,7 @@ type ChatingActionMedia = {
 type ChatingActionPlayAudio = { type: CHATING_ACTION_TYPE.PLAYAUDIO; payload: NimAudioFile };
 type ChatingActionPreview = { type: CHATING_ACTION_TYPE.PREVIEW; payload: NimRecord };
 type ChatingActionPayment = { type: CHATING_ACTION_TYPE.PAYMENT };
+type ChatingActionRefreshOrder = { type: CHATING_ACTION_TYPE.REFRESH_ORDER };
 
 export type ChatingAction =
   | ChatingActionSend
@@ -93,4 +96,5 @@ export type ChatingAction =
   | ChatingActionMedia
   | ChatingActionPlayAudio
   | ChatingActionPreview
-  | ChatingActionPayment;
+  | ChatingActionPayment
+  | ChatingActionRefreshOrder;

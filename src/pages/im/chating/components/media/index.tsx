@@ -22,7 +22,7 @@ const MEDIA_ITEMS: Array<{ value: CHATING_MEDIA_TYPE; label: string }> = [
     label: '视频',
   },
   {
-    value: CHATING_MEDIA_TYPE.VOICE,
+    value: CHATING_MEDIA_TYPE.AUDIO,
     label: '语音',
   },
 ];

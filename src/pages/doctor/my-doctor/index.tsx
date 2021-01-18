@@ -139,7 +139,7 @@ export default () => {
                   />
                 </View>
                 <View className={s.body}>
-                  <Image className={s.avatar} src={avatar} lazyLoad />
+                  <Image className={s.avatar} src={avatar} mode='aspectFill' lazyLoad />
                   <View className={s.content}>
                     <View className={s.name}>{name}</View>
                     <View className={s.details}>

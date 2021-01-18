@@ -43,7 +43,9 @@ const DoctorItem: React.FC<DoctorItem> & { Loader: typeof DoctorItemLoader } = (
       hoverClassName={isFunction(onClick) ? 'clickable' : 'none'}
       hoverStayTime={0}
     >
-      {showAvatar && <Image className={`${prefixCls}-avatar`} src={avatar} />}
+      {showAvatar && (
+        <Image className={`${prefixCls}-avatar`} src={avatar} mode='aspectFill' lazyLoad />
+      )}
       <View className={`${prefixCls}-left`}>
         <View className={`${prefixCls}-title`}>
           <View className={`${prefixCls}-name`}>{name}</View>

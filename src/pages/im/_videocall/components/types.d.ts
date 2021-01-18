@@ -5,13 +5,6 @@ export enum CALL_MODE {
   BECALLING = 'becalling',
 }
 
-export enum CALL_TYPE {
-  /** 音频 */
-  VOICE = 'voice',
-  /** 视频 */
-  VIDEO = 'video',
-}
-
 export enum CONTROL_TYPE {
   /** 语音接听 */
   ANSWER = 'answer',

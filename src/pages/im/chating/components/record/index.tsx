@@ -1,8 +1,10 @@
-import { useUpdateEffect } from '@/hooks';
-import { NimRecord, NIM_MESSAGE_TYPE } from '@/utils/im';
 import isEqual from 'lodash.isequal';
 import * as React from 'react';
-import { nextTick, View, ScrollView } from 'remax/wechat';
+import { ScrollView, View } from 'remax/wechat';
+
+import { useUpdateEffect } from '@/hooks';
+import { NIM_MESSAGE_TYPE, NimRecord } from '@/utils/im';
+
 import ChatingContext from '../context';
 import { CHATING_ACTION_TYPE } from '../types.d';
 import s from './index.less';
@@ -32,15 +34,10 @@ const ChatingRecord: React.FC<ChatingRecordProps> = React.memo(({ messages }) =>
     wx.previewMedia({ sources, current }, true);
   });
 
-  const scrollBottom = () => nextTick(() => setScrollIntoView(id));
+  const scrollBottom = () => setScrollIntoView(id);
 
-  React.useEffect(() => {
-    nextTick(scrollBottom);
-  }, []);
-
-  useUpdateEffect(() => {
-    nextTick(scrollBottom);
-  }, [messages]);
+  React.useEffect(scrollBottom);
+  useUpdateEffect(scrollBottom, [messages]);
 
   return (
     <ScrollView className={s.wrapper} scrollIntoView={scrollIntoView} scrollWithAnimation scrollY>

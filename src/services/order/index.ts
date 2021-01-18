@@ -23,7 +23,7 @@ export const queryByDoctorId = async (doctorId: string) => {
 
 export const create = async (params: CreateOrderParams) => {
   const { goodsId, price, doctor } = params;
-  const response = await fetch.post('/api/api/order/addOrder', {
+  const response = await fetch.post('/api/api/order/addOrder/v2', {
     doctorId: doctor.id,
     doctorName: doctor.name,
     doctorHeaderUrl: doctor.avatar,

@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import currency from 'currency.js';
 import * as React from 'react';
+import { useQuery } from 'remax';
 import { usePageEvent } from 'remax/runtime';
 import {
   login,
@@ -11,6 +12,7 @@ import {
   View,
 } from 'remax/wechat';
 
+import Empty from '@/components/empty';
 import SafeArea from '@/components/safe-area';
 import Toast from '@/components/toast';
 import { MESSAGE } from '@/constants';
@@ -26,11 +28,10 @@ import Checkbox from '@vant/weapp/lib/checkbox';
 import CountDown from '@vant/weapp/lib/count-down';
 
 import s from './index.less';
-import { useQuery } from 'remax';
-import Empty from '@/components/empty';
 
 export default () => {
-  const { orderId, redirect, subscribeKey } = useQuery();
+  const { orderId, redirect, subscribeKey, delta } = useQuery();
+  const time = React.useRef(Date.now());
   const code = React.useRef<string | null>();
   const [channel, setChannel] = React.useState<string | null>();
   // 获取支付信息
@@ -45,13 +46,6 @@ export default () => {
         const firstChannel = first(channels);
         firstChannel && setChannel(firstChannel.code);
         loaded && getSubscribeMessageTemplateList();
-      },
-      initialData: {
-        amount: 0,
-        expire: 0,
-        channels: [],
-        token: '',
-        loaded: false,
       },
     },
   );
@@ -75,18 +69,16 @@ export default () => {
 
   // 发起支付
   const handleRequestPayment = async (params: CashierSubmitParams) => {
-    const response = await CashierService.submit(params);
-    return requestPayment(response.params)
-      .then(() => response)
-      .catch((event) => {
-        let message = event.errMsg;
-        if (isNativeCancel(event)) return;
-        if (/parameter error/i.test(message)) {
-          message = '微信支付参数错误';
-        }
-        showModal({ title: MESSAGE.SYSTEM_PROMPT, content: message, showCancel: false });
-        return Promise.reject(new Error(message));
-      });
+    try {
+      const response = await CashierService.submit(params);
+      await requestPayment(response.params);
+      return response;
+    } catch (error) {
+      if (/parameter error/i.test(error.errMsg)) {
+        error.errMsg = '微信支付参数错误';
+      }
+      return Promise.reject(error);
+    }
   };
 
   const { run: payment, loading: submitting, error: requestPaymentError } = useRequest(
@@ -112,9 +104,6 @@ export default () => {
   });
 
   const { amount = 0, expire = 0, token, channels, loaded } = data || {};
-
-  const time = expire - Date.now();
-
   const getAmountText = (options: currency.Options) => currency(amount / 100, options).format();
 
   const onFinish = () => {
@@ -132,12 +121,15 @@ export default () => {
       return;
     }
 
-    const { id } = await payment({ orderId, token, channel, code: code.current });
-
-    await handleSubscribeMessage();
-
-    // 跳转到支付结果页
-    history.replace(PAGE.CASHIER_RESULT, { id, redirect });
+    try {
+      const { id } = await payment({ orderId, token, channel, code: code.current });
+      await handleSubscribeMessage();
+      // 跳转到支付结果页
+      history.replace(PAGE.CASHIER_RESULT, { id, redirect, delta });
+    } catch (error) {
+      if (isNativeCancel(error)) return;
+      showModal({ title: MESSAGE.SYSTEM_PROMPT, content: error.message, showCancel: false });
+    }
   };
 
   const onContactError = (event: any) => {
@@ -207,7 +199,17 @@ export default () => {
         </View>
         <View className={s.countdown}>
           支付剩余时间
-          <CountDown className={s.time} time={time} finish={onFinish} />
+          {loaded && (
+            <View className={s.time}>
+              <CountDown
+                format='HH:mm:ss'
+                time={expire - time.current}
+                millisecond={false}
+                autoStart
+                bindfinish={onFinish}
+              />
+            </View>
+          )}
         </View>
       </View>
       <View className={s.channels}>{content}</View>

@@ -33,21 +33,21 @@ const config: AppConfig = {
       root: 'pages/doctor',
       pages: ['index', 'search/index', 'scan/index', 'follow/index', 'my-doctor/index'],
     },
-    // {
-    //   name: 'reward',
-    //   root: 'pages/reward',
-    //   pages: ['index'],
-    // },
     {
-      name: 'payment',
-      root: 'pages/payment',
-      pages: ['index', 'result/index'],
+      name: 'reward',
+      root: 'pages/reward',
+      pages: ['index'],
     },
     // {
-    //   name: 'cashier',
-    //   root: 'pages/cashier',
+    //   name: 'payment',
+    //   root: 'pages/payment',
     //   pages: ['index', 'result/index'],
     // },
+    {
+      name: 'cashier',
+      root: 'pages/cashier',
+      pages: ['index', 'result/index'],
+    },
     {
       name: 'im',
       root: 'pages/im',

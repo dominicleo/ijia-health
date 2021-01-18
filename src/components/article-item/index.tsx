@@ -179,7 +179,9 @@ const ArticleItem: React.FC<ArticleItemProps> & {
             {date && <View className={`${prefixCls}-date`}>{date}</View>}
           </View>
         </View>
-        {picture && <Image className={`${prefixCls}-picture`} src={picture} lazyLoad />}
+        {picture && (
+          <Image className={`${prefixCls}-picture`} src={picture} mode='aspectFill' lazyLoad />
+        )}
       </View>
       <View className={`${prefixCls}-footer`}>
         <View className={`${prefixCls}-description`}>

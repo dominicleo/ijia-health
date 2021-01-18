@@ -2,6 +2,13 @@ import { NimInstance } from './nim.d';
 
 export enum NETCALL_TYPE {
   /** 音频 */
+  AUDIO = 'audio',
+  /** 视频 */
+  VIDEO = 'video',
+}
+
+export enum NETCALL_TYPE_VALUE {
+  /** 音频 */
   AUDIO = 1,
   /** 视频 */
   VIDEO = 2,
@@ -15,7 +22,7 @@ export enum NETCALL_MODE {
   /** 纯视频 */
   PURE_VIDEO = 2,
   /** 静默 (无音频无视频) */
-  silence = 3,
+  SILENCE = 3,
 }
 
 export enum NETCALL_EVENT_NAME {
@@ -71,7 +78,7 @@ type NetcallControlCommand = {
 type Callback = (data: any) => void;
 
 type CallOptions = {
-  type: NETCALL_TYPE;
+  type: NETCALL_TYPE_VALUE;
   callee: string;
   forceKeepCalling: boolean;
   pushConfig?: { custom: string };
@@ -79,9 +86,9 @@ type CallOptions = {
 
 export interface NetcallInstance extends NetcallControlCommand, Record<string, any> {
   startRtc: (options: { mode: NETCALL_MODE }) => Promise<any>;
-  switchMode: (options: { mode: NETCALL_MODE }) => Promise<any>;
+  switchMode: (mode: NETCALL_MODE) => Promise<any>;
   response: (options: {
-    type: NETCALL_TYPE;
+    type: NETCALL_TYPE_VALUE;
     caller: string;
     accepted: boolean;
     cid: string;

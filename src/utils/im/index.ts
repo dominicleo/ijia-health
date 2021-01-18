@@ -17,7 +17,7 @@ import Nim, {
 } from './library/nim';
 import { NIM_MESSAGE_FLOW, NIM_MESSAGE_STATUS, NIM_MESSAGE_TYPE } from './library/nim.d';
 import Netcall from './library/netcall';
-import { NETCALL_EVENT_NAME } from './library/netcall.d';
+import { NETCALL_TYPE, NETCALL_TYPE_VALUE, NETCALL_EVENT_NAME } from './library/netcall.d';
 import { MESSAGE_RECORD_CUSTOM_TYPE } from '@/pages/im/chating/components/record/components/types.d';
 import history from '../history';
 import PAGE from '@/constants/page';
@@ -167,9 +167,14 @@ class Yunxin {
       const page = getCurrentPage();
       const isVideoPage = /videocall/.test(page.route);
 
-      if (isVideoPage && GlobalData.isPushBeCallPage === false) {
+      if (!isVideoPage && GlobalData.isPushBeCallPage === false) {
         GlobalData.isPushBeCallPage = true;
-        history.push(PAGE.VIDEO_CALL, { account: data.caller, type: data.type });
+        history.push(PAGE.VIDEO_CALL, {
+          caller: data.caller,
+          type: data.type,
+          cid: data.cid,
+          becalling: true,
+        });
       }
 
       event.emit(NETCALL_EVENT_NAME.BE_CALLING, data);

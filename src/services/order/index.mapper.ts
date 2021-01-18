@@ -26,9 +26,9 @@ function query(source = {}): Order {
   return mapper.execute(source || {});
 }
 
-function create(source = {}): { orderId: string } {
+function create(source = {}): { callback: boolean; orderId: string } {
   const mapper = createMapper();
-  mapper.map('orderId');
+  mapper.map('needVendorCallback').to('callback').map('payOrderNo').to('orderId');
 
   return mapper.execute(source);
 }

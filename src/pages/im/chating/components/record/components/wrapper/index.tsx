@@ -33,7 +33,7 @@ function ChatingRecordWrapper<T extends NimRecord>(options: ChatingRecordWrapper
         )}
         {children && (
           <View className={s.body}>
-            <Image className={s.avatar} src={user?.avatar} lazyLoad />
+            <Image className={s.avatar} src={user?.avatar} mode='aspectFill' lazyLoad />
             <View className={s.content}>{React.createElement(children, props)}</View>
           </View>
         )}

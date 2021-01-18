@@ -14,7 +14,7 @@ import { LINEAR_GRADIENT_PRIMARY } from '@/constants/theme';
 import { useRequest } from '@/hooks';
 import { OrderService, SubscribeService } from '@/services';
 import { SUBSCRIBE_MESSAGE_TEMPLATE_TYPE } from '@/services/subscribe/index.types.d';
-import { isNativeCancel, isNumber, noop } from '@/utils';
+import { isNativeCancel, noop } from '@/utils';
 import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 import Checkbox from '@vant/weapp/lib/checkbox';
@@ -33,9 +33,7 @@ export default () => {
     },
     {
       manual: true,
-      onSuccess({ paymentExpire }) {
-        isNumber(paymentExpire) && paymentExpire - time.current <= 0 && finished();
-      },
+      onSuccess: () => getSubscribeMessageTemplateList(),
     },
   );
 
@@ -167,14 +165,16 @@ export default () => {
         </View>
         <View className={s.countdown}>
           支付剩余时间
-          <CountDown
-            className={s.time}
-            format='HH:mm:ss'
-            time={paymentExpire - time.current}
-            autoStart={true}
-            millisecond={false}
-            finish={onFinish}
-          />
+          {loaded && (
+            <CountDown
+              className={s.time}
+              format='HH:mm:ss'
+              time={paymentExpire - time.current}
+              millisecond={false}
+              autoStart
+              bindfinish={onFinish}
+            />
+          )}
         </View>
       </View>
       <View className={s.channels}>{content}</View>

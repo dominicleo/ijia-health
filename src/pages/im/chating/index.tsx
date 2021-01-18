@@ -17,11 +17,17 @@ import {
   ORDER_PROCESS_STATUS,
   ORDER_STATUS,
 } from '@/services/order/index.types.d';
-import { getCurrentPage, isArray, isBoolean, JSONParse, noop } from '@/utils';
+import { isArray, isBoolean, JSONParse, noop } from '@/utils';
 import { AuthorizeError } from '@/utils/error';
 import GlobalData from '@/utils/globalData';
 import history from '@/utils/history';
-import Yunxin, { NIM_MESSAGE_TYPE, NIM_SCENE, NimMessage, SendMessageOptions } from '@/utils/im';
+import Yunxin, {
+  NIM_MESSAGE_TYPE,
+  NIM_SCENE,
+  NimMessage,
+  SendMessageOptions,
+  NETCALL_TYPE_VALUE,
+} from '@/utils/im';
 import createSocket from '@/utils/socket';
 
 import { toolbarState, valueState } from './components/atoms';
@@ -134,8 +140,8 @@ const Page = () => {
     if (socket.current) return;
     socket.current = new createSocket((data: any) => {
       const { tags } = data || {};
-      if (doctor && isArray(tags) && tags.includes('P2P_REFRESH_ORDER')) {
-        queryOrder(doctor.id);
+      if (isArray(tags) && tags.includes('P2P_REFRESH_ORDER')) {
+        chating$?.emit({ type: CHATING_ACTION_TYPE.REFRESH_ORDER });
       }
     });
   };
@@ -236,8 +242,12 @@ const Page = () => {
         );
         break;
       case CHATING_MEDIA_TYPE.VIDEO:
-      case CHATING_MEDIA_TYPE.VOICE:
-        history.push(PAGE.VIDEO_CALL, { type, account });
+      case CHATING_MEDIA_TYPE.AUDIO:
+        history.push(PAGE.VIDEO_CALL, {
+          type:
+            type === CHATING_MEDIA_TYPE.AUDIO ? NETCALL_TYPE_VALUE.AUDIO : NETCALL_TYPE_VALUE.VIDEO,
+          callee: account,
+        });
         break;
     }
 
@@ -258,10 +268,15 @@ const Page = () => {
         .then(() => handleMedia(action.payload))
         .catch(noop);
     }
+
+    // 刷新订单信息
+    if (action.type === CHATING_ACTION_TYPE.REFRESH_ORDER) {
+      doctor && queryOrder(doctor.id);
+    }
   });
 
   function onMessage(message: NimMessage) {
-    if (!(doctor && message && sessionId === message.sessionId)) return;
+    if (!(message && sessionId === message.sessionId)) return;
     const { type, data } = JSONParse(message.content);
     const { code } = data || {};
     // 医生回复消息
@@ -272,7 +287,7 @@ const Page = () => {
         type === MESSAGE_RECORD_CUSTOM_TYPE.SETMEAL) &&
       code === '1';
 
-    isStartTiming || (isCloseOrder && queryOrder(doctor.id));
+    (isStartTiming || isCloseOrder) && chating$?.emit({ type: CHATING_ACTION_TYPE.REFRESH_ORDER });
   }
 
   const onFinish = () => {

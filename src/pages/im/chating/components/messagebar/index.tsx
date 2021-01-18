@@ -202,18 +202,18 @@ const ChatingMessageBar: React.FC = React.memo(() => {
   const [toolbar, setToolbar] = useRecoilState(toolbarState);
 
   const isKeyboard = messagebar === CHATING_MESSAGEBAR.KEYBOARD;
-  const isVoice = messagebar === CHATING_MESSAGEBAR.VOICE;
+  const isAudio = messagebar === CHATING_MESSAGEBAR.AUDIO;
 
   const onClickMessagebarMode = () => {
     toolbar !== CHATING_TOOLBAR.HIDDEN && setToolbar(CHATING_TOOLBAR.HIDDEN);
-    isVoice && setFocus(true);
-    setMessagebar(isVoice ? CHATING_MESSAGEBAR.KEYBOARD : CHATING_MESSAGEBAR.VOICE);
+    isAudio && setFocus(true);
+    setMessagebar(isAudio ? CHATING_MESSAGEBAR.KEYBOARD : CHATING_MESSAGEBAR.AUDIO);
   };
 
   const onClickToolbarMode = (value: CHATING_TOOLBAR) => {
     const next = value === toolbar ? CHATING_TOOLBAR.HIDDEN : value;
 
-    if (value === CHATING_TOOLBAR.EMOJI && isVoice) {
+    if (value === CHATING_TOOLBAR.EMOJI && isAudio) {
       setMessagebar(CHATING_MESSAGEBAR.KEYBOARD);
     }
 
@@ -225,7 +225,7 @@ const ChatingMessageBar: React.FC = React.memo(() => {
       <View
         onClick={onClickMessagebarMode}
         className={classnames(s.icon, {
-          [s.keyboard]: isVoice,
+          [s.keyboard]: isAudio,
           [s.voice]: isKeyboard,
         })}
         hoverClassName='clickable-opacity'
@@ -234,7 +234,7 @@ const ChatingMessageBar: React.FC = React.memo(() => {
       <View
         className={classnames(s.mode, {
           [s.keyboardMode]: isKeyboard,
-          [s.speakMode]: isVoice,
+          [s.speakMode]: isAudio,
         })}
       >
         <InputBar />

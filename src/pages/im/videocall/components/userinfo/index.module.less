@@ -1,0 +1,102 @@
+.wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 11;
+}
+
+.overlayCamera {
+  background: linear-gradient(
+    180deg,
+    rgba(#333, 0.8) 0%,
+    rgba(#333, 0.7) 15%,
+    rgba(#333, 0.65) 50%,
+    rgba(#333, 0.7) 85%,
+    rgba(#333, 0.8) 100%
+  );
+}
+
+.overlayAvatar {
+  background: center no-repeat;
+  background-size: cover;
+  filter: blur(8px);
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(#000, 0.8);
+    content: '';
+  }
+}
+
+.username {
+  font-size: 18px;
+  line-height: 18px;
+  text-align: right;
+}
+
+.description {
+  margin-top: 5px;
+  font-size: 13px;
+  text-align: right;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  margin-left: 8px;
+  background: center no-repeat;
+  background-size: cover;
+  border-radius: 4px;
+}
+
+.userinfo {
+  position: absolute;
+  top: 80px;
+  right: 16px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  &.center {
+    top: 45%;
+    right: initial;
+    left: 50%;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    transform: translate(-50%, -50%);
+    .details {
+      width: 100%;
+      margin-top: 22px;
+    }
+    .avatar {
+      width: 107.5px;
+      height: 107.5px;
+      margin-left: 0;
+    }
+    .username,
+    .description {
+      text-align: center;
+    }
+  }
+}
+
+.camera {
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+}

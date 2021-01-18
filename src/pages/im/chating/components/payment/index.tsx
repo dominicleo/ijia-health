@@ -13,7 +13,7 @@ import { useRequest } from '@/hooks';
 import { OrderService } from '@/services';
 import { Doctor } from '@/services/doctor/index.types';
 import { isArray, isPlainObject } from '@/utils';
-import history from '@/utils/history';
+import history, { createURL } from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 import Loading from '@vant/weapp/lib/loading';
 import Popup from '@vant/weapp/lib/popup';
@@ -24,6 +24,7 @@ import { CHATING_ACTION_TYPE, CHATING_TOOLBAR } from '../types.d';
 import s from './index.less';
 import { useSetRecoilState } from 'recoil';
 import { toolbarState } from '../atoms';
+import { SUBSCRIBE_MESSAGE_TEMPLATE_TYPE } from '@/services/subscribe/index.types.d';
 
 const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => {
   const { chating$ } = React.useContext(ChatingContext);
@@ -74,13 +75,23 @@ const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => 
       return;
     }
 
-    const { orderId } = await submit({
+    const { callback, orderId } = await submit({
       doctor,
       goodsId: selectedGoods.seq,
       price: selectedGoods.price,
     });
+
     setVisible(false);
-    history.push(PAGE.PAYMENT, { orderId });
+
+    if (!callback) {
+      chating$?.emit({ type: CHATING_ACTION_TYPE.REFRESH_ORDER });
+      return;
+    }
+
+    history.push(PAGE.CASHIER, {
+      orderId,
+      subscribeKey: SUBSCRIBE_MESSAGE_TEMPLATE_TYPE.MY_DOCTOR,
+    });
   };
 
   let content;

@@ -130,7 +130,7 @@ export default () => {
       goodsId: 10,
       sourceType: 'ARTICLE',
     });
-    history.push(PAGE.CASHIER, { orderId });
+    history.push(PAGE.CASHIER, { orderId, delta: 2 });
   };
 
   const { banner, doctor, gifts = [], loaded } = data || {};

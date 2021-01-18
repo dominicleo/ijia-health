@@ -1,4 +1,5 @@
 import isEqualFn from 'lodash.isequal';
+import isNumberFn from 'lodash.isnumber';
 import { GenericEvent } from 'remax/wechat';
 
 export const noop = (): void => {};
@@ -10,7 +11,7 @@ export const isString = (value: any): value is string => typeof value === 'strin
 export const isPlainObject = <T>(value: T): value is T =>
   value !== null && typeof value === 'object' && !Array.isArray(value);
 export const isFunction = (value: any): value is Function => typeof value === 'function';
-export const isNumber = (value: any): value is number => /^\d+(\.\d+)?$/.test(value);
+export const isNumber = isNumberFn;
 export const isBoolean = (value: any): value is boolean => typeof value === 'boolean';
 export const isDefine = <T>(value: T): value is Exclude<T, undefined | null> =>
   value !== undefined && value !== null;

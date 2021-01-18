@@ -23,7 +23,7 @@ const CASHIER_STATUS_TEXT = {
 };
 
 export default () => {
-  const { id, redirect } = useQuery();
+  const { id, redirect, delta } = useQuery();
   const timer = React.useRef<NodeJS.Timeout | null>();
   const { data, run } = useRequest(
     async (params) => {
@@ -69,7 +69,7 @@ export default () => {
       return;
     }
 
-    history.back();
+    history.back(delta ? parseInt(delta) : 1);
   };
 
   return (

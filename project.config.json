@@ -67,7 +67,7 @@
         {
           "name": "支付收银台",
           "pathName": "pages/cashier/index",
-          "query": "orderId=20201218171756100011000112781312",
+          "query": "orderId=20210118140145477069AJ50881536&subscribeKey=PaySuccAndFinish",
           "scene": null
         },
         {
