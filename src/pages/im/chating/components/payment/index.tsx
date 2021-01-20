@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import { ScrollView, Swiper, SwiperItem, Text, View } from 'remax/wechat';
+import { hideKeyboard, ScrollView, Swiper, SwiperItem, Text, View } from 'remax/wechat';
 
 import Empty from '@/components/empty';
 import SafeArea from '@/components/safe-area';
@@ -62,6 +62,7 @@ const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => 
     if (action.type !== CHATING_ACTION_TYPE.PAYMENT) return;
     setVisible(true);
     setToolbar(CHATING_TOOLBAR.HIDDEN);
+    hideKeyboard();
   });
 
   const init = () => {
