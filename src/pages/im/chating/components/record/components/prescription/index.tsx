@@ -17,7 +17,7 @@ const ChatingRecordPrescription: React.FC<NimRecord> = React.memo(({ content }) 
 
   const onClick = () => {
     history.push(source === '1' ? '/pages/prescription/index' : '/pages/prescribe/index', {
-      prescriptionId,
+      id: prescriptionId,
     });
   };
 

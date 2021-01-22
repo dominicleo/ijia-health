@@ -13,13 +13,10 @@ import s from './index.less';
 
 export default () => {
   const { id, title } = useQuery<{ id: string; title: string }>();
-  const { data, error, loading, run } = useRequest(
-    async () => {
-      const response = await HelpService.query(id);
-      return { ...response, loaded: true };
-    },
-    { manual: true },
-  );
+  const { data, error, loading, run } = useRequest(async () => {
+    const response = await HelpService.query(id);
+    return { ...response, loaded: true };
+  });
 
   if (error) {
     return (
