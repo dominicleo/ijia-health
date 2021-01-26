@@ -105,6 +105,11 @@ const config: AppConfig = {
     request: 15000,
     uploadFile: 30000,
   },
+  permission: {
+    'scope.userLocation': {
+      desc: '获取当前位置查询附近药店',
+    },
+  },
 };
 
 export default config;

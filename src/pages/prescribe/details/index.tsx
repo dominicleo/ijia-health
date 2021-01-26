@@ -176,7 +176,7 @@ export default () => {
               )}
             </View>
           </View>
-          <View className={s.doc}>
+          {/* <View className={s.doc}>
             <View>发药药师：</View>
             <View
               className={s.name}
@@ -184,7 +184,7 @@ export default () => {
             >
               {dispatchName}
             </View>
-          </View>
+          </View> */}
           <View className={s.chemist}>
             <View>开方时间：{dayjs(addtime * 1000).format('L LT')}</View>
           </View>
