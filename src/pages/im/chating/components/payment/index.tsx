@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import { hideKeyboard, ScrollView, Swiper, SwiperItem, Text, View } from 'remax/wechat';
+import { ScrollView, Swiper, SwiperItem, Text, View } from 'remax/wechat';
 
 import Empty from '@/components/empty';
 import SafeArea from '@/components/safe-area';
@@ -13,7 +13,7 @@ import { useRequest } from '@/hooks';
 import { OrderService } from '@/services';
 import { Doctor } from '@/services/doctor/index.types';
 import { isArray, isPlainObject } from '@/utils';
-import history, { createURL } from '@/utils/history';
+import history from '@/utils/history';
 import Button from '@vant/weapp/lib/button';
 import Loading from '@vant/weapp/lib/loading';
 import Popup from '@vant/weapp/lib/popup';
@@ -23,7 +23,7 @@ import ChatingContext from '../context';
 import { CHATING_ACTION_TYPE, CHATING_TOOLBAR } from '../types.d';
 import s from './index.less';
 import { useSetRecoilState } from 'recoil';
-import { toolbarState } from '../atoms';
+import { focusState, toolbarState } from '../atoms';
 import { SUBSCRIBE_MESSAGE_TEMPLATE_TYPE } from '@/services/subscribe/index.types.d';
 
 const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => {
@@ -31,6 +31,7 @@ const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => 
   const [visible, setVisible] = React.useState(false);
   const [active, setActive] = React.useState(0);
   const [loaded, setLoaded] = React.useState(false);
+  const setFocus = useSetRecoilState(focusState);
   const setToolbar = useSetRecoilState(toolbarState);
   const { data, error, loading, run } = useRequest(
     (doctorId) => OrderService.getGoodsByDoctorId(doctorId),
@@ -62,7 +63,7 @@ const ChatingPayment: React.FC<{ doctor: Doctor }> = React.memo(({ doctor }) => 
     if (action.type !== CHATING_ACTION_TYPE.PAYMENT) return;
     setVisible(true);
     setToolbar(CHATING_TOOLBAR.HIDDEN);
-    hideKeyboard();
+    setFocus(false);
   });
 
   const init = () => {

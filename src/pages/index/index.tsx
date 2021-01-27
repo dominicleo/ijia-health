@@ -140,17 +140,20 @@ export default () => {
   if (loaded) {
     content = (
       <>
-        <View className={s.tabs}>
-          {articles.map(({ category }, index) => (
-            <View
-              key={`tab_${index}`}
-              className={classnames(s.tab, { [s.active]: index === active })}
-              onClick={() => setActive(index)}
-            >
-              <View>{category.name}</View>
-            </View>
-          ))}
-        </View>
+        <ScrollView scrollIntoView={`tab_${active}`} enableFlex scrollX>
+          <View className={s.tabs}>
+            {articles.map(({ category }, index) => (
+              <View
+                id={`tab_${index}`}
+                key={`tab_${index}`}
+                className={classnames(s.tab, { [s.active]: index === active })}
+                onClick={() => setActive(index)}
+              >
+                <View>{category.name}</View>
+              </View>
+            ))}
+          </View>
+        </ScrollView>
 
         <Swiper
           current={active}

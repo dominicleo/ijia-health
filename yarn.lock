@@ -1639,7 +1639,7 @@
   resolved "https://registry.npm.taobao.org/@umijs/babel-plugin-auto-css-modules/download/@umijs/babel-plugin-auto-css-modules-3.3.5.tgz#c4516e355cc124d9d4a718aeaef5dc3f281921cc"
   integrity sha1-xFFuNVzBJNnUpxiurvXcPygZIcw=
 
-"@vant/weapp@^1.6.2":
+"@vant/weapp@1.6.4":
   version "1.6.4"
   resolved "https://registry.npm.taobao.org/@vant/weapp/download/@vant/weapp-1.6.4.tgz#94aa1b6de263222a4d42af6b00665313fcf76a2c"
   integrity sha1-lKobbeJjIipNQq9rAGZTE/z3aiw=

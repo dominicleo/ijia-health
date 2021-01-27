@@ -133,7 +133,7 @@ const ArticleItemComponent: React.FC<{
   );
 };
 
-const CUSTOM_PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 const CustomList = () => {
   const query = useQuery();
@@ -150,7 +150,7 @@ const CustomList = () => {
       const { categories: cs = [], list, pagination } = await ArticleService.getList({
         ...params,
         keyword,
-        size: CUSTOM_PAGE_SIZE,
+        size: PAGE_SIZE,
       });
 
       const id = params.categoryId - 0;
@@ -160,7 +160,7 @@ const CustomList = () => {
       state[id] = {
         ...STATE,
         keyword,
-        completed: pagination.current * CUSTOM_PAGE_SIZE >= pagination.total,
+        completed: pagination.current * PAGE_SIZE >= pagination.total,
         loaded: true,
       };
 
@@ -341,13 +341,21 @@ const CustomList = () => {
         onClear={onClear}
         loading={submitting}
         disabled={!loaded || submitting}
-      />
+      >
+        <View
+          className={s.cancel}
+          onClick={() => history.back()}
+          hoverClassName='clickable-opacity'
+          hoverStayTime={0}
+        >
+          取消
+        </View>
+      </Header>
+
       {content}
     </View>
   );
 };
-
-const SPECIAL_PAGE_SIZE = 10;
 
 const FILTERS = [
   {
@@ -387,7 +395,7 @@ const SpecialList = () => {
       return {
         keyword: keyword,
         loaded: true,
-        completed: pagination.current * SPECIAL_PAGE_SIZE >= pagination.total,
+        completed: pagination.current * PAGE_SIZE >= pagination.total,
       };
     },
     { manual: true },

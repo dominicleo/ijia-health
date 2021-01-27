@@ -3,13 +3,7 @@ import './app.less';
 
 import * as React from 'react';
 import { useAppEvent } from 'remax/runtime';
-import {
-  getSystemInfoSync,
-  loadFontFace,
-  offMemoryWarning,
-  onMemoryWarning,
-  setInnerAudioOption,
-} from 'remax/wechat';
+import { getSystemInfoSync, loadFontFace, setInnerAudioOption } from 'remax/wechat';
 import { Provider } from 'unstated';
 
 import { UseRequestProvider } from './hooks/useRequest';
@@ -40,10 +34,6 @@ if (!Promise.prototype.finally) {
   };
 }
 
-function memoryWarning(result: WechatMiniprogram.OnMemoryWarningCallbackResult) {
-  console.log('onMemoryWarning', result);
-}
-
 // 重写全局分享参数
 if (wx.onAppRoute) {
   wx.onAppRoute(() => {
@@ -62,8 +52,6 @@ const App: React.FC = (props) => {
   });
 
   useAppEvent('onShow', (event) => {
-    onMemoryWarning(memoryWarning);
-
     // 从微信 im 分享卡片进入则销毁云信实例
     if (event.scene == 1007 || event.scene == 1008) {
       Yunxin.destroy();
@@ -75,10 +63,6 @@ const App: React.FC = (props) => {
         obeyMuteSwitch: false,
       });
     }
-  });
-
-  useAppEvent('onHide', () => {
-    offMemoryWarning(memoryWarning);
   });
 
   // 捕获全局同步异常

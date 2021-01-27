@@ -30,7 +30,7 @@
     }
   },
   "dependencies": {
-    "@vant/weapp": "^1.6.2",
+    "@vant/weapp": "1.6.4",
     "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "currency.js": "^2.0.3",

@@ -1,6 +1,7 @@
 import useSetState from '@/hooks/useSetState';
 import * as React from 'react';
-import { usePageInstance } from 'remax';
+import { useNativeEffect, usePageInstance } from 'remax';
+import { usePageEvent } from 'remax/macro';
 import { createIntersectionObserver, nextTick, View } from 'remax/wechat';
 
 interface ChunkListProps {
@@ -30,12 +31,11 @@ const ChunkList: React.FC<ChunkListProps> = React.memo(({ chunkId, observeHeight
       );
   };
 
-  React.useEffect(() => {
-    nextTick(init);
-    return () => {
-      observer.current && observer.current.disconnect();
-    };
-  }, []);
+  useNativeEffect(init, []);
+
+  usePageEvent('onUnload', () => {
+    observer.current && observer.current.disconnect();
+  });
 
   return (
     <View id={`${chunkPrefix.current}_${chunkId}`} style={{ minHeight: state.height + 'PX' }}>
